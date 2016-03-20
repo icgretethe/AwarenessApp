@@ -6,14 +6,14 @@
 - Integrate the existing html with openUI5 through the libraries and insertion
 
 #Suggested technologies to use
-##For the result page from decision tree
+###For the result page from decision tree
   https://openui5.hana.ondemand.com/explored.html#/sample/sap.m.sample.Dialog/preview
 
-##For tree input
+###For tree input
   https://openui5.hana.ondemand.com/explored.html#/sample/sap.m.sample.ActionListItem/preview
   
-##For transitions
+###For transitions
   I suggest we use the slide implementation, it's not as informal as the spin navigation but cleaner than the fade animation
 
-##For overall navigation
+###For overall navigation
   https://openui5.hana.ondemand.com/explored.html#/sample/sap.m.sample.NavContainer/preview
