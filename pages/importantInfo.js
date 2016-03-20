@@ -1,9 +1,10 @@
+<!-- I don't believe this page will be used, due to openUI5 but it's here anyway
 <!DOCTYPE html>
 <html>
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta charset="utf-8">
-	<title>How Can I Help?</title>
+	<title>Important Info</title>
 	<script src="resources/sap-ui-core.js"
 		id="sap-ui-bootstrap"
 		data-sap-ui-theme="sap_bluecrystal"
@@ -15,22 +16,11 @@
     // this is placeholder code; replace it later on
 		sap.ui.getCore().attachInit(function () {
 			var app = new sap.m.App("myApp", {
-				initialPage: "dTree.html"
+				initialPage: "page1"
 			});
 		});
 	</script>
 </head>
-<body class="sapUiBody" id="content"> <!-- OpenUI5 can insert html data into divs -->
-	<div class="titleBar">
-		<h1>Helping Tree</h1>
-	</div>
-	<div class="questionBox">
-	</div>
-	<div class ="response">
-	</div>
-	<div class="disclaimer">
-		<p>Disclaimer: The information on this website is intended for informational purposes only
-			and does not constitute medical advice from a professional perspective</p>
-	</div>
+<body class="sapUiBody" id="content">
 </body>
 </html>

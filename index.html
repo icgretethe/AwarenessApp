@@ -11,15 +11,14 @@
         data-sap-ui-compatVersion="edge"
         data-sap-ui-preload="async">
 	</script>
-    <script>
-    // this is placeholder code; replace it later on
-		sap.ui.getCore().attachInit(function () {
-			var app = new sap.m.App("myApp", {
-				initialPage: "page1"
-			});
-		});
-	</script>
+	<!-- This code initializes the OpenUI5/SAP App -->
+    <script src="pages/main.js"></script>
+	<script src="pages/dTree.js"></script>
+	<script src="pages/dTreeResult.js"></script>
+	<script src="pages/importantInfo.js"></script>
 </head>
-<body class="sapUiBody" id="content">
+<body class="sapUiBody">
+	<div id="content">
+	</div>
 </body>
 </html>

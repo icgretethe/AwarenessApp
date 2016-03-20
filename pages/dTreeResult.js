@@ -1,3 +1,4 @@
+<!-- I don't believe this page will be used, due to openUI5 but it's here anyway
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,14 +16,14 @@
     // this is placeholder code; replace it later on
 		sap.ui.getCore().attachInit(function () {
 			var app = new sap.m.App("myApp", {
-				initialPage: "dTree.html"
+				initialPage: "page1"
 			});
 		});
 	</script>
 </head>
-<body class="sapUiBody" id="content"> <!-- OpenUI5 can insert html data into divs -->
+<body class="sapUiBody" id="content">
 	<div class="titleBar">
-		<h1>Helping Tree</h1>
+		<h1>Helping Tree Assessment</h1>
 	</div>
 	<div class="questionBox">
 	</div>
@@ -33,4 +34,4 @@
 			and does not constitute medical advice from a professional perspective</p>
 	</div>
 </body>
-</html>
+</html> -->
