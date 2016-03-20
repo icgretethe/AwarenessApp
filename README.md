@@ -1,4 +1,5 @@
-#This is the Senior Project code for a suicide awareness web application.
+#Suicide Prevention Squad
+This is the Senior Project code for a suicide awareness web application.
 
 #Things to do
 - Create the basic html for the application
