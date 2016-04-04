@@ -1,0 +1,14 @@
+<core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
+		controllerName="sps.mainPage" xmlns:html="http://www.w3.org/1999/xhtml">
+	<Page title="We're Here to Help">
+	<content>
+            <VBox class="buttonBox" alignItems="Center">
+		        <Text text="How can we help you?"/>
+                <Button class="mainPageButton" text="Decision Tree" press="doSomething"/>
+                <Button class="mainPageButton" text="Important Contacts and Locations" />
+                <Button class="mainPageButton" text="Patient Care Report" />
+                <Button class="mainPageButton" text="Other Resources"/>
+            </VBox>
+        </content>
+	</Page>
+</core:View>
