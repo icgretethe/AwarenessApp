@@ -4,7 +4,7 @@
 	<content>
             <VBox class="buttonBox" alignItems="Center">
 		        <Text text="How can we help you?"/>
-                <Button class="mainPageButton" text="Decision Tree" press="doSomething"/>
+                <Button class="mainPageButton" text="Decision Tree" press="goToTree"/>
                 <Button class="mainPageButton" text="Important Contacts and Locations" />
                 <Button class="mainPageButton" text="Patient Care Report" />
                 <Button class="mainPageButton" text="Other Resources"/>

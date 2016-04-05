@@ -16,9 +16,16 @@
 
 		<script>
 				sap.ui.localResources("sps");
+                //initialize app
 				var app = new sap.m.App({initialPage:"main"});
+
+                //app pages
 				var mainPage = sap.ui.view({id:"main", viewName:"sps.mainPage", type:sap.ui.core.mvc.ViewType.XML});
+                var treePage = sap.ui.view({id:"tree", viewName:"sps.treePage", type:sap.ui.core.mvc.ViewType.XML});
+
+                //add pages to app
 				app.addPage(mainPage);
+                app.addPage(treePage);
 				app.placeAt("content");
 		</script>
 

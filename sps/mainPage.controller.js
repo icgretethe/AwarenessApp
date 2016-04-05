@@ -8,8 +8,8 @@ sap.ui.controller("sps.mainPage", {
 //	onInit: function() {
 //
 //	},
-doSomething: function() {
-    sap.m.MessageToast.show("Yeah!");
+goToTree: function() {
+    app.to(treePage);
 }
 /**
 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
