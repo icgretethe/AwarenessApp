@@ -3,9 +3,9 @@
 	<Page title="We're Here to Help">
 	<content>
             <VBox class="buttonBox" alignItems="Center">
-		        <Text text="How can we help you?"/>
+		        <Text text="How can we help you?" class="menuHeader"/>
                 <Button class="mainPageButton" text="Decision Tree" press="goToTree"/>
-                <Button class="mainPageButton" text="Important Contacts and Locations" />
+                <Button class="mainPageButton" text="Important Contacts and Locations" press= "toInfoPage"/>
                 <Button class="mainPageButton" text="Patient Care Report" />
                 <Button class="mainPageButton" text="Other Resources"/>
             </VBox>

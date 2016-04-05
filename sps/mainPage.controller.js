@@ -10,6 +10,10 @@ sap.ui.controller("sps.mainPage", {
 //	},
 goToTree: function() {
     app.to(treePage);
+},
+
+toInfoPage: function() {
+    app.to("infoPage");
 }
 /**
 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
