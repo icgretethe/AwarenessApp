@@ -1,6 +1,6 @@
 <core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
 		controllerName="sps.infoPage" xmlns:html="http://www.w3.org/1999/xhtml">
-	<Page title="We're Here to Help" showNavButton="true" navButtonPress="goHome">
+	<Page title="Helpful resources" showNavButton="true" navButtonPress="goHome">
 	<content>
             <VBox class="infoBox" alignItems="Center">
 		        <Text class="infoPageHeader" text="Important Infomation"/>

@@ -14,6 +14,10 @@ goToTree: function() {
 
 toInfoPage: function() {
     app.to(infoPage);
+},
+
+toCareReport: function() {
+    sap.m.URLHelper.redirect("https://publicdocs.maxient.com/reportingform.php?SIUEdwardsville&layout_id=2", false);
 }
 /**
 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered

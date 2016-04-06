@@ -2,7 +2,7 @@
     margin: auto;
     margin-top: 10px;
     width: 60%;
-    border: 3px solid #73AD21;
+/*  border: 3px solid #73AD21; */
     padding: 10px;
     border-radius: 4px;
 }
@@ -16,6 +16,11 @@
     padding-bottom: 5%;
 }
 
+#tree .question {
+    padding: 10px;
+/*    border: 3px solid #73AD21; */
+}
+
 #tree .yButton {
     padding-right: 5px;
 }
@@ -25,16 +30,16 @@
 }
 
 #tree .ABox {
-    padding-top: 10px;
+    padding-top: 25px;
     margin: auto;
-    border: 3px solid #73AD21;
+/*  border: 3px solid #73AD21; */
 }
 
 #tree .QABox {
     margin: auto;
     margin-top: 10px;
     width: 60%;
-    border: 3px solid #73AD21;
+/*  border: 3px solid #73AD21; */
     padding: 10px;
     border-radius: 4px;
 }
@@ -54,7 +59,7 @@
     margin: auto;
     margin-top: 5%;
     width: 60%;
-    border: 3px solid #73AD21;
+/* border: 3px solid #73AD21; */
     padding: 5%;
     border-radius: 15%;
 }
