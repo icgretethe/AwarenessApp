@@ -39,8 +39,17 @@
     border-radius: 4px;
 }
 
+#info .infoPageHeader {
+    font-size: 200%;
+    padding-bottom: 7.5%;
+}
 
-#infoPage .infoPage {
+#info .importantInfo {
+    font-size: 90%;
+    padding-bottom: 7.5%
+}
+
+#info .infoBox {
     text-align: center;
     margin: auto;
     margin-top: 5%;
@@ -48,14 +57,4 @@
     border: 3px solid #73AD21;
     padding: 5%;
     border-radius: 15%;
-}
-
-#infoPage .infoPageHeader {
-    font-size: 200%;
-    padding-bottom: 7.5%;
-}
-
-#infoPage .importantInfo {
-    font-size: 90%;
-    padding-bottom: 7.5%
 }

@@ -1,20 +1,20 @@
 <core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
 		controllerName="sps.infoPage" xmlns:html="http://www.w3.org/1999/xhtml">
-	<Page title="We're Here to Help" showNavButton="true" navButtonPress ="goBack">
+	<Page title="We're Here to Help" showNavButton="true" navButtonPress="goHome">
 	<content>
-            <VBox class="infoPage" alignItems="Center">
-		        <text class="infoPageHeader" text="Important Infomation"/>
-                <text class="importantInfo" text="Emergency: 911"/>
-                <text class="importantInfo" text="Suicide Hotline (Confidential): 1-800-273-8255"/>
-                <text class="importantInfo" text="Police Department (Non-Emergency): 618-650-3324"/>
-                <text class="importantInfo" text="Counsling Services: 618-650-2842 \nRoom 0220 Student Success Center, Lower Level"/>
-                    
-                <text class="importantInfo" text="Other........"/>
-                <text class="importantInfo" text="Other........"/>
-                <text class="importantInfo" text="Other........"/>
-                <text class="importantInfo" text="Other........"/>
-                <text class="importantInfo" text="Other........"/>
-                <text class="importantInfo" text="Other........"/>
+            <VBox class="infoBox" alignItems="Center">
+		        <Text class="infoPageHeader" text="Important Infomation"/>
+                <Text class="importantInfo" text="Emergency: 911"/>
+                <Text class="importantInfo" text="Suicide Hotline (Confidential): 1-800-273-8255"/>
+                <Text class="importantInfo" text="Police Department (Non-Emergency): 618-650-3324"/>
+                <Text class="importantInfo" text="Counsling Services: 618-650-2842 Room 0220 Student Success Center, Lower Level"/>
+
+                <Text class="importantInfo" text="Other........"/>
+                <Text class="importantInfo" text="Other........"/>
+                <Text class="importantInfo" text="Other........"/>
+                <Text class="importantInfo" text="Other........"/>
+                <Text class="importantInfo" text="Other........"/>
+                <Text class="importantInfo" text="Other........"/>
             </VBox>
         </content>
 	</Page>

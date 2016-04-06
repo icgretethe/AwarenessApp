@@ -13,7 +13,7 @@ goToTree: function() {
 },
 
 toInfoPage: function() {
-    app.to("infoPage");
+    app.to(infoPage);
 }
 /**
 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
