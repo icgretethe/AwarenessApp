@@ -4,8 +4,8 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'/>
 
-        <link rel="stylesheet" href="css/style.css">
-        <title>Suicide Awareness</title>
+		<link rel="stylesheet" href="css/style.css">
+		<title>Suicide Awareness</title>
 
 		<script src="resources/sap-ui-core.js"
 				id="sap-ui-bootstrap"
@@ -16,19 +16,19 @@
 
 		<script>
 				sap.ui.localResources("sps");
-                //initialize app
+				//initialize app
 				var app = new sap.m.App({initialPage:"mainPage"});
 
-                //app pages
+				//app pages
 				var mainPage = sap.ui.view({id:"main", viewName:"sps.view.mainPage", type:sap.ui.core.mvc.ViewType.XML});
-                var treePage = sap.ui.view({id:"tree", viewName:"sps.view.treePage", type:sap.ui.core.mvc.ViewType.XML});
-                var infoPage = sap.ui.view({id:"info", viewName:"sps.view.infoPage", type:sap.ui.core.mvc.ViewType.XML});
+				var treePage = sap.ui.view({id:"tree", viewName:"sps.view.treePage", type:sap.ui.core.mvc.ViewType.XML});
+				var infoPage = sap.ui.view({id:"info", viewName:"sps.view.infoPage", type:sap.ui.core.mvc.ViewType.XML});
 
-                //add pages to app
+				//add pages to app
 				app.addPage(mainPage);
-                app.addPage(treePage);
-                app.addPage(infoPage);
-
+				app.addPage(treePage);
+				app.addPage(infoPage);
+	            //add pages to app
 				app.placeAt("content");
 		</script>
 
