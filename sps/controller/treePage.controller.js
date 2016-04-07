@@ -1,4 +1,4 @@
-sap.ui.controller("sps.treePage", {
+sap.ui.controller("sps.controller.treePage", {
 
 /**
 * Called when a controller is instantiated and its View controls (if available) are already created.

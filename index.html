@@ -20,9 +20,9 @@
 				var app = new sap.m.App({initialPage:"mainPage"});
 
                 //app pages
-				var mainPage = sap.ui.view({id:"main", viewName:"sps.mainPage", type:sap.ui.core.mvc.ViewType.XML});
-                var treePage = sap.ui.view({id:"tree", viewName:"sps.treePage", type:sap.ui.core.mvc.ViewType.XML});
-                var infoPage = sap.ui.view({id:"info", viewName:"sps.infoPage", type:sap.ui.core.mvc.ViewType.XML});
+				var mainPage = sap.ui.view({id:"main", viewName:"sps.view.mainPage", type:sap.ui.core.mvc.ViewType.XML});
+                var treePage = sap.ui.view({id:"tree", viewName:"sps.view.treePage", type:sap.ui.core.mvc.ViewType.XML});
+                var infoPage = sap.ui.view({id:"info", viewName:"sps.view.infoPage", type:sap.ui.core.mvc.ViewType.XML});
 
                 //add pages to app
 				app.addPage(mainPage);

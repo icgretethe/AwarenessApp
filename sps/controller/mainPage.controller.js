@@ -1,4 +1,4 @@
-sap.ui.controller("sps.mainPage", {
+sap.ui.controller("sps.controller.mainPage", {
 
 /**
 * Called when a controller is instantiated and its View controls (if available) are already created.
