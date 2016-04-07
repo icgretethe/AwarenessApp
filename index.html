@@ -1,39 +1,39 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta http-equiv='Content-Type' content='text/html;charset=UTF-8'/>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv='Content-Type' content='text/html;charset=UTF-8'/>
+        <link rel="icon" href="icon.png">
+        <link rel="stylesheet" href="css/style.css">
+        <title>Suicide Awareness</title>
 
-		<link rel="stylesheet" href="css/style.css">
-		<title>Suicide Awareness</title>
+        <script src="resources/sap-ui-core.js"
+                id="sap-ui-bootstrap"
+                data-sap-ui-libs="sap.m"
+                data-sap-ui-theme="sap_bluecrystal">
+        </script>
+        <!-- only load the mobile lib "sap.m" and the "sap_bluecrystal" theme -->
 
-		<script src="resources/sap-ui-core.js"
-				id="sap-ui-bootstrap"
-				data-sap-ui-libs="sap.m"
-				data-sap-ui-theme="sap_bluecrystal">
-		</script>
-		<!-- only load the mobile lib "sap.m" and the "sap_bluecrystal" theme -->
+        <script>
+                sap.ui.localResources("sps");
+                //initialize app
+                var app = new sap.m.App({initialPage:"mainPage"});
 
-		<script>
-				sap.ui.localResources("sps");
-				//initialize app
-				var app = new sap.m.App({initialPage:"mainPage"});
+                //app pages
+                var mainPage = sap.ui.view({id:"main", viewName:"sps.view.mainPage", type:sap.ui.core.mvc.ViewType.XML});
+                var treePage = sap.ui.view({id:"tree", viewName:"sps.view.treePage", type:sap.ui.core.mvc.ViewType.XML});
+                var infoPage = sap.ui.view({id:"info", viewName:"sps.view.infoPage", type:sap.ui.core.mvc.ViewType.XML});
 
-				//app pages
-				var mainPage = sap.ui.view({id:"main", viewName:"sps.view.mainPage", type:sap.ui.core.mvc.ViewType.XML});
-				var treePage = sap.ui.view({id:"tree", viewName:"sps.view.treePage", type:sap.ui.core.mvc.ViewType.XML});
-				var infoPage = sap.ui.view({id:"info", viewName:"sps.view.infoPage", type:sap.ui.core.mvc.ViewType.XML});
+                //add pages to app
+                app.addPage(mainPage);
+                app.addPage(treePage);
+                app.addPage(infoPage);
+                //add pages to app
+                app.placeAt("content");
+        </script>
 
-				//add pages to app
-				app.addPage(mainPage);
-				app.addPage(treePage);
-				app.addPage(infoPage);
-	            //add pages to app
-				app.placeAt("content");
-		</script>
-
-	</head>
-	<body class="sapUiBody" role="application">
-		<div id="content"></div>
-	</body>
+    </head>
+    <body class="sapUiBody" role="application">
+        <div id="content"></div>
+    </body>
 </html>
