@@ -1,0 +1,14 @@
+<core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
+        controllerName="sps.treePage" xmlns:html="http://www.w3.org/1999/xhtml">
+    <Page title="Let's Diagnose the Issue" showNavButton="true" navButtonPress="goHome">
+           <content>
+               <VBox class="QABox" alignItems="Center" justifyContent="Center">
+                   <Text id= "quest" class="question" text="{Questions/q1}" />
+                   <HBox class="ABox">
+                       <Button class="yButton" text="Yes" />
+                       <Button class="nButton" text="No" />
+                   </HBox>
+               </VBox>
+           </content>
+    </Page>
+</core:View>
