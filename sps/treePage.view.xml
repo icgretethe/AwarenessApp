@@ -3,7 +3,7 @@
     <Page title="Let's Diagnose the Issue" showNavButton="true" navButtonPress="goHome">
            <content>
                <VBox class="QABox" alignItems="Center" justifyContent="Center">
-                   <Text class="question" text="A question to ask" />
+                   <Text id= "quest" class="question" text="{Questions/q1}" />
                    <HBox class="ABox">
                        <Button class="yButton" text="Yes" />
                        <Button class="nButton" text="No" />
