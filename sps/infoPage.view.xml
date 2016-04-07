@@ -1,9 +1,9 @@
 <core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
-		controllerName="sps.infoPage" xmlns:html="http://www.w3.org/1999/xhtml">
-	<Page title="Helpful resources" showNavButton="true" navButtonPress="goHome">
-	<content>
+        controllerName="sps.infoPage" xmlns:html="http://www.w3.org/1999/xhtml">
+    <Page title="Helpful resources" showNavButton="true" navButtonPress="goHome">
+    <content>
             <VBox class="infoBox" alignItems="Center">
-		        <Text class="infoPageHeader" text="Important Infomation"/>
+                <Text class="infoPageHeader" text="Important Infomation"/>
                 <Text class="importantInfo" text="Emergency: 911"/>
                 <Text class="importantInfo" text="Suicide Hotline (Confidential): 1-800-273-8255"/>
                 <Text class="importantInfo" text="Police Department (Non-Emergency): 618-650-3324"/>
@@ -17,5 +17,5 @@
                 <Text class="importantInfo" text="Other........"/>
             </VBox>
         </content>
-	</Page>
+    </Page>
 </core:View>

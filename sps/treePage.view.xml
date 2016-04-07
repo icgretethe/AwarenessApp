@@ -1,7 +1,7 @@
 <core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
-		controllerName="sps.treePage" xmlns:html="http://www.w3.org/1999/xhtml">
-	<Page title="Let's Diagnose the Issue" showNavButton="true" navButtonPress="goHome">
-	       <content>
+        controllerName="sps.treePage" xmlns:html="http://www.w3.org/1999/xhtml">
+    <Page title="Let's Diagnose the Issue" showNavButton="true" navButtonPress="goHome">
+           <content>
                <VBox class="QABox" alignItems="Center" justifyContent="Center">
                    <Text class="question" text="A question to ask" />
                    <HBox class="ABox">
@@ -10,5 +10,5 @@
                    </HBox>
                </VBox>
            </content>
-	</Page>
+    </Page>
 </core:View>
