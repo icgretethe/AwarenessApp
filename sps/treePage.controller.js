@@ -27,14 +27,6 @@ sap.ui.controller("sps.treePage", {
 	  nodeChoice = 2;
 	  masterFunction();
   },
-  Button3 : function() {
-	  nodeChoice = 3;
-	  masterFunction();
-  },
-  Button4 : function() {
-	  nodeChoice = 4;
-	  masterFunction();
-  },
   masterFunction : function() {
 	  if (currentNode == 0) {
 		  //this should'nt happen
