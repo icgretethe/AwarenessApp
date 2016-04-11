@@ -18,12 +18,12 @@ sap.ui.controller("sps.treePage", {
   getCurrentNode : function() {
 	  return currentNode;
   },
-  Button1 : function() {
+  respondYes : function() {
 	  nodeChoice = 1;
 	  masterFunction();
 	  //sap.ui.getCore().refresh()
   },
-  Button2 : function() {
+  respondNo : function() {
 	  nodeChoice = 2;
 	  masterFunction();
   },
