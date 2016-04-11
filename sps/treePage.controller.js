@@ -13,7 +13,6 @@ sap.ui.controller("sps.treePage", {
 	  sap.ui.getCore().setModel(oModel);
   },
   goHome: function() {
-		sap.m.MessageToast.show("Home", {width: "7em"});
         app.back();
   },
   getCurrentNode : function() {
@@ -41,19 +40,19 @@ sap.ui.controller("sps.treePage", {
 		  //this should'nt happen
 	  }
 	  if (currentNode == 1){
-		  
+
 	  }
 	  if (currentNode == 2){
-		  
+
 	  }
 	  if (currentNode == 3){
-		  
+
 	  }
 	  if (currentNode == 4){
-		  
+
 	  }
   },
-	
+
 
 /**
 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
@@ -76,16 +75,16 @@ onAfterRendering: function() {
 		  alert("Test");
 	  }
 	  if (currentNode == 1){
-		  
+
 	  }
 	  if (currentNode == 2){
 		  app.to(treePage);
 	  }
 	  if (currentNode == 3){
-		  
+
 	  }
 	  if (currentNode == 4){
-		  
+
 	  }
 }
 */
