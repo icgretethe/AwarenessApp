@@ -9,14 +9,17 @@ sap.ui.controller("sps.mainPage", {
 //
 //  },
 goToTree: function() {
+	sap.m.MessageToast.show("Tree Transferring");
     app.to(treePage);
 },
 
 toInfoPage: function() {
+	sap.m.MessageToast.show("Contact Collecting");
     app.to(infoPage);
 },
 
 toCareReport: function() {
+	sap.m.MessageToast.show("Report Racing");
     sap.m.URLHelper.redirect("https://publicdocs.maxient.com/reportingform.php?SIUEdwardsville&layout_id=2", false);
 }
 /**

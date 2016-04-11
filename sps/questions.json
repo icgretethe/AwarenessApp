@@ -1,8 +1,21 @@
 {
 	"Questions": [
 		{
-			"q1": "Are you feeling well?",
-			"q2": "Do you need help with something?"
+			"q": "Are you feeling well?",
+			"a1": "Yes",
+			"a2": "No"
+		},
+		{
+			"q": "Is pronghorn a good language?",
+			"a1": "No",
+			"a2": "No",
+			"a3": "Yes"
+		},
+		{
+			"q": "Are you familiar with inside jokes?",
+			"a1": "Quail",
+			"a2": "Albatross",
+			"a3": "Seven"
 		}
 	]
 }
