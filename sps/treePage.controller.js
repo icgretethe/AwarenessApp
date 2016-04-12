@@ -5,45 +5,44 @@ sap.ui.controller("sps.treePage", {
 * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
 * @memberOf sps.sps
 */
-<<<<<<< HEAD
   currentNode : 0,
   nodeChoice : 0,
   onInit: function() {
       var oModel = new sap.ui.model.json.JSONModel();
       oModel.loadData("sps/questions.json");
-      console.log(oModel);
+      sap.ui.getCore().setModel(oModel);
   },
   goHome: function() {
         app.back();
   },
   getCurrentNode : function() {
-	  return currentNode;
+      return currentNode;
   },
   respondYes : function() {
-	  nodeChoice = 1;
-	  masterFunction();
-	  //sap.ui.getCore().refresh()
+      nodeChoice = 1;
+      masterFunction();
+      //sap.ui.getCore().refresh()
   },
   respondNo : function() {
-	  nodeChoice = 2;
-	  masterFunction();
+      nodeChoice = 2;
+      masterFunction();
   },
   masterFunction : function() {
-	  if (currentNode == 0) {
-		  //this should'nt happen
-	  }
-	  if (currentNode == 1){
+      if (currentNode == 0) {
+          //this should'nt happen
+      }
+      if (currentNode == 1){
 
-	  }
-	  if (currentNode == 2){
+      }
+      if (currentNode == 2){
 
-	  }
-	  if (currentNode == 3){
+      }
+      if (currentNode == 3){
 
-	  }
-	  if (currentNode == 4){
+      }
+      if (currentNode == 4){
 
-	  }
+      }
   },
 
 =======
@@ -74,22 +73,22 @@ sap.ui.controller("sps.treePage", {
 <<<<<<< HEAD
 /*
 onAfterRendering: function() {
-	  if (currentNode == 0) {
-		  //this should'nt happen
-		  alert("Test");
-	  }
-	  if (currentNode == 1){
+      if (currentNode == 0) {
+          //this should'nt happen
+          alert("Test");
+      }
+      if (currentNode == 1){
 
-	  }
-	  if (currentNode == 2){
-		  app.to(treePage);
-	  }
-	  if (currentNode == 3){
+      }
+      if (currentNode == 2){
+          app.to(treePage);
+      }
+      if (currentNode == 3){
 
-	  }
-	  if (currentNode == 4){
+      }
+      if (currentNode == 4){
 
-	  }
+      }
 }
 */
 =======

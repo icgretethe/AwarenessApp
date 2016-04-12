@@ -3,17 +3,13 @@
     <Page title="Let's Diagnose the Issue" showNavButton="true" navButtonPress="goHome">
            <content>
                <VBox class="QABox" alignItems="Center" justifyContent="Center">
-<<<<<<< HEAD
                    <Text id= "quest" class="question" text="{/Questions/q1}"/>
                    <HBox class="ABox">
                        <Button class="yButton" text="Yes" press="respondYes" />
                        <Button class="nButton" text="No" press="respondNo" />
-=======
-                   <Text id= "quest" class="question" text="{Questions/q1}" />
                    <HBox class="ABox">
                        <Button class="yButton" text="Yes" />
                        <Button class="nButton" text="No" />
->>>>>>> v1
                    </HBox>
                </VBox>
            </content>
