@@ -10,7 +10,7 @@ sap.ui.controller("sps.treePage", {
   onInit: function() {
       var oModel = new sap.ui.model.json.JSONModel();
       oModel.loadData("sps/questions.json");
-	  sap.ui.getCore().setModel(oModel);
+      console.log(oModel);
   },
   goHome: function() {
         app.back();
