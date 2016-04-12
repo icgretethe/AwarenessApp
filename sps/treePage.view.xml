@@ -5,8 +5,8 @@
                <VBox class="QABox" alignItems="Center" justifyContent="Center">
                    <Text id= "quest" class="question" text="{/Questions/q2}"/>
                    <HBox class="ABox">
-                       <Button class="yButton" text="Yes" />
-                       <Button class="nButton" text="No" />
+                       <Button class="yButton" text="Yes" press="respondYes"/>
+                       <Button class="nButton" text="No" press="respondNo"/>
                    </HBox>
                </VBox>
            </content>
