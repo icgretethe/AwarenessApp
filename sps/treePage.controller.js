@@ -5,14 +5,48 @@ sap.ui.controller("sps.treePage", {
 * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
 * @memberOf sps.sps
 */
-
+  currentNode : 0,
+  nodeChoice : 0,
   onInit: function() {
       var oModel = new sap.ui.model.json.JSONModel();
-      oModel.loadData("questions.json");
+      oModel.loadData("sps/questions.json");
+      console.log("Hello");
+      console.log(oModel);
+	  sap.ui.getCore().setModel(oModel);
   },
-    goHome: function() {
+  goHome: function() {
         app.back();
-    }
+  },
+  getCurrentNode : function() {
+	  return currentNode;
+  },
+  respondYes : function() {
+	  nodeChoice = 1;
+	  masterFunction();
+	  //sap.ui.getCore().refresh()
+  },
+  respondNo : function() {
+	  nodeChoice = 2;
+	  masterFunction();
+  },
+  masterFunction : function() {
+	  if (currentNode == 0) {
+		  //this should'nt happen
+	  }
+	  if (currentNode == 1){
+
+	  }
+	  if (currentNode == 2){
+
+	  }
+	  if (currentNode == 3){
+
+	  }
+	  if (currentNode == 4){
+
+	  }
+  },
+
 
 /**
 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
@@ -28,10 +62,26 @@ sap.ui.controller("sps.treePage", {
 * This hook is the same one that SAPUI5 controls get after being rendered.
 * @memberOf sps.sps
 */
-//  onAfterRendering: function() {
-//
-//  },
+/*
+onAfterRendering: function() {
+	  if (currentNode == 0) {
+		  //this should'nt happen
+		  alert("Test");
+	  }
+	  if (currentNode == 1){
 
+	  }
+	  if (currentNode == 2){
+		  app.to(treePage);
+	  }
+	  if (currentNode == 3){
+
+	  }
+	  if (currentNode == 4){
+
+	  }
+}
+*/
 /**
 * Called when the Controller is destroyed. Use this one to free resources and finalize activities.
 * @memberOf sps.sps
