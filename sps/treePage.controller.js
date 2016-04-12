@@ -5,6 +5,7 @@ sap.ui.controller("sps.treePage", {
 * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
 * @memberOf sps.sps
 */
+<<<<<<< HEAD
   currentNode : 0,
   nodeChoice : 0,
   onInit: function() {
@@ -45,6 +46,16 @@ sap.ui.controller("sps.treePage", {
 	  }
   },
 
+=======
+
+  onInit: function() {
+      var oModel = new sap.ui.model.json.JSONModel();
+      oModel.loadData("questions.json");
+  },
+    goHome: function() {
+        app.back();
+    }
+>>>>>>> v1
 
 /**
 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
@@ -60,6 +71,7 @@ sap.ui.controller("sps.treePage", {
 * This hook is the same one that SAPUI5 controls get after being rendered.
 * @memberOf sps.sps
 */
+<<<<<<< HEAD
 /*
 onAfterRendering: function() {
 	  if (currentNode == 0) {
@@ -80,6 +92,12 @@ onAfterRendering: function() {
 	  }
 }
 */
+=======
+//  onAfterRendering: function() {
+//
+//  },
+
+>>>>>>> v1
 /**
 * Called when the Controller is destroyed. Use this one to free resources and finalize activities.
 * @memberOf sps.sps
