@@ -11,6 +11,8 @@ sap.ui.controller("sps.treePage", {
       var oModel = new sap.ui.model.json.JSONModel();
       oModel.loadData("sps/questions.json");
       sap.ui.getCore().setModel(oModel);
+      var x = jQuery.sap.encodeXML("{/Questions/q3}");
+      this.getView().byID("quest").setText(x);
   },
   goHome: function() {
         app.back();
