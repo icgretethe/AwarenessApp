@@ -11,8 +11,6 @@ sap.ui.controller("sps.treePage", {
       var oModel = new sap.ui.model.json.JSONModel();
       oModel.loadData("sps/questions.json");
       sap.ui.getCore().setModel(oModel);
-      var x = jQuery.sap.encodeXML("{/Questions/q3}");
-      this.getView().byID("quest").setText(x);
   },
   goHome: function() {
         app.back();
@@ -47,17 +45,6 @@ sap.ui.controller("sps.treePage", {
       }
   },
 
-=======
-
-  onInit: function() {
-      var oModel = new sap.ui.model.json.JSONModel();
-      oModel.loadData("questions.json");
-  },
-    goHome: function() {
-        app.back();
-    }
->>>>>>> v1
-
 /**
 * Similar to onAfterRendering, but this hook is invoked before the controller's View is re-rendered
 * (NOT before the first rendering! onInit() is used for that one!).
@@ -72,7 +59,7 @@ sap.ui.controller("sps.treePage", {
 * This hook is the same one that SAPUI5 controls get after being rendered.
 * @memberOf sps.sps
 */
-<<<<<<< HEAD
+
 /*
 onAfterRendering: function() {
       if (currentNode == 0) {
@@ -93,12 +80,12 @@ onAfterRendering: function() {
       }
 }
 */
-=======
+
 //  onAfterRendering: function() {
 //
 //  },
 
->>>>>>> v1
+
 /**
 * Called when the Controller is destroyed. Use this one to free resources and finalize activities.
 * @memberOf sps.sps
