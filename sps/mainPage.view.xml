@@ -7,7 +7,9 @@
                 <Button class="mainPageButton" text="Decision Tree" press="goToTree"/>
                 <Button class="mainPageButton" text="Important Contacts and Locations" press="toInfoPage"/>
                 <Button class="mainPageButton" text="Patient Care Report" press="toCareReport"/>
-                <Button class="mainPageButton" text="Other Resources"/>
+                <Button class="mainPageButton" text="Educate Yourself"/>
+                <Button class="mainPageButton" text="Stay Informed"/>
+
             </VBox>
         </content>
     </Page>
