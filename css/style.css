@@ -45,25 +45,19 @@
 }
 
 #info .infoPageHeader {
-<<<<<<< HEAD
     font-size: 200%;
     padding-bottom: 7.5%;
-=======
 /*
     font-size: 200%;
     padding-bottom: 7.5%; 
     border: 3px solid #73AD21; 
 */
->>>>>>> v1
 }
 
 #info .importantInfo {
     font-size: 90%;
     padding-bottom: 7.5%
-<<<<<<< HEAD
-=======
 /*  border: 3px solid #73AD21; */
->>>>>>> v1
 }
 
 #info .infoBox {
