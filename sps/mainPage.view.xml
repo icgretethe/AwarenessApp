@@ -9,7 +9,6 @@
                 <Button class="mainPageButton" text="Patient Care Report" press="toCareReport"/>
                 <Button class="mainPageButton" text="Educate Yourself"/>
                 <Button class="mainPageButton" text="Stay Informed"/>
-
             </VBox>
         </content>
     </Page>
