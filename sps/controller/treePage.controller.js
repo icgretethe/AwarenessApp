@@ -1,5 +1,5 @@
-sap.ui.controller("sps.treePage", {
-
+sap.ui.controller("sps.controller.treePage", {
+    
     onInit: function() {
         // create JSON model to manage data
         var oModel = new sap.ui.model.json.JSONModel();
@@ -20,10 +20,26 @@ sap.ui.controller("sps.treePage", {
      * the final code later on 
      */ 
     respondYes : function() {
-        // change the question to Question #2
-        this.getView().byId("quest").bindText("/Questions/q2");
+        questionCounter++;
+        switch(questionCounter) {
+            case 2:
+                this.getView().byId("quest").bindText("/Questions/q2");
+                break;
+            case 3:
+                this.getView().byId("quest").bindText("/Questions/q3");
+                break;
+            case 4:
+                this.getView().byId("quest").bindText("/Questions/q4");
+                break;
+            default:
+                this.getView().byId("quest").bindText("/Questions/q1");
+                break;
+        }
+        console.log("questionCounter = " + questionCounter);
+            
     },
     respondNo : function() {
         this.getView().byId("quest").bindText("/Questions/q3");
+        console.log("questionCounter = " + questionCounter);
     }
 });

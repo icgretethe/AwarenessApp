@@ -3,11 +3,10 @@
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta http-equiv='Content-Type' content='text/html;charset=UTF-8'/>
-        
-        <!--iCare logo needs to be the icon used-->
+        <!-- iCare logo icon is required for this application -->
         <link rel="icon" href="icon.png">
-        <!--this stylesheet is used for the entire application-->
         <link rel="stylesheet" href="css/style.css">
+
         <title>Suicide Awareness</title>
         <script src="resources/sap-ui-core.js"
             id="sap-ui-bootstrap"
@@ -17,26 +16,28 @@
         </script>
 
         <script>
-            //root folder of application
+            // use counter to keep track of the question number
+            var questionCounter = 1;
+            
+            // root folder of application
             sap.ui.localResources("sps");
-    
-            //initialize app
-            var app = new sap.m.App();
 
-            //define app pages
-            var mainPage = sap.ui.view({id:"main", viewName:"sps.mainPage", type:sap.ui.core.mvc.ViewType.XML});
-            var treePage = sap.ui.view({id:"tree", viewName:"sps.treePage", type:sap.ui.core.mvc.ViewType.XML});
-            var infoPage = sap.ui.view({id:"info", viewName:"sps.infoPage", type:sap.ui.core.mvc.ViewType.XML});
+            // initialize app
+            var app = new sap.m.App();
+            // define app pages
+            var mainPage = sap.ui.view({id:"main", viewName:"sps.view.mainPage", type:sap.ui.core.mvc.ViewType.XML});
+            var treePage = sap.ui.view({id:"tree", viewName:"sps.view.treePage", type:sap.ui.core.mvc.ViewType.XML});
+            var infoPage = sap.ui.view({id:"info", viewName:"sps.view.infoPage", type:sap.ui.core.mvc.ViewType.XML});
 
             //add pages to app
             app.addPage(mainPage);
             app.addPage(treePage);
             app.addPage(infoPage);
-            //add app to HTML body
+
+            //add app to page
             app.placeAt("content");
         </script>
     </head>
-
     <body class="sapUiBody" role="application">
         <div id="content"></div>
     </body>
