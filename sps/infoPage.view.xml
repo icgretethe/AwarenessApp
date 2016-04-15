@@ -1,21 +1,17 @@
-<core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
-        controllerName="sps.infoPage" xmlns:html="http://www.w3.org/1999/xhtml">
+<core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" 
+    controllerName="sps.infoPage" xmlns:html="http://www.w3.org/1999/xhtml">
     <Page title="Helpful resources" showNavButton="true" navButtonPress="goHome">
     <content>
-            <VBox class="infoBox" alignItems="Center">
-                <Text class="infoPageHeader" text="Important Infomation"/>
-                <Text class="importantInfo" text="Emergency: 911"/>
-                <Text class="importantInfo" text="Suicide Hotline (Confidential): 1-800-273-8255"/>
-                <Text class="importantInfo" text="Police Department (Non-Emergency): 618-650-3324"/>
-                <Text class="importantInfo" text="Counsling Services: 618-650-2842 Room 0220 Student Success Center, Lower Level"/>
-
-                <Text class="importantInfo" text="Other........"/>
-                <Text class="importantInfo" text="Other........"/>
-                <Text class="importantInfo" text="Other........"/>
-                <Text class="importantInfo" text="Other........"/>
-                <Text class="importantInfo" text="Other........"/>
-                <Text class="importantInfo" text="Other........"/>
-            </VBox>
-        </content>
+        <!-- organize all text into a VBox -->
+        <VBox class="infoBox" alignItems="Center">
+            <!-- this information should probably be changed to a list and
+                 not be hard-coded -->
+            <Text class="infoPageHeader" text="Important Infomation"/>
+            <Text class="importantInfo"  text="Emergency: 911"/>
+            <Text class="importantInfo"  text="Suicide Hotline (Confidential): 1-800-273-8255"/>
+            <Text class="importantInfo"  text="Police Department (Non-Emergency): 618-650-3324"/>
+            <Text class="importantInfo"  text="Counsling Services: 618-650-2842 Room 0220 Student Success Center, Lower Level"/>
+        </VBox>
+    </content>
     </Page>
 </core:View>
