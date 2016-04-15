@@ -3,36 +3,40 @@
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta http-equiv='Content-Type' content='text/html;charset=UTF-8'/>
+        
+        <!--iCare logo needs to be the icon used-->
         <link rel="icon" href="icon.png">
+        <!--this stylesheet is used for the entire application-->
         <link rel="stylesheet" href="css/style.css">
         <title>Suicide Awareness</title>
         <script src="resources/sap-ui-core.js"
-                id="sap-ui-bootstrap"
-                data-sap-ui-libs="sap.m"
-                data-sap-ui-theme="sap_bluecrystal"
-                data-sap-ui-xx-bindingSyntax="complex">
+            id="sap-ui-bootstrap"
+            data-sap-ui-libs="sap.m"
+            data-sap-ui-theme="sap_bluecrystal"
+            data-sap-ui-xx-bindingSyntax="complex">
         </script>
-        <!-- only load the mobile lib "sap.m" and the "sap_bluecrystal" theme -->
 
         <script>
-                sap.ui.localResources("sps");
-                //initialize app
-                var app = new sap.m.App({initialPage:"mainPage"});
+            //root folder of application
+            sap.ui.localResources("sps");
+    
+            //initialize app
+            var app = new sap.m.App();
 
-                //app pages
-                var mainPage = sap.ui.view({id:"main", viewName:"sps.mainPage", type:sap.ui.core.mvc.ViewType.XML});
-                var treePage = sap.ui.view({id:"tree", viewName:"sps.treePage", type:sap.ui.core.mvc.ViewType.XML});
-                var infoPage = sap.ui.view({id:"info", viewName:"sps.infoPage", type:sap.ui.core.mvc.ViewType.XML});
+            //define app pages
+            var mainPage = sap.ui.view({id:"main", viewName:"sps.mainPage", type:sap.ui.core.mvc.ViewType.XML});
+            var treePage = sap.ui.view({id:"tree", viewName:"sps.treePage", type:sap.ui.core.mvc.ViewType.XML});
+            var infoPage = sap.ui.view({id:"info", viewName:"sps.infoPage", type:sap.ui.core.mvc.ViewType.XML});
 
-                //add pages to app
-                app.addPage(mainPage);
-                app.addPage(treePage);
-                app.addPage(infoPage);
-
-                app.placeAt("content");
+            //add pages to app
+            app.addPage(mainPage);
+            app.addPage(treePage);
+            app.addPage(infoPage);
+            //add app to HTML body
+            app.placeAt("content");
         </script>
-
     </head>
+
     <body class="sapUiBody" role="application">
         <div id="content"></div>
     </body>
