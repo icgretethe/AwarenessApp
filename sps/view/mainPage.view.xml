@@ -1,5 +1,5 @@
 <core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
-    controllerName="sps.mainPage" xmlns:html="http://www.w3.org/1999/xhtml">
+    controllerName="sps.controller.mainPage" xmlns:html="http://www.w3.org/1999/xhtml">
     <Page title="We're Here to Help">
     <content>
         <!-- organize all information inside of a VBox -->
