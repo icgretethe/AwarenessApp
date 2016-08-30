@@ -1,8 +1,18 @@
 {
     "Questions": {
-        "q1": "Are you feeling well?",
-        "q2": "Is pronghorn a good language?",
-        "q3": "Are you familiar with inside jokes?",
-        "q4": "Wat kyk jy?"
+        "q1": "Are you feeling well? - Q1",
+        "q2": "Is pronghorn a good language? - Q2",
+        "q3": "Are you familiar with inside jokes? - Q3",
+        "q4": "Wat kyk jy? - Q4"
+    },
+    "Responses": {
+        "r1": "We Can Remember It for You Wholesale - R1",
+        "r2": "Do Androids Dream of Electric Sheep? - R2",
+        "r3": "A Scanner Darkly - R3",
+        "r4": "The Man in the High Castle - R4"
+    },
+    "Error": {
+        "errQ": "There are no more questions to ask.",
+        "errR": "There are no more responses available."
     }
 }
