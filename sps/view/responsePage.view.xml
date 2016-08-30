@@ -3,7 +3,7 @@
     <Page title="Let's Diagnose the Issue" showNavButton="true" navButtonPress="goHome">
     <content>
         <VBox class="respBox" alignItems="Center" justifyContent="Center">
-            <Text id="resp"/>
+            <Text id="resp" class="aResponse"/>
         </VBox>
     </content>
     </Page>
