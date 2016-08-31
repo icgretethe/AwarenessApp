@@ -18,7 +18,7 @@ Now when you make style changes, make them to the scss folder and run this from 
 > gulp
 
 Notes about gulp precompiler
-*it uses the configuration in the gulpfile.js to compile the SCSS files or mixins/sass
-*gulp also watches the scss files for changes, so any changes made the files will automatically update upon saving
-*DO NOT make changes to style.css, it will be overwritten when gulp runs over the SCSS files
-*SCSS is backwords compatible with CSS, so if something is written in CSS it will work if put into a SCSS file
+* it uses the configuration in the gulpfile.js to compile the SCSS files or mixins/sass
+* gulp also watches the scss files for changes, so any changes made the files will automatically update upon saving
+* DO NOT make changes to style.css, it will be overwritten when gulp runs over the SCSS files
+* SCSS is backwords compatible with CSS, so if something is written in CSS it will work if put into a SCSS file
