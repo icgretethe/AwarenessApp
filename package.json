@@ -1,0 +1,29 @@
+{
+  "name": "sps",
+  "version": "0.1.0",
+  "description": "SIUE Crisis Application for assisting students who might have concern for a friend or student",
+  "main": "index.html",
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat-css": "^2.3.0",
+    "gulp-sass": "^2.3.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "na"
+  },
+  "repository": {
+    "type": "git",
+    "url": "na"
+  },
+  "keywords": [
+    "crisis",
+    "app",
+    "prevention",
+    "suicide",
+    "help",
+    "openui5"
+  ],
+  "author": "Suicide Prevention Squad",
+  "license": "LicenseRef-LICENSE"
+}
