@@ -1,0 +1,41 @@
+<svg id="ribbon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 219.29 143.19">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #231f20;
+      }
+
+      .cls-2, .cls-6 {
+        fill: #662d91;
+      }
+
+      .cls-3 {
+        fill: #2ec1d7;
+      }
+
+      .cls-4 {
+        font-size: 21.37px;
+        fill: #f1f2f2;
+        font-family: Stencil Std;
+        font-weight: 700;
+      }
+
+      .cls-5 {
+        fill: #ed1c24;
+      }
+
+      .cls-6 {
+        font-size: 50px;
+        font-family: Stencil;
+      }
+    </style>
+  </defs>
+  <title>suicide prevention logo_FINAL</title>
+  <path class="cls-1" d="M191.67,439.93s-9.28,7.16-9.34,10.5c-0.06,3.17,6.83,19,17.13,22.88a1.8,1.8,0,0,1,.43.15c0.45,0.08.89,0.21,1.35,0.32a2.13,2.13,0,0,1,.41.06,16.47,16.47,0,0,0,10.66-5.79S191.24,457.73,191.67,439.93Z" transform="translate(-182.24 -331.06)"/>
+  <polygon class="cls-2" points="51.95 84.09 67.07 44.06 92.71 38.23 73.72 83.89 51.95 84.09"/>
+  <path class="cls-2" d="M225.13,440c-4.67,13.76-9.48,21.94-13.76,26.76-5.09,5.73-9.41,6.72-11.81,6.7a1.87,1.87,0,0,1,.32.11c0.39,0.06.78,0.15,1.17,0.24,33.12,4.92,44.52-33.25,44.52-33.25Z" transform="translate(-182.24 -331.06)"/>
+  <path class="cls-3" d="M221.09,418.3c-13.5,1.65-28.7,1.83-38.85,31.92h0c2.39-4.8,11-13.92,41.73-13.3,41.57,0.84,72.64,1.15,72.64,1.15L310,416.85S235,416.6,221.09,418.3Z" transform="translate(-182.24 -331.06)"/>
+  <text x="-182.24" y="-331.06"/>  <text class="cls-4" transform="translate(61.78 104.15)">S<tspan x="13.49" y="0">T</tspan><tspan x="27.34" y="0">OP </tspan><tspan class="cls-5" x="65.06" y="0">SUICIDE</tspan></text>
+  <circle class="cls-2" cx="84.45" cy="23.16" r="10.26"/>
+  <text class="cls-6" transform="translate(94.71 78.24)">Care</text>
+  <text x="-182.24" y="-331.06"/></svg>
