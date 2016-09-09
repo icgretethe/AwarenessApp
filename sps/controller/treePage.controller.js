@@ -14,7 +14,11 @@ sap.ui.controller("sps.controller.treePage", {
 
     // return to main page
     goHome: function() {
+		questionCounter = 1;
+		responseCounter = 1;
         app.back();
+		//This returns the question back to question 1, but looks ugly
+		this.getView().byId("quest").bindText("/Questions/q1");
     },
 
     /* these two methods are temporary and need to be replaced with
@@ -43,13 +47,27 @@ sap.ui.controller("sps.controller.treePage", {
                 this.getView().byId("quest").bindText("/Error/errQ");
                 break;
         }
-        // we need to know the counters for debugging purposes
-        console.log("questionCounter = " + questionCounter);
-        console.log("responseCounter = " + responseCounter);
     },
+	/*This can potentially replace the response Page. It isn't finished but
+	  if we are only displaying an answering, it might be easier and cleaner.
+	  */
     respondNo : function() {
-        //questionCounter = 1;
-        responseCounter++;
-        app.to(responsePage);
+		switch(responseCounter) {
+            case 1:
+                this.getView().byId("quest").bindText("/Responses/r1");
+                break;
+            case 2:
+                this.getView().byId("quest").bindText("/Responses/r2");
+                break;
+            case 3:
+                this.getView().byId("quest").bindText("/Responses/r3");
+                break;
+            case 4:
+                this.getView().byId("quest").bindText("/Responses/r4");
+                break;
+            default:
+                this.getView().byId("quest").bindText("/Error/errR");
+                break;
+        }		
     }
 });
