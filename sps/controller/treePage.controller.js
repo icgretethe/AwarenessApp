@@ -16,7 +16,7 @@ sap.ui.controller("sps.controller.treePage", {
     goHome: function() {
 		questionCounter = 1;
 		responseCounter = 1;
-        app.back();
+        	app.back();
 		//This returns the question back to question 1, but looks ugly
 		this.getView().byId("quest").bindText("/Questions/q1");
     },
@@ -52,7 +52,12 @@ sap.ui.controller("sps.controller.treePage", {
 	  if we are only displaying an answering, it might be easier and cleaner.
 	  */
     respondNo : function() {
-		switch(responseCounter) {
+    	
+    	//Previous code
+    	/*questionCounter = 1;
+        responseCounter++;
+        app.to(responsePage);*/
+	switch(responseCounter) {
             case 1:
                 this.getView().byId("quest").bindText("/Responses/r1");
                 break;
