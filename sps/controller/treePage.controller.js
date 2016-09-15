@@ -10,15 +10,25 @@ sap.ui.controller("sps.controller.treePage", {
 
         // set the text property of the Question to "q1", when page is first loaded
         this.getView().byId("quest").bindText("/Questions/q1");
+		
+		//SetYes and No Buttons to Visible and Home button hidden
+		this.getView().byId("yButton").setVisible(true);
+		this.getView().byId("nButton").setVisible(true);
+		this.getView().byId("homeButton").setVisible(false);
     },
 
     // return to main page
     goHome: function() {
 		questionCounter = 1;
 		responseCounter = 1;
-        	app.back();
-		//This returns the question back to question 1, but looks ugly
+        app.back();
+		
+		//This returns the question back to question 1, and also
+		//Sets the yes/no buttons to visible and Home button to hidden
 		this.getView().byId("quest").bindText("/Questions/q1");
+		this.getView().byId("yButton").setVisible(true);
+		this.getView().byId("nButton").setVisible(true);
+		this.getView().byId("homeButton").setVisible(false);
     },
 
     /* these two methods are temporary and need to be replaced with
@@ -45,6 +55,10 @@ sap.ui.controller("sps.controller.treePage", {
             default:
                 // there are no more questions, so display a message
                 this.getView().byId("quest").bindText("/Error/errQ");
+				
+				this.getView().byId("yButton").setVisible(false);
+				this.getView().byId("nButton").setVisible(false);
+				this.getView().byId("homeButton").setVisible(true);
                 break;
         }
     },
@@ -57,7 +71,12 @@ sap.ui.controller("sps.controller.treePage", {
     	/*questionCounter = 1;
         responseCounter++;
         app.to(responsePage);*/
-	switch(responseCounter) {
+		
+		//Set Yes/No Buttons to Hidden and Home button Visible
+		this.getView().byId("yButton").setVisible(false);
+		this.getView().byId("nButton").setVisible(false);
+		this.getView().byId("homeButton").setVisible(true);
+		switch(responseCounter) {
             case 1:
                 this.getView().byId("quest").bindText("/Responses/r1");
                 break;

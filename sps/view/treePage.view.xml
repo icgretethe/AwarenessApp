@@ -6,9 +6,10 @@
         <VBox class="QABox" alignItems="Center" justifyContent="Center">
             <Text id= "quest" class="question"/>
                 <HBox class="ABox">
-                    <Button class="yButton" text="Yes" press="respondYes"/>
-                    <Button class="nButton" text="No" press="respondNo"/>
+                    <Button id="yButton" text="Yes" press="respondYes"/>
+                    <Button id="nButton" text="No" press="respondNo"/>
                 </HBox>
+				<Button id = "homeButton" text="Home" press="goHome"/>
         </VBox>
     </content>
     </Page>

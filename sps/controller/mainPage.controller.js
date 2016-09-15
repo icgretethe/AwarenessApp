@@ -6,6 +6,7 @@ sap.ui.controller("sps.controller.mainPage", {
      */
     // go to the Decision Tree Page
     goToTree: function() {
+
         app.to(treePage);
     },
     // go to Info Page
