@@ -16,6 +16,9 @@ sap.ui.controller("sps.controller.treePage", {
 		this.getView().byId("nButton").setVisible(true);
 		this.getView().byId("homeButton").setVisible(false);
     },
+	handleNavButtonPress: function () {
+			this.getOwnerComponent().myNavBack();
+	},
 
     // return to main page
     goHome: function() {
