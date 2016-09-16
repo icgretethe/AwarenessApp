@@ -16,19 +16,7 @@ sap.ui.controller("sps.controller.treePage", {
 		this.getView().byId("nButton").setVisible(true);
 		this.getView().byId("homeButton").setVisible(false);
     },
-	handleNavButtonPress: function () {
-			this.getOwnerComponent().myNavBack();
-	},
-	myNavBack : function () {
-			var oHistory = sap.ui.core.routing.History.getInstance();
-			var oPrevHash = oHistory.getPreviousHash();
-			if (oPrevHash !== undefined) {
-				window.history.go(-1);
-			} else {
-				this._router.navTo("home", {}, true);
-			}
-	},
-
+	
     // return to main page
     goHome: function() {
 		questionCounter = 1;
