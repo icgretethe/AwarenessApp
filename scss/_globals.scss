@@ -1,3 +1,34 @@
-$logo-purple: #662d91;
-$logo-blue:   #2ec1d7;
-$logo-red:    #ed1c24;
+// http://www.w3schools.com/colors/colors_picker.asp <------ USE THIS SITE
+
+
+// Global vars
+
+$purple-hue:        274;
+$purple-saturation: 53%;
+
+$blue-hue:        188;
+$blue-saturation: 68%;
+
+$red-hue:         358;
+$red-saturation:  85%;
+
+
+// Main logos
+
+$logo-purple: hsl($purple-hue, $purple-saturation, 37%);
+$logo-blue:   hsl($blue-hue, $blue-saturation, 51%);
+$logo-red:    hsl($red-hue, $red-saturation, 52%);
+
+
+//Background Values (80% brightness from original 50%)
+
+$light-purple: hsl($purple-hue, $purple-saturation, 80%);
+$light-blue:   hsl($blue-hue, $blue-saturation, 80%);
+
+
+// Button colors
+
+//Default values
+$button-border: #bfbfbf;
+$button-press: #f7f7f7;
+$button-text-color: #333333;

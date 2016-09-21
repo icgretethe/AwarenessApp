@@ -91,5 +91,20 @@
 }
 
 .sapMPageHeader::before {
-  border-top: 0.25rem solid #2ec1d7 !important;
+  border-top: 0.25rem solid #2dc0d7 !important;
+}
+
+.sapMGlobalBackgroundColor,
+.sapUiGlobalBackgroundColor {
+  background-color: none !important;
+  background-image: linear-gradient(#a9e5ef, white) !important;
+  background-repeat: repeat,no-repeat !important;
+}
+
+.sapMBtnActive,
+.sapMBtnIcon {
+  background-color: #f7f7f7 !important;
+  border-color: #bfbfbf !important;
+  color: #333333 !important;
+  text-shadow: 0 1px 0 #ffffff;
 }

@@ -3,3 +3,9 @@
 .sapMPageHeader::before {
   border-top: 0.25rem solid $logo-blue !important;
 }
+
+.sapMGlobalBackgroundColor, .sapUiGlobalBackgroundColor {
+    background-color: none !important;
+    background-image: linear-gradient($light-blue, white) !important; 
+    background-repeat: repeat,no-repeat !important;
+}
