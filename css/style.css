@@ -1,4 +1,3 @@
-
 /*
  * Main Page
  */
@@ -88,4 +87,9 @@
     border: 3px solid #73AD21; 
 */
   border-radius: 15%;
+  border: 6 black;
+}
+
+.sapMPageHeader::before {
+  border-top: 0.25rem solid #2ec1d7 !important;
 }

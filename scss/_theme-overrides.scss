@@ -1,0 +1,5 @@
+@import 'globals';
+
+.sapMPageHeader::before {
+  border-top: 0.25rem solid $logo-blue !important;
+}
