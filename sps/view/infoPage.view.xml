@@ -6,11 +6,6 @@
         <VBox class="infoBox" alignItems="Center">
             <!-- this information should probably be changed to a list and
                  not be hard-coded -->
-            <Text class="infoPageHeader" text="Important Infomation"/>
-            <Text class="importantInfo"  text="Emergency: 911"/>
-            <Text class="importantInfo"  text="Suicide Hotline (Confidential): 1-800-273-8255"/>
-            <Text class="importantInfo"  text="Police Department (Non-Emergency): 618-650-3324"/>
-            <Text class="importantInfo"  text="Counsling Services: 618-650-2842\n Room 0220 Student Success Center, Lower Level"/>
         </VBox>
     </content>
     </Page>
