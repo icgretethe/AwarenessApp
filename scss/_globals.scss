@@ -1,7 +1,17 @@
 // http://www.w3schools.com/colors/colors_picker.asp <------ USE THIS SITE
 
+//  *   *   *   *   *   *   * //
+//                            //
+//      GLOBAL VARIABLES      //
+//                            //
+//  *   *   *   *   *   *   * //
 
-// Global vars
+
+// =============== //
+//  Color
+//    Theme
+//      Variables
+// =============== //
 
 $purple-hue:        274;
 $purple-saturation: 53%;
@@ -28,7 +38,23 @@ $light-blue:   hsl($blue-hue, $blue-saturation, 80%);
 
 // Button colors
 
-//Default values
+// Default values
 $button-border: #bfbfbf;
 $button-press: #f7f7f7;
 $button-text-color: #333333;
+
+// =============== //
+//  Screen
+//    Resolution
+//      Variables
+// =============== //
+
+
+// Reservered for smartphone-like devices (anything under = smartphone)
+
+$small-size: 750px;
+
+
+// Reserved for tablet-like devices (anything under = tablet)
+
+$max-tablet-width: 1200px; // Anything less than this size will

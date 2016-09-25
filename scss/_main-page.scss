@@ -1,6 +1,14 @@
 /*
  * Main Page
  */ 
+html {
+    height: 100%;
+    overflow: hidden;
+}
+body {
+    height: 100%;
+    overflow: auto !important;
+}
 #main .buttonBox {
     margin: auto;
     margin-top: 10px;
@@ -15,8 +23,10 @@
 }
 
 #main .menuHeader {
-    font-size: 200%;
-    padding-bottom: 5%;
+    font-size: 22px;
+    text-align: center;
+    //font-size: 200%;
+    //padding-bottom: 5%;
 }
 
 /*
@@ -57,9 +67,7 @@
  * Info Page 
  */ 
 #info .infoPageHeader {
-    font-size: 200%;
-    padding-bottom: 7.5%;
-    font-size: 200%;
+    font-size: 12px;
     padding-bottom: 7.5%;
 /*
     font-size: 200%;

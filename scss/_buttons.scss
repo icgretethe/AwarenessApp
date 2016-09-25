@@ -1,6 +1,59 @@
-.sapMBtnActive, .sapMBtnIcon {
+.sapMBtn {
+  padding: 0 !important;
+  //@media only screen and (max-width: $small-size) {
+  width: 100%;
+  height: 100% !important;
+  //}
+}
+
+.buttonBox {
+  height: 100% !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.sapMBtnActive, .sapMBtnIcon, .sapMBtnInner:hover, .sapMBtnInner {
   background-color: $button-press !important;
   border-color: $button-border !important;
   color: $button-text-color !important;
+  background: linear-gradient(top,#f7f7f7 0,#f2f2f2 100%);
   text-shadow: 0 1px 0 #ffffff;
+}
+
+.sapMBtnActive {
+  box-shadow: none;
+}
+
+.sapMBtnInner {
+  transition: box-shadow .1s linear;
+  border: 0 !important;
+  border-radius: 2px !important;
+  outline: none !important;
+  height: 100% !important;
+  box-shadow: 1px 1px 1px gray;
+}
+
+.sapMBtnInner:active {
+  box-shadow: none;
+}
+
+.sapMBtnContent {
+  @media only screen and (min-width: $max-tablet-width) {
+  }
+}
+
+.sapMTitle {
+  height: 0% !important;
+}
+
+.sapMFlexItem:first-child {
+  display: flex !important;
+  height: 30% !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center;
+}
+.sapMFlexItem {
+  margin: 3px 8% 3px 8%;
 }
