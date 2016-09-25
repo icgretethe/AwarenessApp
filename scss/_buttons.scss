@@ -9,7 +9,6 @@
 .buttonBox {
   height: 100% !important;
   width: 100% !important;
-  margin: 0 !important;
   padding: 0 !important;
 }
 
@@ -31,7 +30,9 @@
   border-radius: 2px !important;
   outline: none !important;
   height: 100% !important;
+  text-align: left !important;
   box-shadow: 1px 1px 1px gray;
+
 }
 
 .sapMBtnInner:active {
@@ -39,21 +40,26 @@
 }
 
 .sapMBtnContent {
+  font-family: 'Roboto', sans-serif;
   @media only screen and (min-width: $max-tablet-width) {
   }
 }
 
 .sapMTitle {
-  height: 0% !important;
+  //height: 0% !important;
+}
+
+.sapMFlexItem {
+  margin: 3px 8% 3px 8%;
 }
 
 .sapMFlexItem:first-child {
-  display: flex !important;
   height: 30% !important;
+  display: -webkit-flex !important;
+  display: flex !important;
+  -webkit-align-items: center !important;
   align-items: center !important;
+  -webkit-justify-content: center !important;
   justify-content: center !important;
   text-align: center;
-}
-.sapMFlexItem {
-  margin: 3px 8% 3px 8%;
 }
