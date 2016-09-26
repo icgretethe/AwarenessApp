@@ -38,6 +38,7 @@ body {
 
 #tree .question {
   padding: 10px;
+  margin-top: 50%;
   /*  border: 3px solid #73AD21; */
 }
 
@@ -62,7 +63,6 @@ body {
 #tree .QABox {
   margin: auto;
   margin-top: 10px;
-  width: 60%;
   padding: 10px;
   /*  border: 3px solid #73AD21; */
   border-radius: 4px;
@@ -166,6 +166,13 @@ body {
   margin: 3px 8% 3px 8%;
 }
 
+@media only screen and (min-width: 1200px) {
+  .sapMFlexItem {
+    margin-right: 45%;
+    margin-left: 25%;
+  }
+}
+
 .sapMFlexItem:first-child {
   color: #2e2e2e;
   height: 40% !important;
@@ -176,4 +183,10 @@ body {
   -webkit-justify-content: center !important;
   justify-content: center !important;
   text-align: center;
+}
+
+@media only screen and (min-width: 1200px) {
+  .sapMFlexItem:first-child {
+    height: 40% !important;
+  }
 }

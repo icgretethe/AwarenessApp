@@ -51,6 +51,10 @@
 
 .sapMFlexItem {
   margin: 3px 8% 3px 8%;
+  @media only screen and (min-width: $max-tablet-width) {
+    margin-right: 45%;
+    margin-left: 25%;
+  }
 }
 
 .sapMFlexItem:first-child {
@@ -63,4 +67,7 @@
   -webkit-justify-content: center !important;
   justify-content: center !important;
   text-align: center;
+  @media only screen and (min-width: $max-tablet-width) {
+    height: 40% !important;
+  }
 }
