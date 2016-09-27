@@ -1,9 +1,9 @@
 <core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
     controllerName="sps.controller.treePage" xmlns:html="http://www.w3.org/1999/xhtml">
-    <Page title="Let's Diagnose the Issue" showNavButton="true" navButtonPress="goHome">
+    <Page title="iCare SIUe" showNavButton="true" navButtonPress="goHome" showSubHeader="false">
     <content>
         <!-- we might want to replace these 2 boxes with a Grid or other container -->
-        <VBox class="QABox" alignItems="Center" justifyContent="Center">
+        <VBox class="QABox">
             <Text id= "quest" class="question"/>
                 <HBox class="ABox">
                     <Button id="yButton" text="Yes" press="respondYes"/>

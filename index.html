@@ -6,8 +6,11 @@
         <!-- iCare logo icon is required for this application -->
         <link rel="icon" href="icon.png">
         <link rel="stylesheet" href="css/style.css">
+        <!-- GOOGLE FONTS -->
+        <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed" rel="stylesheet">
 
         <title>Suicide Awareness</title>
+        <script src="https://use.fontawesome.com/658e685500.js"></script>
         <script src="resources/sap-ui-core.js"
             id="sap-ui-bootstrap"
             data-sap-ui-libs="sap.m"
@@ -42,4 +45,32 @@
     <body class="sapUiBody" role="application">
         <div id="content"></div>
     </body>
+    <!-- SCRIPT THAT RUNS AFTER THE HTML RENDERS -->
+    <script>
+    window.onload = function() {
+    var fontAwesome = ['<i class="fa fa-fw fa-pagelines" aria-hidden="true" style="color:green"></i>',
+                       '<i class="fa fa-fw fa-phone" aria-hidden="true" style="color:purple"></i>',
+                       '<i class="fa fa-fw fa-plus-square" aria-hidden="true" style="color:red"></i>',
+                       '<i class="fa fa-fw fa-graduation-cap" aria-hidden="true" style="color:black"></i>',
+                       '<i class="fa fa-fw fa-info" aria-hidden="true" style="color:blue"></i>'
+                       ];
+            var html = fontAwesome[0];
+
+            for(i = 0; i <= 4; i++) {
+                html = fontAwesome[i];
+                document.getElementById("__button" + i + "-content").innerHTML = html + "&nbsp;&nbsp;&nbsp;" + document.getElementById("__button" + i + "-content").innerHTML;
+            }
+            function onBackKeyDown(){
+                 alert("ok");
+            }
+             
+            function onDeviceReady(){
+                document.addEventListener("backbutton", onBackKeyDown, false);
+            }
+             
+            function init(){
+                document.addEventListener("deviceready", onDeviceReady, false);
+            }
+        }
+    </script>
 </html>

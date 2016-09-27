@@ -1,14 +1,14 @@
 <core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
     controllerName="sps.controller.mainPage" xmlns:html="http://www.w3.org/1999/xhtml">
-    <Page title="We're Here to Help">
+    <Page title="We're Here to Help" enableScrolling="false" showHeader="false">
     <content>
         <!-- organize all information inside of a VBox -->
-        <VBox class="buttonBox" alignItems="Center">
+        <VBox class="buttonBox">
             <!-- the text should probably not be hard-coded, but that can be fixed later -->
-            <Text text="How can we help you?" class="menuHeader"/>
-            <Button class="mainPageButton" text="Decision Tree" press="goToTree"/>
+            <Text class="menuHeader"/>
+            <Button class="mainPageButton" text="Help Tree" press="goToTree"/>
             <Button class="mainPageButton" text="Important Contacts and Locations" press="toInfoPage"/>
-            <Button class="mainPageButton" text="Patient Care Report" press="toCareReport"/>
+            <Button class="mainPageButton" text="Cougar Care Report" press="toCareReport"/>
             <Button class="mainPageButton" text="Educate Yourself"/>
             <Button class="mainPageButton" text="Stay Informed"/>
         </VBox>

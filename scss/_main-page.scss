@@ -1,6 +1,15 @@
 /*
  * Main Page
  */ 
+html {
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Roboto', sans-serif;
+}
+body {
+    height: 100%;
+    overflow: auto !important;
+}
 #main .buttonBox {
     margin: auto;
     margin-top: 10px;
@@ -15,15 +24,27 @@
 }
 
 #main .menuHeader {
-    font-size: 200%;
-    padding-bottom: 5%;
+    display: flex;
+    font-size: 28px;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
 }
 
 /*
  * Decision Tree Page
  */ 
 #tree .question {
+    min-height: 100px !important;
     padding: 10px;
+    margin: auto;
+    margin-bottom: 0;
+    margin-top: 20%;
+    font-family: 'Roboto', sans-serif;
+    font-size: 28px;
+    @media only screen and (min-width: $small-size) {
+      margin-top: 50%;
+    }
+    font-family: 'Roboto', sans-serif;
 /*  border: 3px solid #73AD21; */
 }
 #tree .homeButton {
@@ -31,35 +52,42 @@
 }
 
 #tree .yButton {
-    padding-right: 5px;
+  display: -webkit-flex !important;
+  display: flex !important;
+  padding-right: 5px;
 }
 
 #tree .nButton {
-    padding-left: 5px;
+  display: -webkit-flex !important;
+  display: flex !important;
+  padding-left: 5px;
 }
 
 #tree .ABox {
     padding-top: 25px;
-    margin: auto;
+    margin: 0 auto;
+    @media only screen and (min-width: $small-size) {
+      margin-top: 3px;
+      margin-left: 25%;
+    }
 /*  border: 3px solid #73AD21; */
 }
 
 #tree .QABox {
     margin: auto;
     margin-top: 10px;
-    width: 60%;
     padding: 10px;
 /*  border: 3px solid #73AD21; */
     border-radius: 4px;
+    @media only screen and (max-width: $small-size) {
+    }
 }
 
 /*
  * Info Page 
  */ 
 #info .infoPageHeader {
-    font-size: 200%;
-    padding-bottom: 7.5%;
-    font-size: 200%;
+    font-size: 12px;
     padding-bottom: 7.5%;
 /*
     font-size: 200%;
@@ -79,12 +107,15 @@
 #info .infoBox {
     text-align: center;
     margin: auto;
-    margin-top: 5%;
-    width: 60%;
+    margin-top: 15%;
     padding: 5%;
 /*  
     border: 3px solid #73AD21; 
 */
     border-radius: 15%;
     border: 6 black;
+}
+
+.sapMPageHeader::before {
+  content: none !important;
 }

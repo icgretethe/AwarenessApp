@@ -1,6 +1,113 @@
-.sapMBtnActive, .sapMBtnIcon {
+.sapMBtn {
+  padding: 0 !important;
+  //@media only screen and (max-width: $small-size) {
+  width: 100%;
+  //}
+}
+
+.buttonBox {
+  height: 100% !important;
+  width: 100% !important;
+  padding: 0 !important;
+}
+
+.sapMBtnActive, .sapMBtnIcon, .sapMBtnInner:hover, .sapMBtnInner {
   background-color: $button-press !important;
   border-color: $button-border !important;
   color: $button-text-color !important;
+  background: linear-gradient(top,#f7f7f7 0,#f2f2f2 100%);
   text-shadow: 0 1px 0 #ffffff;
+}
+
+.sapMBtnActive {
+  box-shadow: none;
+}
+
+.sapMBtnInner {
+  transition: box-shadow .1s linear;
+  border: 0 !important;
+  border-radius: 2px !important;
+  outline: none !important;
+  text-align: left !important;
+  box-shadow: 2px 1px 2px gray;
+  @media only screen and (max-width: $max-tablet-width) {
+  }
+}
+
+.sapMBtnInner:active {
+  box-shadow: none;
+}
+
+.sapMBtnContent {
+  font-family: 'Roboto', sans-serif;
+  @media only screen and (min-width: $max-tablet-width) {
+  }
+}
+
+.sapMTitle {
+  //height: 0% !important;
+}
+
+#main .sapMFlexItem {
+  margin: 3px 30px 3px 8%;
+  @media only screen and (min-width: $small-size) {
+    margin-right: 45%;
+    margin-left: 25%;
+  }
+}
+
+.sapMFlexItem {
+  margin: 3px 40px 3px 0;
+  @media only screen and (min-width: $small-size) {
+    margin-right: 45%;
+    margin-left: 25%;
+  }
+}
+
+#main .sapMFlexItem:first-child {
+  @media only screen and (max-width: $small-size) {
+    color: #2e2e2e;
+    height: 27% !important;
+    display: -webkit-flex !important;
+    display: flex !important;
+    -webkit-align-items: center !important;
+    align-items: center !important;
+    -webkit-justify-content: center !important;
+    justify-content: center !important;
+    text-align: center;
+  }
+  @media only screen and (min-width: $small-size) {
+    height: 35% !important;
+  }
+}
+
+#tree .sapMFlexItem {
+  @media only screen and (max-width: $small-size) {
+    height: auto;
+    display: -webkit-flex !important;
+    display: flex !important;
+    -webkit-align-items: center !important;
+    align-items: center !important;
+    -webkit-justify-content: center !important;
+    justify-content: center !important;
+    text-align: center;
+  }
+}
+
+.sapMBtnBack {
+    display: flex;
+    align-items: center;
+}
+
+#tree--homeButton-inner {
+  width: 200px;
+  @media only screen and (max-width: $small-size) {
+    text-align: center !important;
+    margin: auto;
+  }
+}
+
+.sapMText {
+  display: -webkit-flex !important;
+  display: flex !important;
 }
