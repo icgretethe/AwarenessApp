@@ -12,7 +12,7 @@
         "r4": "The Man in the High Castle"
     },
     "Error": {
-        "errQ": "There are no more questions to ask.",
-        "errR": "There are no more responses available."
+        "errQ": "There are no more questions to ask",
+        "errR": "There are no more responses available"
     }
 }
