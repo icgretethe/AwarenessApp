@@ -60,6 +60,17 @@
                 html = fontAwesome[i];
                 document.getElementById("__button" + i + "-content").innerHTML = html + "&nbsp;&nbsp;&nbsp;" + document.getElementById("__button" + i + "-content").innerHTML;
             }
+            function onBackKeyDown(){
+                 alert("ok");
+            }
+             
+            function onDeviceReady(){
+                document.addEventListener("backbutton", onBackKeyDown, false);
+            }
+             
+            function init(){
+                document.addEventListener("deviceready", onDeviceReady, false);
+            }
         }
     </script>
 </html>

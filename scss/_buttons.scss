@@ -2,7 +2,6 @@
   padding: 0 !important;
   //@media only screen and (max-width: $small-size) {
   width: 100%;
-  height: 100% !important;
   //}
 }
 
@@ -29,10 +28,10 @@
   border: 0 !important;
   border-radius: 2px !important;
   outline: none !important;
-  height: 100% !important;
   text-align: left !important;
-  box-shadow: 1px 1px 1px gray;
-
+  box-shadow: 2px 1px 2px gray;
+  @media only screen and (max-width: $max-tablet-width) {
+  }
 }
 
 .sapMBtnInner:active {
@@ -49,25 +48,66 @@
   //height: 0% !important;
 }
 
-.sapMFlexItem {
-  margin: 3px 8% 3px 8%;
-  @media only screen and (min-width: $max-tablet-width) {
+#main .sapMFlexItem {
+  margin: 3px 30px 3px 8%;
+  @media only screen and (min-width: $small-size) {
     margin-right: 45%;
     margin-left: 25%;
   }
 }
 
-.sapMFlexItem:first-child {
-  color: #2e2e2e;
-  height: 40% !important;
+.sapMFlexItem {
+  margin: 3px 40px 3px 0;
+  @media only screen and (min-width: $small-size) {
+    margin-right: 45%;
+    margin-left: 25%;
+  }
+}
+
+#main .sapMFlexItem:first-child {
+  @media only screen and (max-width: $small-size) {
+    color: #2e2e2e;
+    height: 27% !important;
+    display: -webkit-flex !important;
+    display: flex !important;
+    -webkit-align-items: center !important;
+    align-items: center !important;
+    -webkit-justify-content: center !important;
+    justify-content: center !important;
+    text-align: center;
+  }
+  @media only screen and (min-width: $small-size) {
+    height: 35% !important;
+  }
+}
+
+#tree .sapMFlexItem {
+  @media only screen and (max-width: $small-size) {
+    height: auto;
+    display: -webkit-flex !important;
+    display: flex !important;
+    -webkit-align-items: center !important;
+    align-items: center !important;
+    -webkit-justify-content: center !important;
+    justify-content: center !important;
+    text-align: center;
+  }
+}
+
+.sapMBtnBack {
+    display: flex;
+    align-items: center;
+}
+
+#tree--homeButton-inner {
+  width: 200px;
+  @media only screen and (max-width: $small-size) {
+    text-align: center !important;
+    margin: auto;
+  }
+}
+
+.sapMText {
   display: -webkit-flex !important;
   display: flex !important;
-  -webkit-align-items: center !important;
-  align-items: center !important;
-  -webkit-justify-content: center !important;
-  justify-content: center !important;
-  text-align: center;
-  @media only screen and (min-width: $max-tablet-width) {
-    height: 40% !important;
-  }
 }

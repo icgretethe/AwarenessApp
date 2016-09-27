@@ -5,6 +5,7 @@
 html {
   height: 100%;
   overflow: hidden;
+  font-family: 'Roboto', sans-serif;
 }
 
 body {
@@ -37,9 +38,21 @@ body {
  */
 
 #tree .question {
+  min-height: 100px !important;
   padding: 10px;
-  margin-top: 50%;
+  margin: auto;
+  margin-bottom: 0;
+  margin-top: 20%;
+  font-family: 'Roboto', sans-serif;
+  font-size: 28px;
+  font-family: 'Roboto', sans-serif;
   /*  border: 3px solid #73AD21; */
+}
+
+@media only screen and (min-width: 750px) {
+  #tree .question {
+    margin-top: 50%;
+  }
 }
 
 #tree .homeButton {
@@ -47,17 +60,28 @@ body {
 }
 
 #tree .yButton {
+  display: -webkit-flex !important;
+  display: flex !important;
   padding-right: 5px;
 }
 
 #tree .nButton {
+  display: -webkit-flex !important;
+  display: flex !important;
   padding-left: 5px;
 }
 
 #tree .ABox {
   padding-top: 25px;
-  margin: auto;
+  margin: 0 auto;
   /*  border: 3px solid #73AD21; */
+}
+
+@media only screen and (min-width: 750px) {
+  #tree .ABox {
+    margin-top: 3px;
+    margin-left: 25%;
+  }
 }
 
 #tree .QABox {
@@ -90,14 +114,17 @@ body {
 #info .infoBox {
   text-align: center;
   margin: auto;
-  margin-top: 5%;
-  width: 60%;
+  margin-top: 15%;
   padding: 5%;
   /*  
     border: 3px solid #73AD21; 
 */
   border-radius: 15%;
   border: 6 black;
+}
+
+.sapMPageHeader::before {
+  content: none !important;
 }
 
 .sapMPageHeader::before {
@@ -120,7 +147,6 @@ body {
 .sapMBtn {
   padding: 0 !important;
   width: 100%;
-  height: 100% !important;
 }
 
 .buttonBox {
@@ -149,9 +175,8 @@ body {
   border: 0 !important;
   border-radius: 2px !important;
   outline: none !important;
-  height: 100% !important;
   text-align: left !important;
-  box-shadow: 1px 1px 1px gray;
+  box-shadow: 2px 1px 2px gray;
 }
 
 .sapMBtnInner:active {
@@ -162,31 +187,78 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-.sapMFlexItem {
-  margin: 3px 8% 3px 8%;
+#main .sapMFlexItem {
+  margin: 3px 30px 3px 8%;
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 750px) {
+  #main .sapMFlexItem {
+    margin-right: 45%;
+    margin-left: 25%;
+  }
+}
+
+.sapMFlexItem {
+  margin: 3px 40px 3px 0;
+}
+
+@media only screen and (min-width: 750px) {
   .sapMFlexItem {
     margin-right: 45%;
     margin-left: 25%;
   }
 }
 
-.sapMFlexItem:first-child {
-  color: #2e2e2e;
-  height: 40% !important;
-  display: -webkit-flex !important;
-  display: flex !important;
-  -webkit-align-items: center !important;
-  align-items: center !important;
-  -webkit-justify-content: center !important;
-  justify-content: center !important;
-  text-align: center;
+@media only screen and (max-width: 750px) {
+  #main .sapMFlexItem:first-child {
+    color: #2e2e2e;
+    height: 27% !important;
+    display: -webkit-flex !important;
+    display: flex !important;
+    -webkit-align-items: center !important;
+    align-items: center !important;
+    -webkit-justify-content: center !important;
+    justify-content: center !important;
+    text-align: center;
+  }
 }
 
-@media only screen and (min-width: 1200px) {
-  .sapMFlexItem:first-child {
-    height: 40% !important;
+@media only screen and (min-width: 750px) {
+  #main .sapMFlexItem:first-child {
+    height: 35% !important;
   }
+}
+
+@media only screen and (max-width: 750px) {
+  #tree .sapMFlexItem {
+    height: auto;
+    display: -webkit-flex !important;
+    display: flex !important;
+    -webkit-align-items: center !important;
+    align-items: center !important;
+    -webkit-justify-content: center !important;
+    justify-content: center !important;
+    text-align: center;
+  }
+}
+
+.sapMBtnBack {
+  display: flex;
+  align-items: center;
+}
+
+#tree--homeButton-inner {
+  width: 200px;
+}
+
+@media only screen and (max-width: 750px) {
+  #tree--homeButton-inner {
+    text-align: center !important;
+    margin: auto;
+  }
+}
+
+.sapMText {
+  display: -webkit-flex !important;
+  display: flex !important;
 }
