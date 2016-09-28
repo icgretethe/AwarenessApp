@@ -14,5 +14,21 @@
     "Error": {
         "errQ": "There are no more questions to ask",
         "errR": "There are no more responses available"
-    }
+    },
+	"Contacts": [
+        {"contact": "911, SIUE Police Department 618-650-3324"},
+		{"contact": "618-650-2842, SIUE Counseling Services"},
+		{"contact": "618-650-5664, SIUE Confidential Advisor for Sexual Assault Survivors – Lindsay Serrano"},
+		{"contact": "314-647-4357, Provident Counseling"},
+		{"contact": "618-877-0316, Chestnut Health"},
+		{"contact": "618-462-4331, Centerstone"},
+		{"contact": "618-798-3888, Gateway Regional Medical Center"},
+		{"contact": "618-397-0975, Call for Help Sexual Assault Victims Care Unit"},
+		{"contact": "1-800-273-TALK, National Suicide Prevention Lifeline"},
+		{"contact": "1-800-656-HOPE, Sexual Assault Hotline"},
+		{"contact": "1-800-799-SAFE, Domestic Violence Hotline"},
+		{"contact": "1-866-488-7386, Trevor Project Lifeline"},
+		{"contact": "1-877-565-8860, Trans Lifeline"},
+		{"contact": "1-866-356-6998, LGBTQ Partner Abuse & Sexual Assault Helpline"}
+	]
 }
