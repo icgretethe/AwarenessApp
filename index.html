@@ -23,21 +23,24 @@
             sap.ui.localResources("sps");
 
             var questionCounter = 1;
-            var responseCounter;
+
+            /* responseCounter is redundant, since questionCounter holds
+             * the same value */
+            //var responseCounter;
+
             // initialize app
             var app = new sap.m.App();
             // define app pages
             var mainPage = sap.ui.view({id:"main", viewName:"sps.view.mainPage", type:sap.ui.core.mvc.ViewType.XML});
             var treePage = sap.ui.view({id:"tree", viewName:"sps.view.treePage", type:sap.ui.core.mvc.ViewType.XML});
             var infoPage = sap.ui.view({id:"info", viewName:"sps.view.infoPage", type:sap.ui.core.mvc.ViewType.XML});
-            var responsePage = sap.ui.view({id:"response", viewName:"sps.view.responsePage", type:sap.ui.core.mvc.ViewType.XML});
-
+            // response page was unused, so it was removed
 
             //add pages to app
             app.addPage(mainPage);
             app.addPage(treePage);
             app.addPage(infoPage);
-            app.addPage(responsePage);
+            // responsePage was removed
             //add app to page
             app.placeAt("content");
         </script>
@@ -63,11 +66,11 @@
             function onBackKeyDown(){
                  alert("ok");
             }
-             
+
             function onDeviceReady(){
                 document.addEventListener("backbutton", onBackKeyDown, false);
             }
-             
+
             function init(){
                 document.addEventListener("deviceready", onDeviceReady, false);
             }

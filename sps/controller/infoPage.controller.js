@@ -9,7 +9,7 @@ sap.ui.controller("sps.controller.infoPage", {
 			path: "/Contacts",
 			template: new sap.m.ObjectListItem({
 				attributes: [new sap.m.ObjectAttribute({
-				text: "{contact} "})]
+				text: "{}"})]
 			})
 		})
 	},
