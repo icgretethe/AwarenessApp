@@ -34,12 +34,15 @@
             var mainPage = sap.ui.view({id:"main", viewName:"sps.view.mainPage", type:sap.ui.core.mvc.ViewType.XML});
             var treePage = sap.ui.view({id:"tree", viewName:"sps.view.treePage", type:sap.ui.core.mvc.ViewType.XML});
             var infoPage = sap.ui.view({id:"info", viewName:"sps.view.infoPage", type:sap.ui.core.mvc.ViewType.XML});
-            // response page was unused, so it was removed
+			var educateYourselfPage = sap.ui.view({id:"educateYourselfPage", viewName:"sps.view.educateYourselfPage", type:sap.ui.core.mvc.ViewType.XML});
+			var stayInformedPage = sap.ui.view({id:"stayInformedPage", viewName:"sps.view.stayInformedPage", type:sap.ui.core.mvc.ViewType.XML});
 
             //add pages to app
             app.addPage(mainPage);
             app.addPage(treePage);
             app.addPage(infoPage);
+			app.addPage(educateYourselfPage);
+			app.addPage(stayInformedPage);
             // responsePage was removed
             //add app to page
             app.placeAt("content");

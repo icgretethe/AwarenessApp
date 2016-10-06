@@ -1,0 +1,28 @@
+<core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
+    controllerName="sps.controller.stayInformedPage" xmlns:html="http://www.w3.org/1999/xhtml">
+    <Page title="iCare SIUe" showNavButton="true" navButtonPress="goHome" showSubHeader="false">
+	<content>
+        <!-- organize all text into a VBox -->
+        <VBox alignItems="Center">	
+			
+			<!-- Header of Page -->
+			<Text text="Helpful Links" press = "toFirstWebPage"/>
+			
+			<!-- Not sure there is a better way to organize this than with text and a button -->
+			<!-- Link 1 -->
+			<Text text ="To Visit Suicide Prevention Resource Center, Click Below"/>
+            <Button text="Link 1" press = "toFirstWebPage"/>
+			
+			<!-- Link 2 -->
+			<Text text ="To Visit National Suicide Prevention Hotline, Click Below"/>
+			<Button text="Link 2" press = "toSecondWebPage"/>
+			
+			<!-- Social Media-->
+			<Text text = "Stay in Touch Through Social Media"/>
+			<Text text = "HashTag #ICARESIUE"/>
+			<Text text = "Twitter: @ICARESIUE_"/>
+			<Text text = "Facebook: Facebook.com/ICARESIUE"/>
+        </VBox>
+    </content>
+    </Page>
+</core:View>

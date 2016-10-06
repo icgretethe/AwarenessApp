@@ -6,7 +6,6 @@ sap.ui.controller("sps.controller.mainPage", {
      */
     // go to the Decision Tree Page
     goToTree: function() {
-
         app.to(treePage);
     },
     // go to Info Page
@@ -16,5 +15,13 @@ sap.ui.controller("sps.controller.mainPage", {
     // leave the app and go to the Patient Care Report
     toCareReport: function() {
         sap.m.URLHelper.redirect("https://publicdocs.maxient.com/reportingform.php?SIUEdwardsville&layout_id=2", false);
-    }
+    },
+	//Go To Educate yourself Page
+	toEducateYourselfPage: function() {
+		app.to(educateYourselfPage);
+	},
+	// Go to the Stay Informed Age
+	toStayInformedPage: function() {
+		app.to(stayInformedPage);
+	}
 });

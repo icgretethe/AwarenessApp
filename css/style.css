@@ -119,6 +119,7 @@ body {
   border: 6 black;
 }
 
+
 .sapMPageHeader::before {
   content: none !important;
 }
