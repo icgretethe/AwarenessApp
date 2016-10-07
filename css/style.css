@@ -29,6 +29,10 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+.sapMPageHeader::before {
+  content: none !important;
+}
+
 /*
  * Decision Tree Page
  */
@@ -86,42 +90,6 @@ body {
   padding: 10px;
   /*  border: 3px solid #73AD21; */
   border-radius: 4px;
-}
-
-/*
- * Info Page 
- */
-
-#info .infoPageHeader {
-  font-size: 12px;
-  padding-bottom: 7.5%;
-  /*
-    font-size: 200%;
-    padding-bottom: 7.5%; 
-    border: 3px solid #73AD21; 
-*/
-}
-
-#info .importantInfo {
-  font-size: 90%;
-  padding-bottom: 7.5%;
-}
-
-#info .infoBox {
-  text-align: center;
-  margin: auto;
-  margin-top: 15%;
-  padding: 5%;
-  /*  
-    border: 3px solid #73AD21; 
-*/
-  border-radius: 15%;
-  border: 6 black;
-}
-
-
-.sapMPageHeader::before {
-  content: none !important;
 }
 
 .sapMPageHeader::before {
@@ -258,4 +226,47 @@ body {
 .sapMText {
   display: -webkit-flex !important;
   display: flex !important;
+}
+
+/*
+ * Info Page 
+ */
+
+#info .sapMText {
+  font-family: 'Roboto', arial !important;
+}
+
+#info .sapMFlexItem {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+  font-family: 'Roboto', arial;
+}
+
+@media only screen and (min-width: 750px) {
+  #info .sapMFlexItem {
+    margin-right: 15% !important;
+    margin-left: 23% !important;
+  }
+}
+
+#info .infoPageHeader {
+  font-size: 30px;
+  padding: 25px;
+}
+
+#info .importantInfo {
+  font-size: 20px;
+  padding-bottom: 7.5%;
+}
+
+#info .infoBox {
+  text-align: center;
+  margin: auto;
+  margin-top: 15%;
+  padding: 5%;
+  /*  
+    border: 3px solid #73AD21; 
+*/
+  border-radius: 15%;
+  border: 6 black;
 }

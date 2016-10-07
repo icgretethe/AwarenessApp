@@ -1,0 +1,52 @@
+/*
+ * Decision Tree Page
+ */ 
+#tree .question {
+    min-height: 100px !important;
+    padding: 10px;
+    margin: auto;
+    margin-bottom: 0;
+    margin-top: 20%;
+    font-family: 'Roboto', sans-serif;
+    font-size: 28px;
+    @media only screen and (min-width: $small-size) {
+      margin-top: 50%;
+    }
+    font-family: 'Roboto', sans-serif;
+/*  border: 3px solid #73AD21; */
+}
+#tree .homeButton {
+  visibility: hidden;
+}
+
+#tree .yButton {
+  display: -webkit-flex !important;
+  display: flex !important;
+  padding-right: 5px;
+}
+
+#tree .nButton {
+  display: -webkit-flex !important;
+  display: flex !important;
+  padding-left: 5px;
+}
+
+#tree .ABox {
+    padding-top: 25px;
+    margin: 0 auto;
+    @media only screen and (min-width: $small-size) {
+      margin-top: 3px;
+      margin-left: 25%;
+    }
+/*  border: 3px solid #73AD21; */
+}
+
+#tree .QABox {
+    margin: auto;
+    margin-top: 10px;
+    padding: 10px;
+/*  border: 3px solid #73AD21; */
+    border-radius: 4px;
+    @media only screen and (max-width: $small-size) {
+    }
+}

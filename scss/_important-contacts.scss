@@ -1,0 +1,43 @@
+/*
+ * Info Page 
+ */ 
+@import 'globals';
+
+#info .sapMText {
+  font-family: 'Roboto', arial !important;
+}
+
+#info .sapMFlexItem {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+  @media only screen and (min-width: $small-size) {
+    margin-right: 15% !important;
+    margin-left: 23% !important;
+  }
+  font-family: 'Roboto', arial;
+}
+
+#info .infoPageHeader {
+  font-size: 30px;
+  padding: 25px;
+}
+
+#info .importantInfo {
+    font-size: 20px;
+    padding-bottom: 7.5%
+/*  
+    border: 3px solid #73AD21; 
+*/
+}
+
+#info .infoBox {
+    text-align: center;
+    margin: auto;
+    margin-top: 15%;
+    padding: 5%;
+/*  
+    border: 3px solid #73AD21; 
+*/
+    border-radius: 15%;
+    border: 6 black;
+}

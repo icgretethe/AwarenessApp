@@ -1,11 +1,11 @@
 <core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
     controllerName="sps.controller.infoPage" xmlns:html="http://www.w3.org/1999/xhtml">
-    <Page title="Helpful resources" showNavButton="true" navButtonPress="goHome">
+    <Page title="Helpful Resources" showNavButton="true" navButtonPress="goHome">
     <content>
         <!-- organize all text into a VBox -->
-        <VBox class="infoBox" alignItems="Center">				 
-            <Text class="infoPageHeader" text="Important Infomation"/>
-			<List id ="list"/>
+        <VBox class="infoBox">				 
+            <Text class="infoPageHeader" text="Important Contacts"/>
+			<List id="list" class="importantContacts"/>
         </VBox>
     </content>
     </Page>
