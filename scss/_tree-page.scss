@@ -1,18 +1,20 @@
 /*
  * Decision Tree Page
  */ 
+ @import 'globals';
 #tree .question {
-    min-height: 100px !important;
-    margin: auto;
-    margin-bottom: 0;
-    margin-top: 20%;
-    font-family: 'Roboto', sans-serif;
-    font-size: 28px;
-    @media only screen and (min-width: $small-size) {
-      margin-top: 50%;
-    }
-    font-family: 'Roboto', sans-serif;
-/*  border: 3px solid #73AD21; */
+  color: #333;
+  min-height: 100px !important;
+  margin: auto;
+  margin-bottom: 0;
+  padding: 25px;
+  //margin-top: 20%;
+  font-family: 'Roboto', sans-serif;
+  font-size: 30px;
+  @media only screen and (min-width: $small-size) {
+    //margin-top: 50%;
+  }
+  font-family: 'Roboto', sans-serif;
 }
 #tree .homeButton {
   visibility: hidden;
@@ -37,21 +39,32 @@
       margin-top: 3px;
       margin-left: 25%;
     }
-/*  border: 3px solid #73AD21; */
 }
 
 #tree .QABox {
     margin: auto;
     margin-top: 10px;
     padding: 10px;
-/*  border: 3px solid #73AD21; */
     border-radius: 4px;
     @media only screen and (min-width: $small-size) {
-    margin-right: 45% !important;
+    margin-top: 10%;
+    margin-right: 28% !important;
     margin-left: 25% !important;
+    text-align: center;
+    margin: auto;
+    margin-top: 10%;
+    padding: 5%;
+    padding-left: 0;
+    border-radius: 15%;
   }
 }
 
 #tree .sapMFlexItem {
   margin: 3px 40px 3px 0;
+  padding-left: 25px;
+}
+
+#tree--homeButton-inner{
+  display: flex;
+  margin-left: 25px;
 }

@@ -38,20 +38,14 @@ body {
  */
 
 #tree .question {
+  color: #333;
   min-height: 100px !important;
   margin: auto;
   margin-bottom: 0;
-  margin-top: 20%;
+  padding: 25px;
   font-family: 'Roboto', sans-serif;
-  font-size: 28px;
+  font-size: 30px;
   font-family: 'Roboto', sans-serif;
-  /*  border: 3px solid #73AD21; */
-}
-
-@media only screen and (min-width: 750px) {
-  #tree .question {
-    margin-top: 50%;
-  }
 }
 
 #tree .homeButton {
@@ -73,7 +67,6 @@ body {
 #tree .ABox {
   padding-top: 25px;
   margin: 0 auto;
-  /*  border: 3px solid #73AD21; */
 }
 
 @media only screen and (min-width: 750px) {
@@ -87,19 +80,31 @@ body {
   margin: auto;
   margin-top: 10px;
   padding: 10px;
-  /*  border: 3px solid #73AD21; */
   border-radius: 4px;
 }
 
 @media only screen and (min-width: 750px) {
   #tree .QABox {
-    margin-right: 45% !important;
+    margin-top: 10%;
+    margin-right: 28% !important;
     margin-left: 25% !important;
+    text-align: center;
+    margin: auto;
+    margin-top: 10%;
+    padding: 5%;
+    padding-left: 0;
+    border-radius: 15%;
   }
 }
 
 #tree .sapMFlexItem {
   margin: 3px 40px 3px 0;
+  padding-left: 25px;
+}
+
+#tree--homeButton-inner {
+  display: flex;
+  margin-left: 25px;
 }
 
 .sapMPageHeader::before {
@@ -265,6 +270,7 @@ body {
 
 #info .infoPageHeader {
   font-size: 30px;
+  color: #333;
   padding: 25px;
 }
 
@@ -283,4 +289,65 @@ body {
 */
   border-radius: 15%;
   border: 6 black;
+}
+
+#stayInformedPage .sapMFlexBox {
+  min-height: 100px !important;
+  margin: auto;
+  margin-bottom: 0;
+  padding: 25px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 30px;
+  font-family: 'Roboto', sans-serif;
+}
+
+#stayInformedPage .sapMText {
+  font-family: 'Roboto', arial !important;
+}
+
+#stayInformedPage .sapMFlexItem {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+  font-family: 'Roboto', arial;
+}
+
+@media only screen and (min-width: 750px) {
+  #stayInformedPage .sapMFlexItem {
+    margin-right: 15% !important;
+    margin-left: 23% !important;
+  }
+}
+
+#stayInformedPage .infoPageHeader {
+  font-size: 30px;
+  text: #778899;
+  padding: 25px;
+}
+
+#stayInformedPage .importantInfo {
+  font-size: 20px;
+  padding-bottom: 7.5%;
+}
+
+#stayInformedPage .sapMFlexBox {
+  text-align: center;
+  margin: auto;
+  margin-top: 10%;
+  padding: 5%;
+}
+
+#stayInformedPage .sapMText {
+  margin-left: 25px;
+}
+
+#stayInformedPage .sapMFlexItem .sapMBtnBase {
+  width: 25%;
+  right: 35%;
+}
+
+#stayInformedPage #__text4,
+#__text7 {
+  color: #333;
+  font-size: 30px;
+  margin-top: 25px;
 }

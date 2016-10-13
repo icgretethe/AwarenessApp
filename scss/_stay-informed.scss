@@ -1,0 +1,65 @@
+@import 'globals';
+
+#stayInformedPage .sapMFlexBox {
+    min-height: 100px !important;
+    margin: auto;
+    margin-bottom: 0;
+    padding: 25px;
+    //margin-top: 20%;
+    font-family: 'Roboto', sans-serif;
+    font-size: 30px;
+    @media only screen and (min-width: $small-size) {
+      //margin-top: 50%;
+    }
+    font-family: 'Roboto', sans-serif;
+}
+
+#stayInformedPage .sapMText {
+  font-family: 'Roboto', arial !important;
+}
+
+#stayInformedPage .sapMFlexItem {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+  @media only screen and (min-width: $small-size) {
+    margin-right: 15% !important;
+    margin-left: 23% !important;
+  }
+  font-family: 'Roboto', arial;
+}
+
+#stayInformedPage .infoPageHeader {
+  font-size: 30px;
+  text: #778899;
+  padding: 25px;
+}
+
+#stayInformedPage .importantInfo {
+    font-size: 20px;
+    padding-bottom: 7.5%
+/*  
+    border: 3px solid #73AD21; 
+*/
+}
+
+#stayInformedPage .sapMFlexBox {
+    text-align: center;
+    margin: auto;
+    margin-top: 10%;
+    padding: 5%;
+}
+
+#stayInformedPage .sapMText {
+  margin-left: 25px;
+}
+
+#stayInformedPage .sapMFlexItem .sapMBtnBase {
+  width: 25%;
+  right: 35%;
+}
+
+#stayInformedPage #__text4, #__text7 {
+  color: #333;
+  font-size: 30px;
+  margin-top: 25px;
+}
