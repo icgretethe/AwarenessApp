@@ -5,7 +5,7 @@
         <!-- organize all text into a VBox -->
         <VBox class="infoBox">				 
             <Text class="infoPageHeader" text="Important Contacts"/>
-			<List id="list" class="importantContacts" press = "goHome"/>
+			<List id="list" class="importantContacts"/>
         </VBox>
     </content>
     </Page>
