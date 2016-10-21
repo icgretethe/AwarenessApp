@@ -1,5 +1,4 @@
 // when the back button is pressed, person returns to main page
-<uses-permission id="android.permission.CALL_PHONE" />
 sap.ui.controller("sps.controller.infoPage", {
 
 	onInit: function() {
