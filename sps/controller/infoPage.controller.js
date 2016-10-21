@@ -9,7 +9,7 @@ sap.ui.controller("sps.controller.infoPage", {
 			path: "/Contacts",
 			template: new sap.m.ObjectListItem({
 				type: "Active",
-				onhold: function() {
+				tap: function() {
 					sap.m.URLHelper.triggerTel("{person}")
 				},
 				attributes: [new sap.m.ObjectAttribute({
