@@ -18,77 +18,77 @@
     "Contacts": [
         {
 			"text":"911 Emergency Telephone Number",
-			"phone":"+911"
+			"phone":"911"
 		},
 		
 		{
 			"text":"618-650-3324 SIUE Police Department",
-			"phone":"tel:6186503324"
+			"phone":"6186503324"
 		},
 		
 		{
 			"text":"618-650-2842 SIUE Counseling Services",
-			"phone":"618-650-2842"
+			"phone":"6186502842"
 		},
 		
 		{
 			"text":"618-650-5664 SIUE Confidential Advisor for Sexual Assault Survivors – Lindsay Serrano",
-			"phone":"618-650-5664"
+			"phone":"6186505664"
 		},
 		
 		{
 			"text":"314-647-4357 Provident Counseling",
-			"phone":"314-647-4357"
+			"phone":"3146474357"
 		},
 		
 		{
 			"text":"618-877-0316 Chestnut Health",
-			"phone":"618-877-0316"
+			"phone":"6188770316"
 		},
 		
 		{
 			"text":"618-462-4331 Centerstone",
-			"phone":"618-462-4331"
+			"phone":"6184624331"
 		},
 		
 		{
 			"text":"618-798-3888 Gateway Regional Medical Center",
-			"phone":"618-798-3888"
+			"phone":"6187983888"
 		},
 		
 		{
 			"text":"618-397-0975 Call for Help Sexual Assault Victims Care Unit",
-			"phone":"618-397-0975"
+			"phone":"6183970975"
 		},
 		
 		{
 			"text":"1-800-273-TALK National Suicide Prevention Lifeline",
-			"phone":"1-800-273-TALK"
+			"phone":"18002738258"
 		},
 		
 		{
 			"text":"1-800-656-HOPE Sexual Assault Hotline",
-			"phone":"1-800-656-HOPE"
+			"phone":"18006564673"
 		},
 		
 		{
 			"text":"1-800-799-SAFE Domestic Violence Hotline",
-			"phone":"1-800-799-SAFE"
+			"phone":"18007997233"
 		},
 		
 		{
 			"text":"1-866-488-7386 Trevor Project Lifeline",
-			"phone":"1-866-488-7386"
+			"phone":"18664887386"
 		},
 		
 		{
 			"text":"1-877-565-8860 Trans Lifeline",
-			"phone":"1-877-565-8860"
+			"phone":"18775658860"
 		},
 		
 		{
 			"text":"1-866-356-6998 LGBTQ Partner Abuse & Sexual Assault Helpline",
-			"phone":"1-866-356-6998"
+			"phone":"18663566998"
 		}
     ]
 }
