@@ -13,7 +13,7 @@ sap.ui.controller("sps.controller.infoPage", {
 				/////////////////////////////////////////
 				//sap.m.URLHelper.triggerTel("{phone}")//
 				/////////////////////////////////////////
-				sap.m.URLHelper.triggerTel("*tel:6186505500");
+				sap.m.URLHelper.triggerTel("tel:6186505500");
 				},
 				attributes: [new sap.m.ObjectAttribute({
 				text: "{text}",
