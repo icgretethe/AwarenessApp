@@ -9,7 +9,6 @@
             <Button class="mainPageButton" text="Help Tree" press="goToTree"/>
             <Button class="mainPageButton" text="Important Contacts and Locations" press="toInfoPage"/>
             <Button class="mainPageButton" text="Cougar Care Report" press="toCareReport"/>
-            <Button class="mainPageButton" text="Educate Yourself" press ="toEducateYourselfPage"/>
             <Button class="mainPageButton" text="Stay Informed" press ="toStayInformedPage"/>
         </VBox>
     </content>

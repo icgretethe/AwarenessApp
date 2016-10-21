@@ -8,8 +8,13 @@ sap.ui.controller("sps.controller.infoPage", {
 		contactList.bindItems({
 			path: "/Contacts",
 			template: new sap.m.ObjectListItem({
+				type: "Active",
+				onhold: function() {
+					sap.m.URLHelper.triggerTel("{person}")
+				},
 				attributes: [new sap.m.ObjectAttribute({
-				text: "{}"})]
+				text: "{text}",
+				})]
 			})
 		})
 	},
