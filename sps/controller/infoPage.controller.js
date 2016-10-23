@@ -9,15 +9,20 @@ sap.ui.controller("sps.controller.infoPage", {
 			path: "/Contacts",
 			template: new sap.m.ObjectListItem({
 				type: "Active",
-				tap: function() {
-				/////////////////////////////////////////
-				//sap.m.URLHelper.triggerTel("{phone}")//
-				/////////////////////////////////////////
-				sap.m.URLHelper.triggerTel("tel:6186505500");
-				},
+                title: "{text}",
+                //number: "{phone}",
+                tap: function() {
+                    this.setVisible(true);
+                    var t = "tel:" + this.getTitle().split(" ")[0];
+                    console.log(t);
+                    sap.m.URLHelper.triggerTel(t);
+                }
+                /*
 				attributes: [new sap.m.ObjectAttribute({
-				text: "{text}",
+				text: "{text}"
 				})]
+                */
+
 			})
 		})
 	},
