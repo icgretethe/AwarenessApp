@@ -7,7 +7,7 @@ sap.ui.controller("sps.controller.stayInformedPage", {
 	toFirstWebPage: function() {
 		sap.m.URLHelper.redirect("http://www.sprc.org/", false);
 	},
-	//Go to Web Page 2
+	// Go to Web Page 2
 	toSecondWebPage: function() {
 		sap.m.URLHelper.redirect("http://www.suicidepreventionlifeline.org/", false);
 	}
