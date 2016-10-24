@@ -1,29 +1,30 @@
 sap.ui.controller("sps.controller.treePage", {
     onInit: function() {
+        // use this to keep track of which question/response should be displayed
         questionCounter = 1;
         // create JSON model to manage data
-        //var oModel = new sap.ui.model.json.JSONModel();
         oModel = new sap.ui.model.json.JSONModel();
         // load data from JSOM file, for use by the model
         oModel.loadData("sps/data.json");
         sap.ui.getCore().setModel(oModel);
 
-        // set the text property of the Question to "q1", when page is first loaded
+        // set the text property of the Question to the first question,
+        // when page is first loaded
         this.getView().byId("quest").bindText("/Questions/0");
 
-		//SetYes and No Buttons to Visible and Home button hidden
+		// set "Yes" and "No" Buttons to Visible and Home button hidden
 		this.getView().byId("yButton").setVisible(true);
 		this.getView().byId("nButton").setVisible(true);
 		this.getView().byId("homeButton").setVisible(false);
     },
 
-    // return to main page
+    // Return to main page
     goHome: function() {
 		questionCounter = 1;
         app.back();
 
-		//This returns the question back to question 1, and also
-		//Sets the yes/no buttons to visible and Home button to hidden
+		// This returns the question back to question 1, and also
+		// Sets the yes/no buttons to visible and Home button to hidden
 		this.getView().byId("quest").bindText("/Questions/0");
 		this.getView().byId("yButton").setVisible(true);
 		this.getView().byId("nButton").setVisible(true);
@@ -58,12 +59,12 @@ sap.ui.controller("sps.controller.treePage", {
                 break;
         }
     },
-	/*This can potentially replace the response Page. It isn't finished but
-	  if we are only displaying an answering, it might be easier and cleaner.
-	  */
+    /**
+     * Display a response based on the question number
+     */
     respondNo : function() {
 
-		//Set Yes/No Buttons to Hidden and Home button Visible
+		// set Yes/No Buttons to Hidden and Home button Visible
 		this.getView().byId("yButton").setVisible(false);
 		this.getView().byId("nButton").setVisible(false);
 		this.getView().byId("homeButton").setVisible(true);
@@ -82,7 +83,7 @@ sap.ui.controller("sps.controller.treePage", {
                 break;
             default:
                 /* This response is displayed if there are no more responses
-                 * are available. This should not be reachable*/
+                 * are available. This should not be reachable */
                 this.getView().byId("quest").bindText("/Error/1");
                 break;
         }

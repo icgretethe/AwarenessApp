@@ -1,47 +1,33 @@
 // when the back button is pressed, person returns to main page
 sap.ui.controller("sps.controller.infoPage", {
 	onInit: function() {
+        /**
+         * This function converts phone number letters
+         * into numbers, e.g., 123-555-TALK becomes 123-555-8255
+         */
         var alphaToInt = function (num) {
             var tempNum = num;
             // ABC -> 2
-            tempNum = tempNum.replace("A", "2");
-            tempNum = tempNum.replace("B", "2");
-            tempNum = tempNum.replace("C", "2");
+            tempNum = tempNum.replace(/A|B|C/gi, "2");
             // DEF -> 3
-            tempNum = tempNum.replace("D", "3");
-            tempNum = tempNum.replace("E", "3");
-            tempNum = tempNum.replace("F", "3");
+            tempNum = tempNum.replace(/D|E|F/gi, "3");
             // GHI -> 4
-            tempNum = tempNum.replace("G", "4");
-            tempNum = tempNum.replace("H", "4");
-            tempNum = tempNum.replace("I", "4");
+            tempNum = tempNum.replace(/G|H|I/gi, "4");
             // JKL -> 5
-            tempNum = tempNum.replace("J", "5");
-            tempNum = tempNum.replace("K", "5");
-            tempNum = tempNum.replace("L", "5");
+            tempNum = tempNum.replace(/J|K|L/gi, "5");
             // MNO -> 6
-            tempNum = tempNum.replace("M", "6");
-            tempNum = tempNum.replace("N", "6");
-            tempNum = tempNum.replace("O", "6");
+            tempNum = tempNum.replace(/M|N|O/gi, "6");
             // PQRS -> 7
-            tempNum = tempNum.replace("P", "7");
-            tempNum = tempNum.replace("Q", "7");
-            tempNum = tempNum.replace("R", "7");
-            tempNum = tempNum.replace("S", "7");
+            tempNum = tempNum.replace(/P|Q|R|S/gi, "7");
             // TUV -> 8
-            tempNum = tempNum.replace("T", "8");
-            tempNum = tempNum.replace("U", "8");
-            tempNum = tempNum.replace("V", "8");
+            tempNum = tempNum.replace(/T|U|V/gi, "8");
             // WXYZ -> 9
-            tempNum = tempNum.replace("W", "9");
-            tempNum = tempNum.replace("X", "9");
-            tempNum = tempNum.replace("Y", "9");
-            tempNum = tempNum.replace("Z", "9");
+            tempNum = tempNum.replace(/W|X|Y|Z/gi, "9");
 
             return tempNum;
         };
 		// create JSON model to manage data
-		//JSON model was created in treePage, edit future
+		// JSON model was created in treePage, edit future
 		var contactList = this.getView().byId("list");
 		contactList.bindItems({
 			path: "/Contacts",
@@ -54,14 +40,9 @@ sap.ui.controller("sps.controller.infoPage", {
                     console.log("Phone Number: " + temp);
                     var tel = "tel:" + alphaToInt(temp);
                     console.log("Telephone: " + tel);
+                    // open phone app
                     sap.m.URLHelper.triggerTel(tel);
                 }
-                /*
-				attributes: [new sap.m.ObjectAttribute({
-				text: "{text}"
-				})]
-                */
-
 			})
 		})
 	},
