@@ -344,9 +344,16 @@ body {
   right: 35%;
 }
 
-#stayInformedPage #__text4,
-#__text7 {
+@media only screen and (max-width: 750px) {
+  #stayInformedPage .sapMFlexItem .sapMBtnBase {
+    width: 55%;
+    right: 0;
+  }
+}
+
+#stayInformedPage #__text3,
+#__text4 {
   color: #333;
-  font-size: 30px;
+  font-size: 22px;
   margin-top: 25px;
 }
