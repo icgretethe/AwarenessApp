@@ -1,6 +1,6 @@
 @import 'globals';
 
-#stayInformedPage .sapMFlexBox {
+#stayInformed .sapMFlexBox {
     min-height: 100px !important;
     margin: auto;
     margin-bottom: 0;
@@ -14,11 +14,11 @@
     font-family: 'Roboto', sans-serif;
 }
 
-#stayInformedPage .sapMText {
+#stayInformed .sapMText {
   font-family: 'Roboto', arial !important;
 }
 
-#stayInformedPage .sapMFlexItem {
+#stayInformed .sapMFlexItem {
   margin-right: 0 !important;
   margin-left: 0 !important;
   @media only screen and (min-width: $small-size) {
@@ -28,13 +28,13 @@
   font-family: 'Roboto', arial;
 }
 
-#stayInformedPage .infoPageHeader {
+#stayInformed .infoPageHeader {
   font-size: 30px;
   text: #778899;
   padding: 25px;
 }
 
-#stayInformedPage .importantInfo {
+#stayInformed .importantInfo {
     font-size: 20px;
     padding-bottom: 7.5%
 /*  
@@ -42,18 +42,18 @@
 */
 }
 
-#stayInformedPage .sapMFlexBox {
+#stayInformed .sapMFlexBox {
     text-align: center;
     margin: auto;
-    margin-top: 10%;
+    margin-top: 15%;
     padding: 5%;
 }
 
-#stayInformedPage .sapMText {
+#stayInformed .sapMText {
   margin-left: 25px;
 }
 
-#stayInformedPage .sapMFlexItem .sapMBtnBase {
+#stayInformed .sapMFlexItem .sapMBtnBase {
   width: 25%;
   right: 35%;
   @media only screen and (max-width: $small-size) {
@@ -62,7 +62,7 @@
   }
 }
 
-#stayInformedPage #__text3, #__text4 {
+#stayInformed #__text3, #__text4 {
   color: #333;
   font-size: 22px;
   margin-top: 25px;
