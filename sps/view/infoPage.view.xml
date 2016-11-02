@@ -1,6 +1,6 @@
 <core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
     controllerName="sps.controller.infoPage" xmlns:html="http://www.w3.org/1999/xhtml">
-    <Page title="Helpful Resources" showNavButton="true" navButtonPress="goHome">
+    <Page title="Helpful Resources" showHeader="false">
     <content>
         <!-- organize all text into a VBox -->
         <VBox class="infoBox">				 

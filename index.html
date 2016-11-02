@@ -26,13 +26,24 @@
             // keep track of the current question
             var questionCounter = 1;
 
+            // the backdata that updates based on page navigation before pushed into history
+            var backData = {
+                id: "main",  // for updating action function
+                viewName: "sps.view.mainPage", //for updating viewname maybe?
+                action: this.id + "Page" // MOST IMPORTANT FUNCTION
+            }
+
+            // this checks what the history has in it and calls the page function of the new state
+            window.onpopstate = function(event) {
+                app.to(mainPage);
+            }
             // initialize app
             var app = new sap.m.App();
             // define app pages
             var mainPage = sap.ui.view({id:"main", viewName:"sps.view.mainPage", type:sap.ui.core.mvc.ViewType.XML});
             var treePage = sap.ui.view({id:"tree", viewName:"sps.view.treePage", type:sap.ui.core.mvc.ViewType.XML});
             var infoPage = sap.ui.view({id:"info", viewName:"sps.view.infoPage", type:sap.ui.core.mvc.ViewType.XML});
-			var stayInformedPage = sap.ui.view({id:"stayInformedPage", viewName:"sps.view.stayInformedPage", type:sap.ui.core.mvc.ViewType.XML});
+			var stayInformedPage = sap.ui.view({id:"stayInformed", viewName:"sps.view.stayInformedPage", type:sap.ui.core.mvc.ViewType.XML});
 
             //add pages to app
             app.addPage(mainPage);
@@ -42,6 +53,18 @@
             // responsePage was removed
             //add app to page
             app.placeAt("content");
+
+            updateBackData(mainPage);
+            console.log(backData.id);
+            console.log(backData.viewName);
+            console.log(backData.action);
+
+            function updateBackData(page) {
+                backData.id = page.sId;
+                backData.viewName = page.sViewName;
+                history.pushState(backData, "NA");
+              }
+
         </script>
     </head>
     <body class="sapUiBody" role="application">
