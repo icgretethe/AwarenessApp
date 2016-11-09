@@ -78,14 +78,14 @@ body {
 
 #tree .QABox {
   margin: auto;
-  margin-top: 10px;
+  margin-top: 25%;
   padding: 10px;
   border-radius: 4px;
 }
 
 @media only screen and (min-width: 750px) {
   #tree .QABox {
-    margin-top: 10%;
+    margin-top: 15%;
     margin-left: 25% !important;
     text-align: center;
     margin: auto;
@@ -298,6 +298,12 @@ body {
   font-family: 'Roboto', sans-serif;
   font-size: 30px;
   font-family: 'Roboto', sans-serif;
+}
+
+@media only screen and (min-width: 750px) {
+  #stayInformed .sapMFlexBox {
+    margin-top: 15%;
+  }
 }
 
 #stayInformed .sapMText {
