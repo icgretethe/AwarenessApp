@@ -5,11 +5,11 @@
     margin: auto;
     margin-bottom: 0;
     padding: 25px;
-    //margin-top: 20%;
+    margin-top: 20%;
     font-family: 'Roboto', sans-serif;
     font-size: 30px;
     @media only screen and (min-width: $small-size) {
-      //margin-top: 50%;
+      margin-top: 15%;
     }
     font-family: 'Roboto', sans-serif;
 }
@@ -66,4 +66,10 @@
   color: #333;
   font-size: 22px;
   margin-top: 25px;
+}
+
+#stayInformed #__text2 {
+  @media only screen and (max-width: $small-size) {
+    margin-left: 25%;
+  }
 }
