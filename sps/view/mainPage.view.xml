@@ -7,8 +7,9 @@
             <!-- the text should probably not be hard-coded, but that can be fixed later -->
             <Text class="menuHeader"/>
             <Button class="mainPageButton" text="Help Tree" press="goToTree"/>
-            <Button class="mainPageButton" text="Important Contacts and Locations" press="toInfoPage"/>
+            <Button class="mainPageButton" text="Important Contacts" press="toInfoPage"/>
             <Button class="mainPageButton" text="Cougar Care Report" press="toCareReport"/>
+            <Button class="mainPageButton" text="SIUE Counseling Services" press ="toEducateYourselfPage"/>
             <Button class="mainPageButton" text="Stay Informed" press ="toStayInformedPage"/>
         </VBox>
     </content>

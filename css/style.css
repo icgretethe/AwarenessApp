@@ -269,6 +269,7 @@ body {
 
 #info .infoPageHeader {
   font-size: 30px;
+  font-weight: bold;
   color: #333;
   padding: 25px;
 }
@@ -363,6 +364,11 @@ body {
   color: #333;
   font-size: 22px;
   margin-top: 25px;
+}
+
+#stayInformed #__text2 {
+  font-weight: bold;
+  font-size: 22px;
 }
 
 @media only screen and (max-width: 750px) {

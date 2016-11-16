@@ -24,7 +24,7 @@ sap.ui.controller("sps.controller.mainPage", {
   },
 	//Go To Educate yourself Page
 	toEducateYourselfPage: function() {
-		app.to(educateYourselfPage);
+		sap.m.URLHelper.redirect("https://www.siue.edu/counseling/Resources_Suicide.shtml", false);
     updateBackData(treePage);
 	},
 	// Go to the Stay Informed Age
