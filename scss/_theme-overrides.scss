@@ -1,20 +1,32 @@
 @import 'globals';
 
+
+// OVERRIDES BUTTON BEHAVIOR
+
 .sapMPageHeader::before {
   border-top: 0.25rem solid $logo-blue !important;
 }
 
+
+// OVERRIDES DEFAULT BACKGROUND COLOR
+
 .sapMGlobalBackgroundColor, .sapUiGlobalBackgroundColor {
   background-color: none !important;
-  background-image: linear-gradient(45deg, $light-blue, white) !important; 
+  background-image: linear-gradient($purple-gradient-1, $purple-gradient-2) !important;
   background-repeat: no-repeat !important;
 }
+
+
+// OVERRIDES DEFAULT BACKGROUND IMAGE
 
 .sapUiGlobalBackgroundImage {
   background-image: url(../resources/images/icareBackground.svg) !important;
   background-size: 100% !important;
   background-repeat: no-repeat !important;
 }
+
+
+// OVERRIDES DEFAULT BORDERS ON BUTTONS
 
 .sapMBtn:focus .sapMBtnFocusDiv {
   border: none !important;
