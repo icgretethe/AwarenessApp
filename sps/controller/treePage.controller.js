@@ -17,7 +17,6 @@ sap.ui.controller("sps.controller.treePage", {
 		this.getView().byId("nButton").setVisible(true);
 		this.getView().byId("homeButton").setVisible(false);
     },
-
     // Return to main page
     goHome: function() {
 		questionCounter = 1;

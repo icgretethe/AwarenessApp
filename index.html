@@ -36,6 +36,8 @@
             // this checks what the history has in it and calls the page function of the new state
             window.onpopstate = function(event) {
                 app.backToPage(mainPage);
+                treePage.getController().goHome()
+
             }
             // initialize app
             var app = new sap.m.App();
