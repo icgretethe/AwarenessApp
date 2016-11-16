@@ -35,7 +35,7 @@
 
             // this checks what the history has in it and calls the page function of the new state
             window.onpopstate = function(event) {
-                app.to(mainPage);
+                app.backToPage(mainPage);
             }
             // initialize app
             var app = new sap.m.App();
@@ -53,12 +53,9 @@
             // responsePage was removed
             //add app to page
             app.placeAt("content");
-
             updateBackData(mainPage);
-            console.log(backData.id);
-            console.log(backData.viewName);
-            console.log(backData.action);
 
+            // THIS PUSHES THE BACK DATA INTO THE STACK FOR THE BROWSER
             function updateBackData(page) {
                 backData.id = page.sId;
                 backData.viewName = page.sViewName;

@@ -6,28 +6,30 @@ sap.ui.controller("sps.controller.mainPage", {
    */
   // Go to the Decision Tree Page
   goToTree: function() {
-      updateBackData(treePage);
-      console.log(backData.id);
-      console.log(backData.viewName);
-      console.log(backData.action);
+      //console.log(backData.id);
+      //console.log(backData.viewName);
+      //console.log(backData.action);
       app.to(treePage);
+      updateBackData(treePage);
   },
   // Go to Info Page
   toInfoPage: function() {
-      updateBackData(infoPage);
       app.to(infoPage);
+      updateBackData(treePage);
   },
   // leave the app and go to the Patient Care Report
   toCareReport: function() {
       sap.m.URLHelper.redirect("https://publicdocs.maxient.com/reportingform.php?SIUEdwardsville&layout_id=2", false);
+      updateBackData(treePage);
   },
 	//Go To Educate yourself Page
 	toEducateYourselfPage: function() {
 		app.to(educateYourselfPage);
+    updateBackData(treePage);
 	},
 	// Go to the Stay Informed Age
 	toStayInformedPage: function() {
-    updateBackData(stayInformedPage);
 		app.to(stayInformedPage);
+    updateBackData(treePage);
 	}
 });
