@@ -21,9 +21,14 @@
 #stayInformed .sapMFlexItem {
   margin-right: 0 !important;
   margin-left: 0 !important;
+  margin-top: 0;
+  margin-bottom: 0;
   @media only screen and (min-width: $small-size) {
     margin-right: 15% !important;
     margin-left: 23% !important;
+  }
+  @media only screen and (max-width: $small-size) {
+      background: white;
   }
   font-family: 'Roboto', arial;
 }
@@ -62,10 +67,18 @@
   }
 }
 
+#stayInformed .sapMFlexItem:nth-child(2) {
+  margin-top: 30px;
+}
+
+#stayInformed .sapMFlexItem:nth-child(1) {
+  background: none;
+}
+
 #stayInformed #__text3, #__text4 {
   color: #333;
   font-size: 22px;
-  margin-top: 25px;
+  margin-top: 20px;
 }
 
 #stayInformed #__text2 {

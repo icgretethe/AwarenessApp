@@ -315,6 +315,8 @@ body {
 #stayInformed .sapMFlexItem {
   margin-right: 0 !important;
   margin-left: 0 !important;
+  margin-top: 0;
+  margin-bottom: 0;
   font-family: 'Roboto', arial;
 }
 
@@ -322,6 +324,12 @@ body {
   #stayInformed .sapMFlexItem {
     margin-right: 15% !important;
     margin-left: 23% !important;
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  #stayInformed .sapMFlexItem {
+    background: white;
   }
 }
 
@@ -359,11 +367,19 @@ body {
   }
 }
 
+#stayInformed .sapMFlexItem:nth-child(2) {
+  margin-top: 30px;
+}
+
+#stayInformed .sapMFlexItem:nth-child(1) {
+  background: none;
+}
+
 #stayInformed #__text3,
 #__text4 {
   color: #333;
   font-size: 22px;
-  margin-top: 25px;
+  margin-top: 20px;
 }
 
 #stayInformed #__text2 {
