@@ -89,6 +89,11 @@
 		{
 			"text":"LGBTQ Partner Abuse & Sexual Assault Helpline",
 			"phone":"1-866-356-6998"
-		}
+		},
+
+        {
+            "text": "Crisis Text Line: Text START to 741741",
+            "phone":""
+        }
     ]
 }

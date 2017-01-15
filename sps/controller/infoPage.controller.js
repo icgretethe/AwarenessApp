@@ -25,6 +25,7 @@ sap.ui.controller("sps.controller.infoPage", {
             tempNum = tempNum.replace(/W|X|Y|Z/gi, "9");
 
             return tempNum;
+
         };
 		// create JSON model to manage data
 		// JSON model was created in treePage, edit future
@@ -37,11 +38,14 @@ sap.ui.controller("sps.controller.infoPage", {
                 number: "{phone}",
                 tap: function() {
                     var temp = this.getNumber();
-                    console.log("Phone Number: " + temp);
-                    var tel = "tel:" + alphaToInt(temp);
-                    console.log("Telephone: " + tel);
-                    // open phone app
-                    sap.m.URLHelper.triggerTel(tel);
+                    temp = temp.replace('/ /g', '')
+                    if(temp !== "") {
+                        console.log("Phone Number: " + temp);
+                        var tel = "tel:" + alphaToInt(temp);
+                        console.log("Telephone: " + tel);
+                        // open phone app
+                        sap.m.URLHelper.triggerTel(tel);
+                    }
                 }
 			})
 		})
