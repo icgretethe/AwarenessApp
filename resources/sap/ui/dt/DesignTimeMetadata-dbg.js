@@ -7,9 +7,11 @@
 // Provides class sap.ui.dt.DesignTimeMetadata.
 sap.ui.define([
 	'jquery.sap.global',
-	'sap/ui/base/ManagedObject'
+	'sap/ui/base/ManagedObject',
+	'sap/ui/dt/ElementUtil',
+	'sap/ui/dt/DOMUtil'
 ],
-function(jQuery, ManagedObject) {
+function(jQuery, ManagedObject, ElementUtil, DOMUtil) {
 	"use strict";
 
 
@@ -24,7 +26,7 @@ function(jQuery, ManagedObject) {
 	 * @extends sap.ui.core.ManagedObject
 	 *
 	 * @author SAP SE
-	 * @version 1.38.7
+	 * @version 1.42.8
 	 *
 	 * @constructor
 	 * @private
@@ -116,6 +118,47 @@ function(jQuery, ManagedObject) {
 	 */
 	DesignTimeMetadata.prototype.getDomRef = function() {
 		return this.getData().domRef;
+	};
+
+	DesignTimeMetadata.prototype.getAssociatedDomRef = function(sAction, oElement) {
+
+		var oElementDomRef = ElementUtil.getDomRef(oElement);
+		var vAssociatedDomRef = this.getAction(sAction, oElement).domRef;
+
+		if (oElementDomRef) {
+			if (typeof vAssociatedDomRef === "string") {
+				return DOMUtil.getDomRefForCSSSelector(oElementDomRef, vAssociatedDomRef).get(0);
+			} else if (typeof vAssociatedDomRef === "function") {
+				return vAssociatedDomRef.call(this, oElement);
+			}
+		} else {
+			if (typeof vAssociatedDomRef === "function") {
+				return vAssociatedDomRef.call(this, oElement);
+			}
+		}
+	};
+
+	/**
+	 * Returns action sAction part of designTime metadata (object or changeType string)
+	 * @param  {string} sAction action name
+	 * @param  {object} oElement element instance
+	 * @return {map} part of designTimeMetada, which describes sAction in a map format
+	 * @public
+	 */
+	DesignTimeMetadata.prototype.getAction = function(sAction, oElement) {
+		var mData = this.getData();
+		if (mData.actions && mData.actions[sAction]) {
+			var vAction = mData.actions[sAction];
+			if (typeof (vAction) === "function" ) {
+				vAction = vAction.call(null, oElement);
+			}
+
+			if (typeof (vAction) === "string" ) {
+				return { changeType : vAction };
+			} else {
+				return vAction;
+			}
+		}
 	};
 
 	return DesignTimeMetadata;

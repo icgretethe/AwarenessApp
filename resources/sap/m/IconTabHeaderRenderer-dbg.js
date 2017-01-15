@@ -38,8 +38,11 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/IconPool'],
 		var aItems = oControl.getItems(),
 			bTextOnly = oControl._checkTextOnly(aItems),
 			bNoText = oControl._checkNoText(aItems),
-			bInLine = oControl._checkInLine(aItems),
-			oResourceBundle = sap.ui.getCore().getLibraryResourceBundle('sap.m');
+			bInLine = oControl._checkInLine(aItems) || oControl.isInlineMode(),
+			oResourceBundle = sap.ui.getCore().getLibraryResourceBundle('sap.m'),
+			bShowOverflowSelectList = oControl.getShowOverflowSelectList(),
+			bIsHorizontalDesign,
+			bHasHorizontalDesign;
 
 		var oIconTabBar = oControl.getParent();
 		var bUpperCase = oIconTabBar && oIconTabBar instanceof sap.m.IconTabBar && oIconTabBar.getUpperCase();
@@ -47,6 +50,12 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/IconPool'],
 		// render wrapper div
 		oRM.write("<div role='tablist' ");
 		oRM.addClass("sapMITH");
+		oRM.addClass("sapContrastPlus");
+
+		if (bShowOverflowSelectList) {
+			oRM.addClass("sapMITHOverflowList");
+		}
+
 		if (oControl._scrollable) {
 			oRM.addClass("sapMITBScrollable");
 			if (oControl._bPreviousScrollForward) {
@@ -153,9 +162,14 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/IconPool'],
 
 			if (oItem instanceof sap.m.IconTabFilter) {
 
+				bIsHorizontalDesign = oItem.getDesign() === sap.m.IconTabFilterDesign.Horizontal;
+				if (bIsHorizontalDesign) {
+					bHasHorizontalDesign = true;
+				}
+
 				if (oItem.getDesign() === sap.m.IconTabFilterDesign.Vertical) {
 					oRM.addClass("sapMITBVertical");
-				} else if (oItem.getDesign() === sap.m.IconTabFilterDesign.Horizontal) {
+				} else if (bIsHorizontalDesign) {
 					oRM.addClass("sapMITBHorizontal");
 				}
 
@@ -170,6 +184,8 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/IconPool'],
 					oRM.addClass("sapMITBDisabled");
 					oRM.writeAttribute("aria-disabled", true);
 				}
+
+				oRM.writeAttribute("aria-selected", false);
 
 				var sTooltip = oItem.getTooltip_AsString();
 				if (sTooltip) {
@@ -195,7 +211,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/IconPool'],
 						oRM.write("<span class='sapMITBFilterNoIcon'> </span>");
 					}
 
-					if (oItem.getDesign() === sap.m.IconTabFilterDesign.Horizontal && !oItem.getShowAll()) {
+					if (bIsHorizontalDesign && !oItem.getShowAll()) {
 						oRM.write("</div>");
 						oRM.write("<div class='sapMITBHorizontalWrapper'>");
 					}
@@ -205,7 +221,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/IconPool'],
 					oRM.writeClasses();
 					oRM.write(">");
 
-					if ((oItem.getCount() === "") && (oItem.getDesign() === sap.m.IconTabFilterDesign.Horizontal)) {
+					if ((oItem.getCount() === "") && bIsHorizontalDesign) {
 						//this is needed for the correct placement of the text in the horizontal design
 						oRM.write("&nbsp;");
 					} else {
@@ -226,14 +242,19 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/IconPool'],
 					if (bUpperCase) {
 						oRM.addClass("sapMITBTextUpperCase");
 					}
+
+					if (bInLine) {
+						oRM.writeAttribute("dir", "ltr");
+					}
+
 					oRM.writeClasses();
 					oRM.write(">");
-					oRM.writeEscaped(oItem.getText());
+					oRM.writeEscaped(oControl._getDisplayText(oItem));
 					oRM.write("</div>");
 				}
 
 				if (!bInLine) {
-					if (oItem.getDesign() === sap.m.IconTabFilterDesign.Horizontal) {
+					if (bIsHorizontalDesign) {
 						oRM.write("</div>");
 					}
 				}
@@ -263,9 +284,24 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/IconPool'],
 		// render right scroll arrow
 		oRM.renderControl(oControl._getScrollingArrow("right"));
 
+		// render overflow button
+		if (bShowOverflowSelectList) {
+			var oOverflowButton = oControl._getOverflowButton();
+			if (bInLine) {
+				oOverflowButton.addStyleClass('sapMBtnInline');
+			} else if (bTextOnly) {
+				oOverflowButton.addStyleClass('sapMBtnTextOnly');
+			} else if (bNoText || bHasHorizontalDesign) {
+				oOverflowButton.addStyleClass('sapMBtnNoText');
+			}
+
+			oRM.renderControl(oOverflowButton);
+		}
+
 		// end wrapper div
 		oRM.write("</div>");
 	};
+
 
 	return IconTabHeaderRenderer;
 

@@ -7,9 +7,10 @@
 // Provides class sap.ui.dt.ElementDesignTimeMetadata.
 sap.ui.define([
 	'jquery.sap.global',
-	'sap/ui/dt/DesignTimeMetadata'
+	'sap/ui/dt/DesignTimeMetadata',
+	'sap/ui/dt/AggregationDesignTimeMetadata'
 ],
-function(jQuery, DesignTimeMetadata) {
+function(jQuery, DesignTimeMetadata, AggregationDesignTimeMetadata) {
 	"use strict";
 
 
@@ -24,7 +25,7 @@ function(jQuery, DesignTimeMetadata) {
 	 * @extends sap.ui.core.DesignTimeMetadata
 	 *
 	 * @author SAP SE
-	 * @version 1.38.7
+	 * @version 1.42.8
 	 *
 	 * @constructor
 	 * @private
@@ -81,7 +82,7 @@ function(jQuery, DesignTimeMetadata) {
 	};
 
 	/**
-	 * Returns the DT metadata for an aggregation name
+	 * Returns the plain DT metadata for an aggregation name
 	 * @param {string} sAggregationName an aggregation name
 	 * @return {object} returns the DT metadata for an aggregation with a given name
 	 * @public
@@ -91,12 +92,39 @@ function(jQuery, DesignTimeMetadata) {
 	};
 
 	/**
+	 * Creates a aggregation DT metadata class for an aggregation,
+	 * ensure to destroy it if it is no longer needed, otherwise you get memory leak.
+	 * @param {string} sAggregationName an aggregation name
+	 * @return {sap.ui.dt.AggregationDesignTimeMetadata} returns the aggregation DT metadata for an aggregation with a given name
+	 * @public
+	 */
+	ElementDesignTimeMetadata.prototype.createAggregationDesignTimeMetadata  = function(sAggregationName) {
+		var oData =  this.getAggregation(sAggregationName);
+		return new AggregationDesignTimeMetadata({data : oData});
+	};
+
+	/**
 	 * Returns the DT metadata for all aggregations
 	 * @return {map} returns the DT metadata for all aggregations
 	 * @public
 	 */
 	ElementDesignTimeMetadata.prototype.getAggregations = function() {
 		return this.getData().aggregations;
+	};
+
+	/**
+	 * Returns the relevant container of an element
+	 * This is usually the getParent or the value from a function in DTMetadata
+	 * @param {object} oElement the element for which the relevant container has to be evaluated
+	 * @return {object} returns the relevant container
+	 * @public
+	 */
+	ElementDesignTimeMetadata.prototype.getRelevantContainer = function(oElement) {
+		var fnGetRelevantContainer = this.getData().getRelevantContainer;
+		if (!fnGetRelevantContainer || typeof fnGetRelevantContainer !== "function") {
+			return oElement.getParent();
+		}
+		return fnGetRelevantContainer(oElement);
 	};
 
 	return ElementDesignTimeMetadata;

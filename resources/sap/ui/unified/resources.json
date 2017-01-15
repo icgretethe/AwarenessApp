@@ -70,6 +70,10 @@
       ]
     },
     {
+      "name": "CalendarAppointmentVisualization.type",
+      "designtime": true
+    },
+    {
       "name": "CalendarDateInterval-dbg.js",
       "module": "sap/ui/unified/CalendarDateInterval.js",
       "isDebug": true,
@@ -526,7 +530,8 @@
       "required": [
         "jquery.sap.global.js",
         "sap/ui/core/Control.js",
-        "sap/ui/unified/library.js"
+        "sap/ui/unified/library.js",
+        "sap/ui/core/LabelEnablement.js"
       ]
     },
     {
@@ -539,7 +544,8 @@
       "required": [
         "jquery.sap.global.js",
         "sap/ui/core/Control.js",
-        "sap/ui/unified/library.js"
+        "sap/ui/unified/library.js",
+        "sap/ui/core/LabelEnablement.js"
       ]
     },
     {
@@ -1511,6 +1517,12 @@
       "name": "messagebundle_lv.properties",
       "module": "sap/ui/unified/messagebundle_lv.properties",
       "locale": "lv",
+      "raw": "messagebundle.properties"
+    },
+    {
+      "name": "messagebundle_ms.properties",
+      "module": "sap/ui/unified/messagebundle_ms.properties",
+      "locale": "ms",
       "raw": "messagebundle.properties"
     },
     {

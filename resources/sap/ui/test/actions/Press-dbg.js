@@ -25,6 +25,7 @@ sap.ui.define(['jquery.sap.global', './Action'], function ($, Action) {
 	 *     <li>sap.m.List - More Button</li>
 	 *     <li>sap.m.Table - More Button</li>
 	 *     <li>sap.m.StandardTile</li>
+	 *     <li>sap.ui.comp.smartfilterbar.SmartFilterBar - Go Button</li>
 	 * </ul>
 	 *
 	 * @class
@@ -42,7 +43,7 @@ sap.ui.define(['jquery.sap.global', './Action'], function ($, Action) {
 
 		init: function () {
 			Action.prototype.init.apply(this, arguments);
-			this.controlAdapters = jQuery.extend(this.controlAdapters, Press.controlAdapters);
+			this.controlAdapters = $.extend(this.controlAdapters, Press.controlAdapters);
 		},
 
 		/**
@@ -54,53 +55,20 @@ sap.ui.define(['jquery.sap.global', './Action'], function ($, Action) {
 		 * @public
 		 */
 		executeOn : function (oControl) {
-			var $ActionDomRef = this.$(oControl);
+			var $ActionDomRef = this.$(oControl),
+				oActionDomRef = $ActionDomRef[0];
 
 			if ($ActionDomRef.length) {
-				$ActionDomRef.focus();
 				$.sap.log.debug("Pressed the control " + oControl, this._sLogPrefix);
+				this._tryOrSimulateFocusin($ActionDomRef, oControl);
 
 				// the missing events like saptouchstart and tap will be fired by the event simulation
-				this._triggerEvent("mousedown", $ActionDomRef);
-				this.getUtils().triggerEvent("selectstart", $ActionDomRef);
-				this._triggerEvent("mouseup", $ActionDomRef);
-				this._triggerEvent("click", $ActionDomRef);
+				this._createAndDispatchMouseEvent("mousedown", oActionDomRef);
+				this.getUtils().triggerEvent("selectstart", oActionDomRef);
+				this._createAndDispatchMouseEvent("mouseup", oActionDomRef);
+				this._createAndDispatchMouseEvent("click", oActionDomRef);
+				this._simulateFocusout(oActionDomRef);
 			}
-		},
-
-		/**
-		 * Create the correct event object for a mouse event
-		 * @param sName the mouse event name
-		 * @param $ActionDomRef the domref on that the event is going to be triggered
-		 * @private
-		 */
-		_triggerEvent : function (sName,$ActionDomRef) {
-			var oFocusDomRef = $ActionDomRef[0],
-				x = $ActionDomRef.offset().x,
-				y = $ActionDomRef.offset().y;
-
-			// See file jquery.sap.events.js for some insights to the magic
-			var oMouseEventObject = {
-				identifier: 1,
-				// Well offset should be fine here
-				pageX: x,
-				pageY: y,
-				// ignore scrolled down stuff in OPA
-				clientX: x,
-				clientY: y,
-				// Assume stuff is over the whole screen
-				screenX: x,
-				screenY: y,
-				target: $ActionDomRef[0],
-				radiusX: 1,
-				radiusY: 1,
-				rotationAngle: 0,
-				// left mouse button
-				button: 0,
-				// include the type so jQuery.event.fixHooks can copy properties properly
-				type: sName
-			};
-			this.getUtils().triggerEvent(sName, oFocusDomRef, oMouseEventObject);
 		}
 	});
 
@@ -153,6 +121,7 @@ sap.ui.define(['jquery.sap.global', './Action'], function ($, Action) {
 	Press.controlAdapters["sap.m.Page"] = "navButton";
 	Press.controlAdapters["sap.m.semantic.FullscreenPage"] = "navButton";
 	Press.controlAdapters["sap.m.semantic.DetailPage"] = "navButton";
+	Press.controlAdapters["sap.ui.comp.smartfilterbar.SmartFilterBar"] = "btnGo";
 
 	return Press;
 

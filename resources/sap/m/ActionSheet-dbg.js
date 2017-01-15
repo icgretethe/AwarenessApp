@@ -22,7 +22,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './library', 'sap/u
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.38.7
+	 * @version 1.42.8
 	 *
 	 * @constructor
 	 * @public
@@ -460,13 +460,26 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './library', 'sap/u
 	};
 
 	ActionSheet.prototype._addAriaHiddenTexts = function(oButton) {
+		var sButtonId = oButton.getId(),
+			oInvisibleText;
 		if (sap.ui.getCore().getConfiguration().getAccessibility()) {
-			var oInvisibleText = new InvisibleText();
+			oInvisibleText = new InvisibleText(sButtonId + "-actionSheetHiddenText");
 
 			this.addAggregation("_invisibleAriaTexts", oInvisibleText, false);
-			oButton.addAriaLabelledBy(oButton.getId());
 			oButton.addAriaLabelledBy(oInvisibleText.getId());
 		}
+	};
+
+	ActionSheet.prototype._removeAriaHiddenTexts = function(oButton) {
+		oButton.getAriaLabelledBy().forEach(function(sId) {
+			var oControl = sap.ui.getCore().byId(sId);
+
+			if (oControl instanceof InvisibleText && sId.indexOf("actionSheetHiddenText") > -1) {
+				this.removeAggregation("_invisibleAriaTexts", oControl, false);
+				oButton.removeAriaLabelledBy(oControl);
+				oControl.destroy();
+			}
+		}, this);
 	};
 
 	/* Override API methods */
@@ -490,6 +503,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './library', 'sap/u
 		var result = this.removeAggregation("buttons",oButton, false);
 		if (result) {
 			result.detachPress(this._buttonSelected, this);
+			this._removeAriaHiddenTexts(result);
 		}
 		return result;
 	};
@@ -499,6 +513,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './library', 'sap/u
 			that = this;
 		jQuery.each(result, function(i, oButton) {
 			oButton.detachPress(that._buttonSelected, that);
+			that._removeAriaHiddenTexts(oButton);
 		});
 		return result;
 	};
@@ -512,7 +527,7 @@ sap.ui.define(['jquery.sap.global', './Dialog', './Popover', './library', 'sap/u
 		var oClone = Control.prototype.clone.apply(this, arguments);
 
 		for ( var j = 0; j < aButtons.length; j++) {
-			aButtons[i].attachPress(this._buttonSelected, this);
+			aButtons[j].attachPress(this._buttonSelected, this);
 		}
 
 		return oClone;

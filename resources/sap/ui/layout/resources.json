@@ -37,7 +37,8 @@
       "module": "sap/ui/layout/BlockLayout.js",
       "isDebug": true,
       "required": [
-        "sap/ui/core/Control.js"
+        "sap/ui/core/Control.js",
+        "sap/ui/layout/library.js"
       ]
     },
     {
@@ -48,7 +49,8 @@
       "name": "BlockLayout.js",
       "module": "sap/ui/layout/BlockLayout.js",
       "required": [
-        "sap/ui/core/Control.js"
+        "sap/ui/core/Control.js",
+        "sap/ui/layout/library.js"
       ]
     },
     {
@@ -56,7 +58,8 @@
       "module": "sap/ui/layout/BlockLayoutCell.js",
       "isDebug": true,
       "required": [
-        "sap/ui/core/Control.js"
+        "sap/ui/core/Control.js",
+        "sap/ui/layout/library.js"
       ]
     },
     {
@@ -67,7 +70,8 @@
       "name": "BlockLayoutCell.js",
       "module": "sap/ui/layout/BlockLayoutCell.js",
       "required": [
-        "sap/ui/core/Control.js"
+        "sap/ui/core/Control.js",
+        "sap/ui/layout/library.js"
       ]
     },
     {
@@ -75,24 +79,32 @@
       "module": "sap/ui/layout/BlockLayoutCellRenderer.js",
       "isDebug": true,
       "required": [
-        "jquery.sap.global.js"
+        "jquery.sap.global.js",
+        "sap/ui/layout/library.js"
       ]
     },
     {
       "name": "BlockLayoutCellRenderer.js",
       "module": "sap/ui/layout/BlockLayoutCellRenderer.js",
       "required": [
-        "jquery.sap.global.js"
+        "jquery.sap.global.js",
+        "sap/ui/layout/library.js"
       ]
     },
     {
       "name": "BlockLayoutRenderer-dbg.js",
       "module": "sap/ui/layout/BlockLayoutRenderer.js",
-      "isDebug": true
+      "isDebug": true,
+      "required": [
+        "sap/ui/layout/library.js"
+      ]
     },
     {
       "name": "BlockLayoutRenderer.js",
-      "module": "sap/ui/layout/BlockLayoutRenderer.js"
+      "module": "sap/ui/layout/BlockLayoutRenderer.js",
+      "required": [
+        "sap/ui/layout/library.js"
+      ]
     },
     {
       "name": "BlockLayoutRow-dbg.js",
@@ -100,7 +112,8 @@
       "isDebug": true,
       "required": [
         "jquery.sap.global.js",
-        "sap/ui/core/Control.js"
+        "sap/ui/core/Control.js",
+        "sap/ui/layout/library.js"
       ]
     },
     {
@@ -112,7 +125,8 @@
       "module": "sap/ui/layout/BlockLayoutRow.js",
       "required": [
         "jquery.sap.global.js",
-        "sap/ui/core/Control.js"
+        "sap/ui/core/Control.js",
+        "sap/ui/layout/library.js"
       ]
     },
     {
@@ -120,15 +134,21 @@
       "module": "sap/ui/layout/BlockLayoutRowRenderer.js",
       "isDebug": true,
       "required": [
-        "jquery.sap.global.js"
+        "jquery.sap.global.js",
+        "sap/ui/layout/library.js"
       ]
     },
     {
       "name": "BlockLayoutRowRenderer.js",
       "module": "sap/ui/layout/BlockLayoutRowRenderer.js",
       "required": [
-        "jquery.sap.global.js"
+        "jquery.sap.global.js",
+        "sap/ui/layout/library.js"
       ]
+    },
+    {
+      "name": "BlockRowColorSets.type",
+      "designtime": true
     },
     {
       "name": "DynamicSideContent-dbg.js",
@@ -173,7 +193,8 @@
         "sap/ui/core/Control.js",
         "sap/ui/core/EnabledPropagator.js",
         "sap/ui/core/ResizeHandler.js",
-        "sap/ui/layout/library.js"
+        "sap/ui/layout/library.js",
+        "sap/ui/core/delegate/ScrollEnablement.js"
       ]
     },
     {
@@ -188,7 +209,8 @@
         "sap/ui/core/Control.js",
         "sap/ui/core/EnabledPropagator.js",
         "sap/ui/core/ResizeHandler.js",
-        "sap/ui/layout/library.js"
+        "sap/ui/layout/library.js",
+        "sap/ui/core/delegate/ScrollEnablement.js"
       ]
     },
     {
@@ -637,6 +659,101 @@
       "module": "sap/ui/layout/VerticalLayoutRenderer.js",
       "required": [
         "jquery.sap.global.js"
+      ]
+    },
+    {
+      "name": "changeHandler/AddSimpleFormGroup-dbg.js",
+      "module": "sap/ui/layout/changeHandler/AddSimpleFormGroup.js",
+      "isDebug": true,
+      "required": [
+        "sap/ui/fl/Utils.js",
+        "jquery.sap.global.js",
+        "sap/ui/fl/changeHandler/Base.js",
+        "sap/ui/fl/changeHandler/JsControlTreeModifier.js"
+      ]
+    },
+    {
+      "name": "changeHandler/AddSimpleFormGroup.js",
+      "module": "sap/ui/layout/changeHandler/AddSimpleFormGroup.js",
+      "required": [
+        "sap/ui/fl/Utils.js",
+        "jquery.sap.global.js",
+        "sap/ui/fl/changeHandler/Base.js",
+        "sap/ui/fl/changeHandler/JsControlTreeModifier.js"
+      ]
+    },
+    {
+      "name": "changeHandler/HideSimpleForm-dbg.js",
+      "module": "sap/ui/layout/changeHandler/HideSimpleForm.js",
+      "isDebug": true,
+      "required": [
+        "jquery.sap.global.js",
+        "sap/ui/fl/changeHandler/JsControlTreeModifier.js"
+      ]
+    },
+    {
+      "name": "changeHandler/HideSimpleForm.js",
+      "module": "sap/ui/layout/changeHandler/HideSimpleForm.js",
+      "required": [
+        "jquery.sap.global.js",
+        "sap/ui/fl/changeHandler/JsControlTreeModifier.js"
+      ]
+    },
+    {
+      "name": "changeHandler/MoveSimpleForm-dbg.js",
+      "module": "sap/ui/layout/changeHandler/MoveSimpleForm.js",
+      "isDebug": true,
+      "required": [
+        "jquery.sap.global.js",
+        "sap/ui/fl/changeHandler/JsControlTreeModifier.js",
+        "sap/ui/fl/Utils.js"
+      ]
+    },
+    {
+      "name": "changeHandler/MoveSimpleForm.js",
+      "module": "sap/ui/layout/changeHandler/MoveSimpleForm.js",
+      "required": [
+        "jquery.sap.global.js",
+        "sap/ui/fl/changeHandler/JsControlTreeModifier.js",
+        "sap/ui/fl/Utils.js"
+      ]
+    },
+    {
+      "name": "changeHandler/RenameSimpleForm-dbg.js",
+      "module": "sap/ui/layout/changeHandler/RenameSimpleForm.js",
+      "isDebug": true,
+      "required": [
+        "jquery.sap.global.js",
+        "sap/ui/fl/changeHandler/Base.js",
+        "sap/ui/fl/changeHandler/JsControlTreeModifier.js",
+        "sap/ui/fl/Utils.js"
+      ]
+    },
+    {
+      "name": "changeHandler/RenameSimpleForm.js",
+      "module": "sap/ui/layout/changeHandler/RenameSimpleForm.js",
+      "required": [
+        "jquery.sap.global.js",
+        "sap/ui/fl/changeHandler/Base.js",
+        "sap/ui/fl/changeHandler/JsControlTreeModifier.js",
+        "sap/ui/fl/Utils.js"
+      ]
+    },
+    {
+      "name": "changeHandler/UnhideSimpleForm-dbg.js",
+      "module": "sap/ui/layout/changeHandler/UnhideSimpleForm.js",
+      "isDebug": true,
+      "required": [
+        "jquery.sap.global.js",
+        "sap/ui/fl/changeHandler/JsControlTreeModifier.js"
+      ]
+    },
+    {
+      "name": "changeHandler/UnhideSimpleForm.js",
+      "module": "sap/ui/layout/changeHandler/UnhideSimpleForm.js",
+      "required": [
+        "jquery.sap.global.js",
+        "sap/ui/fl/changeHandler/JsControlTreeModifier.js"
       ]
     },
     {
@@ -1255,6 +1372,12 @@
       "name": "messagebundle_lv.properties",
       "module": "sap/ui/layout/messagebundle_lv.properties",
       "locale": "lv",
+      "raw": "messagebundle.properties"
+    },
+    {
+      "name": "messagebundle_ms.properties",
+      "module": "sap/ui/layout/messagebundle_ms.properties",
+      "locale": "ms",
       "raw": "messagebundle.properties"
     },
     {

@@ -17,7 +17,7 @@ sap.ui.define([
 	 * @param {object} [mSettings] initial settings for the new control
 	 * @class The P13nGroupPanel control is used to define group-specific settings for table personalization.
 	 * @extends sap.m.P13nPanel
-	 * @version 1.38.7
+	 * @version 1.42.8
 	 * @constructor
 	 * @public
 	 * @alias sap.m.P13nGroupPanel
@@ -232,6 +232,7 @@ sap.ui.define([
 	 */
 	P13nGroupPanel.prototype.init = function() {
 		this.setType(sap.m.P13nPanelType.group);
+		this.setTitle(sap.ui.getCore().getLibraryResourceBundle("sap.m").getText("GROUPPANEL_TITLE"));
 
 		sap.ui.getCore().loadLibrary("sap.ui.layout");
 		jQuery.sap.require("sap.ui.layout.Grid");
@@ -300,6 +301,10 @@ sap.ui.define([
 					tooltip: fGetValueOfProperty("tooltip", oContext, oItem_)
 				});
 			});
+			aKeyFields.splice(0, 0, {
+				key: null,
+				text: sap.ui.getCore().getLibraryResourceBundle("sap.m").getText("P13NDIALOG_SELECTION_NONE")
+			});
 			this._oGroupPanel.setKeyFields(aKeyFields);
 
 			var aConditions = [];
@@ -352,7 +357,7 @@ sap.ui.define([
 	};
 
 	P13nGroupPanel.prototype.addGroupItem = function(oGroupItem) {
-		this.addAggregation("groupItems", oGroupItem);
+		this.addAggregation("groupItems", oGroupItem, true);
 
 		if (!this._bIgnoreBindCalls) {
 			this._bUpdateRequired = true;
@@ -360,7 +365,7 @@ sap.ui.define([
 	};
 
 	P13nGroupPanel.prototype.insertGroupItem = function(oGroupItem, iIndex) {
-		this.insertAggregation("groupItems", oGroupItem, iIndex);
+		this.insertAggregation("groupItems", oGroupItem, iIndex, true);
 
 		if (!this._bIgnoreBindCalls) {
 			this._bUpdateRequired = true;
@@ -378,7 +383,7 @@ sap.ui.define([
 	};
 
 	P13nGroupPanel.prototype.removeGroupItem = function(oGroupItem) {
-		oGroupItem = this.removeAggregation("groupItems", oGroupItem);
+		oGroupItem = this.removeAggregation("groupItems", oGroupItem, true);
 
 		if (!this._bIgnoreBindCalls) {
 			this._bUpdateRequired = true;
@@ -388,7 +393,7 @@ sap.ui.define([
 	};
 
 	P13nGroupPanel.prototype.removeAllGroupItems = function() {
-		var aGroupItems = this.removeAllAggregation("groupItems");
+		var aGroupItems = this.removeAllAggregation("groupItems", true);
 
 		if (!this._bIgnoreBindCalls) {
 			this._bUpdateRequired = true;

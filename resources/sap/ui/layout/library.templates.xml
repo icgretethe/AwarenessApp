@@ -7,7 +7,7 @@
 	busyIndicatorDelay: 1000, // int
 	visible: true, // boolean
 	fieldGroupIds: [], // string[], since 1.31
-	background: sap.ui.layout.BlockBackgroundType.Default, // sap.ui.layout.BlockBackgroundType
+	background: sap.ui.layout.BlockBackgroundType.Default, // sap.ui.layout.BlockBackgroundType, since 1.42
 	tooltip: undefined, // sap.ui.core.TooltipBase
 	customData: [], // sap.ui.core.CustomData
 	dependents: [], // sap.ui.core.Control, since 1.19
@@ -76,10 +76,12 @@
 	visible: true, // boolean
 	fieldGroupIds: [], // string[], since 1.31
 	scrollable: false, // boolean
+	rowColorSet: undefined, // sap.ui.layout.BlockRowColorSets, since 1.42
 	tooltip: undefined, // sap.ui.core.TooltipBase
 	customData: [], // sap.ui.core.CustomData
 	dependents: [], // sap.ui.core.Control, since 1.19
 	content: [], // sap.ui.layout.BlockLayoutCell
+	accentCells: [], // sap.ui.layout.BlockLayoutCell, since 1.42
 	validateFieldGroup: [function (oEvent) {
 		var ${control} = oEvent.getSource();
 	}, this]
@@ -92,6 +94,8 @@
 	visible="true"
 	fieldGroupIds=""
 	scrollable="false"
+	rowColorSet=""
+	accentCells=""
 	validateFieldGroup="">
 		<tooltip></tooltip> <!-- sap.ui.core.TooltipBase -->
 		<dependents></dependents> <!-- sap.ui.core.Control, since 1.19 -->

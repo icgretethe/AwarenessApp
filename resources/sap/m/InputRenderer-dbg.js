@@ -53,6 +53,11 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', './InputBaseRenderer
 	 */
 	InputRenderer.writeInnerAttributes = function(oRm, oControl) {
 		oRm.writeAttribute("type", oControl.getType().toLowerCase());
+		if (oControl.getType() == sap.m.InputType.Number && sap.ui.getCore().getConfiguration().getRTL()) {
+			oRm.writeAttribute("dir", "ltr");
+			oRm.addStyle("text-align", "right");
+		}
+
 		if ((!oControl.getEnabled() && oControl.getType() == "Password")
 				|| (oControl.getShowSuggestion() && oControl._bUseDialog)
 				|| (oControl.getValueHelpOnly() && oControl.getEnabled() && oControl.getEditable() && oControl.getShowValueHelp())) {
@@ -170,6 +175,17 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/Renderer', './InputBaseRenderer
 
 		return sAriaDescribedBy;
 
+	};
+
+	/**
+	 * Returns aria accessibility role for the control.
+	 * Hook for the subclasses.
+	 *
+	 * @param {sap.ui.core.Control} oControl an object representation of the control
+	 * @returns {String}
+	 */
+	InputRenderer.getAriaRole = function(oControl) {
+		return "";
 	};
 
 	InputRenderer.getAccessibilityState = function(oControl) {

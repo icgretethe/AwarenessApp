@@ -38,20 +38,14 @@ sap.ui.define(['jquery.sap.global'],
 			}
 
 			rm.writeAttribute("tabindex", "-1");
-			rm.writeAccessibilityState(oControl, {
-				role: "dialog"
-			});
 
-			if (oControl.getShowHeader() && oControl._getAnyHeader()) {
-				rm.writeAccessibilityState(oControl, {
-					labelledby: oControl._getAnyHeader().getId()
-				});
-			}
+			// ARIA
+			rm.writeAccessibilityState(oControl, oControl._getAccessibilityOptions());
 
 			rm.write(">");
 
 			if (oControl.getResizable()) {
-				rm.write('<div class="sapMPopoverResizeHandle"></div>');
+				rm.writeIcon("sap-icon://resize-corner", ["sapMPopoverResizeHandle"], { "title" : ""});
 			}
 
 			this.renderContent(rm, oControl);

@@ -186,11 +186,31 @@ sap.ui.define(['jquery.sap.global', './FlexBoxCssPropertyMap'],
 			}
 		}
 
-		// Finally, write property value to control using either the renderer or element directly
+		// Finally, write property value to control using either the render manager or the element directly
 		if (oRm) {
-			oRm.addStyle(sPropertyPrefix + sProperty, sValuePrefix + sValue);
+			if (sValue === 0 || sValue) {
+				oRm.addStyle(sPropertyPrefix + sProperty, sValuePrefix + sValue);
+			}
 		} else {
-			oLayoutData.$().css(sPropertyPrefix + sProperty, sValuePrefix + sValue);
+			// Set the property on the wrapper or the control root itself
+			if (oLayoutData.$().length) {	// Does the layout data have a DOM representation?
+				// jQuery removes 'null' styles
+				if (sValue !== 0 && !sValue) {
+					oLayoutData.$().css(sPropertyPrefix + sProperty, null);
+				} else {
+					oLayoutData.$().css(sPropertyPrefix + sProperty, sValuePrefix + sValue);
+				}
+			} else {
+				// Get control root for bare item
+				if (oLayoutData.getParent()) {
+					// jQuery removes 'null' styles
+					if (sValue !== 0 && !sValue) {
+						oLayoutData.getParent().$().css(sPropertyPrefix + sProperty, null);
+					} else {
+						oLayoutData.getParent().$().css(sPropertyPrefix + sProperty, sValuePrefix + sValue);
+					}
+				}
+			}
 		}
 	};
 

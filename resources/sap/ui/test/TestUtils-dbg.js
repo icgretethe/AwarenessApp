@@ -13,8 +13,10 @@ sap.ui.define('sap/ui/test/TestUtils', ['jquery.sap.global', 'sap/ui/core/Core']
 
 	var rBatch = /\/\$batch($|\?)/,
 		mMessageForPath = {}, // a cache for files, see useFakeServer
+		sMimeHeaders = "\r\nContent-Type: application/http\r\n"
+			+ "Content-Transfer-Encoding: binary\r\n\r\nHTTP/1.1 ",
 		sRealOData = jQuery.sap.getUriParameters().get("realOData"),
-		rRequestLine = /^GET (\S+) HTTP\/1\.1$/,
+		rRequestLine = /^(GET|DELETE) (\S+) HTTP\/1\.1$/,
 		bProxy = sRealOData === "true" || sRealOData === "proxy",
 		bRealOData = bProxy || sRealOData === "direct",
 		TestUtils;
@@ -128,19 +130,28 @@ sap.ui.define('sap/ui/test/TestUtils', ['jquery.sap.global', 'sap/ui/core/Core']
 		},
 
 		/**
-		 * Activates a sinon fake server in the given sandbox. The fake server responds only to
-		 * those GET requests given in the fixture. It is automatically restored when the sandbox
-		 * is restored.
+		 * Activates a sinon fake server in the given sandbox. The fake server responds to those
+		 * GET requests given in the fixture, POST requests with a path ending on "/$batch" and all
+		 * DELETE requests regardless of the path. It is automatically restored when the sandbox is
+		 * restored.
 		 *
 		 * The function uses <a href="http://sinonjs.org/docs/">Sinon.js</a> and expects that it
 		 * has been loaded.
 		 *
+		 * The requests ending on "/$batch" are handled automatically. They are expected to be
+		 * multipart-mime requests where each part is a GET or DELETE request. The response has a
+		 * multipart-mime message containing responses to these inner requests. If an inner request
+		 * is not a DELETE with any URL, a GET and its URL is not found in the fixture, or its
+		 * message is not JSON, it is responded with an error code. The batch itself is always
+		 * responded with code 200.
+		 *
+		 * DELETE requests are always responded with code 204 ("No Data").
+		 *
 		 * @param {object} oSandbox
 		 *   a Sinon sandbox as created using <code>sinon.sandbox.create()</code>
 		 * @param {string} sBase
-		 *   The base path for <code>source</code> values in the fixture. The path must be relative
-		 *   to the <code>test</code> folder of the <code>sap.ui.core</code> project, typically it
-		 *   should start with "sap". It must not end with '/'.
+		 *   The base path for <code>source</code> values in the fixture. The path must be in the
+		 *   project's test folder, typically it should start with "sap".
 		 *   Example: <code>"sap/ui/core/qunit/model"</code>
 		 * @param {map} mFixture
 		 *   The fixture. Each key represents a URL to respond to. The value is an object that may
@@ -152,54 +163,64 @@ sap.ui.define('sap/ui/test/TestUtils', ['jquery.sap.global', 'sap/ui/core/Core']
 		 *   <li>{string} <code>source</code>: The path of a file relative to <code>sBase</code> to
 		 *     be used for the response message. It will be read synchronously in advance. In this
 		 *     case the header <code>Content-Type</code> is determined from the source name's
-		 *     extension.
+		 *     extension. This has precedence over <code>message</code>.
 		 *   </ul>
-		 *   Requests ending on "/$batch" are handled differently. They are expected to be multipart
-		 *   mime requests where each part is a GET request. The fixture value is an object in
-		 *   which the key is a request URL and the value is an object as described above.
-		 *
-		 *   Each multipart request in the batch is responded separately. If the URL is not found
-		 *   in the fixture, it is responded with a 404. The batch itself is always responded with a
-		 *   200.
 		 */
 		useFakeServer : function (oSandbox, sBase, mFixture) {
 
-			function batch(mUrls, oRequest) {
+			/*
+			 * OData batch handler called directly from the Sinon fake server.
+			 */
+			function batch(sServiceBase, mUrls, oRequest) {
 				var sBody = oRequest.requestBody,
 					sBoundary,
-					aRequestParts,
 					aResponseParts = [""];
 
 				sBoundary = firstLine(sBody);
-				aRequestParts = sBody.split(sBoundary).slice(1, -1);
-				aRequestParts.forEach(function (sRequestPart) {
+				sBody.split(sBoundary).slice(1, -1).forEach(function (sRequestPart) {
 					var aMatches,
 						sRequestLine,
-						sResponse;
+						aResponse,
+						sResponse = sMimeHeaders;
 
 					sRequestPart = sRequestPart.slice(sRequestPart.indexOf("\r\n\r\n") + 4);
 					sRequestLine = firstLine(sRequestPart);
 					aMatches = rRequestLine.exec(sRequestLine);
-					sResponse = aMatches && mUrls[aMatches[1]];
-					if (sResponse) {
-						aResponseParts.push("\r\n" + sResponse);
-						jQuery.sap.log.info(sRequestLine, null, "sap.ui.test.TestUtils");
+					aResponse = aMatches && mUrls[sServiceBase + aMatches[2]];
+					if (aMatches && aMatches[1] === "DELETE") {
+						sResponse += "204 No Data\r\n\r\n\r\n";
+					} else if (Array.isArray(aResponse)) {
+						try {
+							sResponse += "200 OK\r\nContent-Type: application/json;"
+								+ "IEEE754compatible=true;odata.metadata=minimal\r\n"
+								+ "ODataVersion: 4.0\r\n\r\n"
+								+ JSON.stringify(JSON.parse(aResponse[2]))
+								+ "\r\n";
+							jQuery.sap.log.info(sRequestLine, null, "sap.ui.test.TestUtils");
+						} catch (e) {
+							sResponse += error(sRequestLine, 500, "Internal Error", "Invalid JSON");
+						}
 					} else {
-						aResponseParts.push("\r\nContent-Type: application/http\r\n"
-							+ "content-transfer-encoding: binary\r\n\r\n"
-							+ "HTTP/1.1 404 Not Found\r\n"
-							+ "Content-Type: text/plain\r\n\r\nNo mock data found\r\n");
-						jQuery.sap.log.error(sRequestLine, "No mock data found",
-							"sap.ui.test.TestUtils");
+						sResponse += error(sRequestLine, 404, "Not Found", "No mock data found");
 					}
+					aResponseParts.push(sResponse);
 				});
 				aResponseParts.push("--\r\n");
 				oRequest.respond.apply(oRequest, [200, {
-					"Content-Type" : "multipart/mixed; boundary=" + sBoundary.slice(2)
+					"Content-Type" : "multipart/mixed;boundary=" + sBoundary.slice(2)
 				}, aResponseParts.join(sBoundary)]);
 			}
 
-			function buildResponses(mFixture, bIsBatch) {
+			function error(sRequestLine, iCode, sStatus, sMessage) {
+				jQuery.sap.log.error(sRequestLine, sMessage, "sap.ui.test.TestUtils");
+				return iCode + " " + sStatus + "\r\nContent-Type: text/plain\r\n\r\n"
+					+ sMessage + "\r\n";
+			}
+
+			/*
+			 * Builds the responses from mFixture. Reads and caches the sources.
+			 */
+			function buildResponses() {
 				var oHeaders,
 					sMessage,
 					oResponse,
@@ -209,25 +230,14 @@ sap.ui.define('sap/ui/test/TestUtils', ['jquery.sap.global', 'sap/ui/core/Core']
 				for (sUrl in mFixture) {
 					oResponse = mFixture[sUrl];
 					oHeaders = oResponse.headers || {};
-					if (!bIsBatch && rBatch.test(sUrl)) {
-						mUrls[sUrl] = batch.bind(null, buildResponses(oResponse, true));
+					if (oResponse.source) {
+						sMessage = readMessage(sBase + oResponse.source);
+						oHeaders["Content-Type"] = oHeaders["Content-Type"]
+							|| contentType(oResponse.source);
 					} else {
-						if (oResponse.source) {
-							sMessage = readMessage(sBase + oResponse.source);
-							if (bIsBatch) {
-								// In Git no files may contain CRLF, but multipart responses
-								// require it. So we simply add the CR again.
-								sMessage = sMessage.replace(/\n/g, "\r\n");
-							} else {
-								oHeaders["Content-Type"] = oHeaders["Content-Type"]
-									|| contentType(oResponse.source);
-							}
-						} else {
-							sMessage = oResponse.message || "";
-						}
-						mUrls[sUrl] = bIsBatch ? sMessage
-							: [oResponse.code || 200, oHeaders, sMessage];
+						sMessage = oResponse.message || "";
 					}
+					mUrls[sUrl] = [oResponse.code || 200, oHeaders, sMessage];
 				}
 				return mUrls;
 			}
@@ -237,7 +247,7 @@ sap.ui.define('sap/ui/test/TestUtils', ['jquery.sap.global', 'sap/ui/core/Core']
 					return "application/xml";
 				}
 				if (/\.json$/.test(sName)) {
-					return "application/json";
+					return "application/json;charset=UTF-8;IEEE754Compatible=true";
 				}
 				return "application/x-octet-stream";
 			}
@@ -246,6 +256,9 @@ sap.ui.define('sap/ui/test/TestUtils', ['jquery.sap.global', 'sap/ui/core/Core']
 				return sText.slice(0, sText.indexOf("\r\n"));
 			}
 
+			/*
+			 * Reads and caches the source for the given path.
+			 */
 			function readMessage(sPath) {
 				var sMessage = mMessageForPath[sPath],
 					oResult;
@@ -266,7 +279,7 @@ sap.ui.define('sap/ui/test/TestUtils', ['jquery.sap.global', 'sap/ui/core/Core']
 			function setupServer() {
 				var fnRestore,
 					oServer,
-					mUrls = buildResponses(mFixture, false),
+					mUrls = buildResponses(),
 					sUrl;
 
 				// set up the fake server
@@ -274,8 +287,9 @@ sap.ui.define('sap/ui/test/TestUtils', ['jquery.sap.global', 'sap/ui/core/Core']
 				oServer.autoRespond = true;
 
 				for (sUrl in mUrls) {
-					oServer.respondWith(sUrl, mUrls[sUrl]);
+					oServer.respondWith("GET", sUrl, mUrls[sUrl]);
 				}
+				oServer.respondWith("DELETE", /.*/, [204, {}, ""]);
 
 				// wrap oServer.restore to also clear the filter
 				fnRestore = oServer.restore;
@@ -283,20 +297,33 @@ sap.ui.define('sap/ui/test/TestUtils', ['jquery.sap.global', 'sap/ui/core/Core']
 					sinon.FakeXMLHttpRequest.filters = []; // no API to clear the filter
 					fnRestore.apply(this, arguments); // call the original restore
 				};
+
+				// Set up a filter so that other requests (e.g. from jQuery.sap.require) go through.
+				// This filter additionally recognizes DELETE and $batch requests and adds rules
+				// for them on-the-fly.
+				sinon.xhr.supportsCORS = jQuery.support.cors;
+				sinon.FakeXMLHttpRequest.useFilters = true;
+				sinon.FakeXMLHttpRequest.addFilter(function (sMethod, sUrl, bAsync) {
+					var fnBatch;
+
+					if (sMethod === "DELETE" || sUrl in mUrls) {
+						return false;
+					}
+					if (rBatch.test(sUrl)) {
+						fnBatch = batch.bind(null, sUrl.slice(0, sUrl.indexOf("/$batch") + 1),
+							mUrls);
+						mUrls[sUrl] = fnBatch;
+						oServer.respondWith("POST", sUrl, fnBatch);
+						return false;
+					}
+					return true; // do not fake if URL is unknown
+				});
 			}
 
-			//TODO remove this workaround in IE9 for
-			// https://github.com/cjohansen/Sinon.JS/commit/e8de34b5ec92b622ef76267a6dce12674fee6a73
-			sinon.xhr.supportsCORS = true;
-
-			sBase = "/" + window.location.pathname.split("/")[1] + "/test-resources/" + sBase + "/";
+			// ensure to always search the fake data in test-resources, remove cache buster token
+			sBase = jQuery.sap.getResourcePath(sBase)
+				.replace(/(^|\/)resources\/(~[-a-zA-Z0-9_.]*~\/)?/, "$1test-resources/") + "/";
 			setupServer();
-
-			// set up a filter so that other requests (e.g. from jQuery.sap.require) go through
-			sinon.FakeXMLHttpRequest.useFilters = true;
-			sinon.FakeXMLHttpRequest.addFilter(function (sMethod, sUrl, bAsync) {
-				return !(sUrl in mFixture); // do not fake if URL is unknown
-			});
 
 		},
 
@@ -379,8 +406,8 @@ sap.ui.define('sap/ui/test/TestUtils', ['jquery.sap.global', 'sap/ui/core/Core']
 		},
 
 		/**
-		 * Adjusts the given absolute path so that (in case of "?realOData=proxy") the request is
-		 * passed through the SimpleProxyServlet.
+		 * Adjusts the given absolute path so that (in case of "realOData=proxy" or
+		 * "realOData=true") the request is passed through the SimpleProxyServlet.
 		 *
 		 * @param {string} sAbsolutePath
 		 *   some absolute path
@@ -388,15 +415,17 @@ sap.ui.define('sap/ui/test/TestUtils', ['jquery.sap.global', 'sap/ui/core/Core']
 		 *   the absolute path transformed in a way that invokes a proxy
 		 */
 		proxy : function (sAbsolutePath) {
-			return bProxy
-				? "/" + window.location.pathname.split("/")[1] + "/proxy" + sAbsolutePath
+			return bProxy ?
+					jQuery.sap.getResourcePath("sap/ui").replace("resources/sap/ui", "proxy")
+						+ sAbsolutePath
 				: sAbsolutePath;
 		},
 
 		/**
 		 * Sets up the fake server for OData V4 responses unless real OData responses are requested.
 		 *
-		 * The behavior is controlled by the request property "realOData". There are two options:
+		 * The behavior is controlled by the request property "realOData". If the property has any
+		 * of the following values, the fake server is <i>not</i> set up.
 		 * <ul>
 		 * <li>"realOData=proxy" (or "realOData=true"): The test must be part of the UI5 Java
 		 *   Servlet. Set the system property "com.sap.ui5.proxy.REMOTE_LOCATION" to a server
@@ -409,30 +438,30 @@ sap.ui.define('sap/ui/test/TestUtils', ['jquery.sap.global', 'sap/ui/core/Core']
 		 * @param {object} oSandbox
 		 *   a Sinon sandbox as created using <code>sinon.sandbox.create()</code>
 		 * @param {map} mFixture
-		 *   the fixture for {@link sap.ui.test.TestUtils#.useFakeServer}. If the value for a URL
-		 *   contains <code>always:true</code>, this URL is faked even with <code>realOData</code>.
+		 *   the fixture for {@link sap.ui.test.TestUtils#.useFakeServer}.
 		 * @param {string} [sSourceBase="sap/ui/core/qunit/odata/v4/data"]
-		 *   The base path for <code>source</code> values in the fixture. The path must be relative
-		 *   to the <code>test</code> folder of the <code>sap.ui.core</code> project, typically it
-		 *   should start with "sap". It must not end with '/'.
-		 * @param {string} [sFilterBase=""]
+		 *   The base path for <code>source</code> values in the fixture. The path must be in the
+		 *   project's test folder, typically it should start with "sap".
+		 *   Example: <code>"sap/ui/core/qunit/model"</code>
+		 * @param {string} [sFilterBase="/"]
 		 *   A base path for the filter URLs. It is prepended to all keys in <code>mFixture</code>.
+		 *   It must end with '/'.
+		 *
+		 * @see #.isRealOData
+		 * @see #.proxy
 		 */
 		setupODataV4Server : function (oSandbox, mFixture, sSourceBase, sFilterBase) {
-			var mResultingFixture = {},
-				bStart = false;
+			var mResultingFixture = {};
 
-			sFilterBase = sFilterBase || "";
-			Object.keys(mFixture).forEach(function (sUrl) {
-				if (!bRealOData || mFixture[sUrl].always) {
-					mResultingFixture[sFilterBase + sUrl] = mFixture[sUrl];
-					bStart = true;
-				}
-			});
-			if (bStart) {
-				TestUtils.useFakeServer(oSandbox, sSourceBase || "sap/ui/core/qunit/odata/v4/data",
-					mResultingFixture);
+			if (bRealOData) {
+				return;
 			}
+			sFilterBase = sFilterBase || "/";
+			Object.keys(mFixture).forEach(function (sUrl) {
+				mResultingFixture[sFilterBase + sUrl] = mFixture[sUrl];
+			});
+			TestUtils.useFakeServer(oSandbox, sSourceBase || "sap/ui/core/qunit/odata/v4/data",
+				mResultingFixture);
 		}
 	};
 

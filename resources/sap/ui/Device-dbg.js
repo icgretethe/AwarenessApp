@@ -11,7 +11,7 @@
  * This API is independent from any other part of the UI5 framework. This allows it to be loaded beforehand, if it is needed, to create the UI5 bootstrap
  * dynamically depending on the capabilities of the browser or device.
  *
- * @version 1.38.7
+ * @version 1.42.8
  * @namespace
  * @name sap.ui.Device
  * @public
@@ -37,7 +37,7 @@ if (typeof window.sap.ui !== "object") {
 
 	//Skip initialization if API is already available
 	if (typeof window.sap.ui.Device === "object" || typeof window.sap.ui.Device === "function" ) {
-		var apiVersion = "1.38.7";
+		var apiVersion = "1.42.8";
 		window.sap.ui.Device._checkAPIVersion(apiVersion);
 		return;
 	}
@@ -95,7 +95,7 @@ if (typeof window.sap.ui !== "object") {
 
 	//Only used internal to make clear when Device API is loaded in wrong version
 	device._checkAPIVersion = function(sVersion){
-		var v = "1.38.7";
+		var v = "1.42.8";
 		if (v != sVersion) {
 			logger.log(WARNING, "Device API version differs: " + v + " <-> " + sVersion);
 		}
@@ -891,6 +891,11 @@ if (typeof window.sap.ui !== "object") {
 	}
 
 	device.support.pointer = !!window.PointerEvent;
+
+	// HOTFIX for Chrome 55+ since it newly introduced PointerEvents and touchevents aren't fired correctly.
+	if (device.browser.name == BROWSER.CHROME && device.browser.version >= 55) {
+		device.support.pointer = false;
+	}
 
 	device.support.matchmedia = !!window.matchMedia;
 	var m = device.support.matchmedia ? window.matchMedia("all and (max-width:0px)") : null; //IE10 doesn't like empty string as argument for matchMedia, FF returns null when running within an iframe with display:none
@@ -1807,23 +1812,19 @@ if (typeof window.sap.ui !== "object") {
 		((device.system.phone && device.os.version >= 7 && device.os.version < 7.1) || (device.system.tablet && device.os.version >= 7));
 
 	function isLandscape(bFromOrientationChange){
-		if (device.support.touch && device.support.orientation) {
+		if (device.support.touch && device.support.orientation && device.os.android) {
 			//if on screen keyboard is open and the call of this method is from orientation change listener, reverse the last value.
 			//this is because when keyboard opens on android device, the height can be less than the width even in portrait mode.
 			if (bKeyboardOpen && bFromOrientationChange) {
 				return !device.orientation.landscape;
 			}
-			//when keyboard opens, the last orientation change value will be retured.
-			if (bKeyboardOpen) {
+			if (bKeyboardOpen) { //when keyboard opens, the last orientation change value will be retured.
 				return device.orientation.landscape;
 			}
-			//otherwise compare the width and height of window
-		} else {
-			//most desktop browsers and windows phone/tablet which not support orientationchange
-			if (device.support.matchmedia && device.support.orientation) {
-				return !!window.matchMedia("(orientation: landscape)").matches;
-			}
+		} else if (device.support.matchmedia && device.support.orientation) { //most desktop browsers and windows phone/tablet which not support orientationchange
+			return !!window.matchMedia("(orientation: landscape)").matches;
 		}
+		//otherwise compare the width and height of window
 		var size = windowSize();
 		return size[0] > size[1];
 	}
@@ -1880,7 +1881,9 @@ if (typeof window.sap.ui !== "object") {
 	}
 
 	function handleMobileTimeout() {
-		if (bOrientationchange && bResize) {
+		// with ios split view, the browser fires only resize event and no orientationchange when changing the size of a split view
+		// therefore the following if needs to be adapted with additional check of iPad with version greater or equal 9 (splitview was introduced with iOS 9)
+		if (bResize && (bOrientationchange || (device.system.tablet && device.os.ios && device.os.version >= 9))) {
 			handleOrientationChange();
 			handleResizeChange();
 			bOrientationchange = false;

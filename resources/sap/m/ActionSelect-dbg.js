@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './Select', './library'],
 		 * @extends sap.m.Select
 		 *
 		 * @author SAP SE
-		 * @version 1.38.7
+		 * @version 1.42.8
 		 *
 		 * @constructor
 		 * @public
@@ -97,6 +97,8 @@ sap.ui.define(['jquery.sap.global', './Select', './library'],
 		/* =========================================================== */
 		/* API methods                                                 */
 		/* =========================================================== */
+
+		ActionSelect.prototype.createPickerCloseButton = function() {};
 
 		/* ----------------------------------------------------------- */
 		/* Public methods                                              */

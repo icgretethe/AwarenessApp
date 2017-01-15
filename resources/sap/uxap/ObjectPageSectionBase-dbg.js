@@ -86,11 +86,15 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Control", "./library"], functio
 		this._isHidden = false;
 
 		this._oParentObjectPageLayout = undefined; //store the parent objectPageLayout
+
+		this._bRtl = sap.ui.getCore().getConfiguration().getRTL();
 	};
 
 	ObjectPageSectionBase.prototype.onAfterRendering = function () {
 		if (this._getObjectPageLayout()) {
-			this._getObjectPageLayout()._adjustLayout();
+			this._getObjectPageLayout()._requestAdjustLayout().catch(function () {
+				jQuery.sap.log.debug("ObjectPageSectionBase :: cannot adjustLayout", this);
+			});
 			this._getObjectPageLayout()._setSectionsFocusValues();
 		}
 	};
@@ -182,14 +186,21 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Control", "./library"], functio
 	 * @private
 	 */
 	ObjectPageSectionBase.prototype._notifyObjectPageLayout = function () {
-		if (this.$().length && this._getObjectPageLayout()) {
+		if (this._getObjectPageLayout() && this._getObjectPageLayout().$().length){
 			this._getObjectPageLayout()._adjustLayoutAndUxRules();
 		}
 	};
 
 	// Generate proxies for aggregation mutators
 	["addAggregation", "insertAggregation", "removeAllAggregation", "removeAggregation", "destroyAggregation"].forEach(function (sMethod) {
-		ObjectPageSectionBase.prototype[sMethod] = function (sAggregationName, oObject, bSuppressInvalidate) {
+		ObjectPageSectionBase.prototype[sMethod] = function (sAggregationName, oObject, iIndex, bSuppressInvalidate) {
+
+			if (["addAggregation", "removeAggregation"].indexOf(sMethod) > -1) {
+				bSuppressInvalidate = iIndex; //shift argument
+			}
+			if (["removeAllAggregation", "destroyAggregation"].indexOf(sMethod) > -1) {
+				bSuppressInvalidate = oObject; //shift argument
+			}
 			var vResult = Control.prototype[sMethod].apply(this, arguments);
 
 			if (bSuppressInvalidate !== true){
@@ -235,7 +246,7 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Control", "./library"], functio
 		this._isHidden = bHide;
 		this.$().children(this._sContainerSelector).toggle(!bHide);
 		if (oObjectPage) {
-			oObjectPage._adjustLayout();
+			oObjectPage._requestAdjustLayout();
 		}
 		return this;
 	};
@@ -324,7 +335,10 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Control", "./library"], functio
 	/**
 	 * Handler for arrow right
 	 */
-	ObjectPageSectionBase.prototype.onsapright = ObjectPageSectionBase.prototype.onsapdown;
+	ObjectPageSectionBase.prototype.onsapright = function (oEvent) {
+		var sMethodName = this._bRtl ? "onsapup" : "onsapdown";
+		this[sMethodName](oEvent);
+	};
 
 	/**
 	 * Handler for arrow up
@@ -337,7 +351,10 @@ sap.ui.define(["jquery.sap.global", "sap/ui/core/Control", "./library"], functio
 	/**
 	 * Handler for arrow left
 	 */
-	ObjectPageSectionBase.prototype.onsapleft = ObjectPageSectionBase.prototype.onsapup;
+	ObjectPageSectionBase.prototype.onsapleft = function (oEvent) {
+		var sMethodName = this._bRtl ? "onsapdown" : "onsapup";
+		this[sMethodName](oEvent);
+	};
 
 	/**
 	 * Handler for HOME key

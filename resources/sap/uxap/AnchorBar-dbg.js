@@ -86,11 +86,13 @@ sap.ui.define([
 		this._oSectionInfo = {};    //keep scrolling info on sections
 		this._oScroller = null;
 
+		this._bRtl = sap.ui.getCore().getConfiguration().getRTL();
+
 		//are we on a rtl scenario?
 		//IE handles rtl in a transparent way (positions positives, scroll starts at the end)
 		//while firefox, safari and chrome have a special management (scroll at the beginning and negative positioning)
 		//therefore we will apply some specific actions only if are in rtl and not in IE.
-		this._bRtlScenario = sap.ui.getCore().getConfiguration().getRTL() && !Device.browser.msie;
+		this._bRtlScenario = this._bRtl && !Device.browser.msie;
 
 		//there are 2 different uses cases:
 		//case 1: on a real phone we don't need the scrolling anchorBar, just the hierarchicalSelect
@@ -458,7 +460,7 @@ sap.ui.define([
 
 			this.setAggregation('_select', new HierarchicalSelect({
 				width: "100%",
-				icon: "sap-icon://slim-arrow-down",
+				icon: "sap-icon://overflow",
 				change: jQuery.proxy(this._onSelectChange, this)
 			}));
 		}
@@ -754,7 +756,8 @@ sap.ui.define([
 	 * @private
 	 */
 	AnchorBar.prototype.onsapright = function (oEvent) {
-		this.onsapdown(oEvent);
+		var sMethodName = this._bRtl ? "onsapup" : "onsapdown";
+		this[sMethodName](oEvent);
 	};
 
 	/**
@@ -777,7 +780,8 @@ sap.ui.define([
 	 * @private
 	 */
 	AnchorBar.prototype.onsapleft = function (oEvent) {
-		this.onsapup(oEvent);
+		var sMethodName = this._bRtl ? "onsapdown" : "onsapup";
+		this[sMethodName](oEvent);
 	};
 
 	/**
@@ -945,9 +949,12 @@ sap.ui.define([
 	 * called for figuring out responsive scenarios
 	 */
 	AnchorBar.prototype.onAfterRendering = function () {
+		var oSelectedButton;
 		if (Toolbar.prototype.onAfterRendering) {
 			Toolbar.prototype.onAfterRendering.call(this);
 		}
+
+		oSelectedButton = sap.ui.getCore().byId(this.getSelectedButton());
 
 		this._sHierarchicalSelectMode = AnchorBar._hierarchicalSelectModes.Text;
 
@@ -960,8 +967,9 @@ sap.ui.define([
 		this.$().find(".sapUxAPAnchorBarScrollContainer").scroll(jQuery.proxy(this._onScroll, this));
 
 		//restore state from previous rendering
-		if (this.getSelectedButton()) {
-			this.setSelectedButton(this.getSelectedButton());
+		if (oSelectedButton) {
+			this.setSelectedButton(oSelectedButton);
+			this._setAnchorButtonsTabFocusValues(oSelectedButton);
 		}
 
 		//initial state

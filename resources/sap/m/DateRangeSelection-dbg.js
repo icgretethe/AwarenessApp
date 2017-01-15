@@ -5,8 +5,8 @@
  */
 
 // Provides control sap.m.DateRangeSelection.
-sap.ui.define(['jquery.sap.global', './DatePicker', './library'],
-	function(jQuery, DatePicker, library) {
+sap.ui.define(['jquery.sap.global', 'sap/ui/Device', './DatePicker', './library'],
+	function(jQuery, Device, DatePicker, library) {
 	"use strict";
 
 	/**
@@ -47,7 +47,7 @@ sap.ui.define(['jquery.sap.global', './DatePicker', './library'],
 	 * the <code>sap.ui.unified</code> library.
 	 *
 	 * @extends sap.m.DatePicker
-	 * @version 1.38.7
+	 * @version 1.42.8
 	 *
 	 * @constructor
 	 * @public
@@ -282,6 +282,7 @@ sap.ui.define(['jquery.sap.global', './DatePicker', './library'],
 	//that consisted of original primary sap.m.DateRangeSelection
 	DateRangeSelection.prototype.setFrom = function(oFrom) {
 		this.setDateValue(oFrom);
+		return this;
 	};
 
 	DateRangeSelection.prototype.getFrom = function() {
@@ -290,6 +291,7 @@ sap.ui.define(['jquery.sap.global', './DatePicker', './library'],
 
 	DateRangeSelection.prototype.setTo = function(oTo) {
 		this.setSecondDateValue(oTo);
+		return this;
 	};
 
 	DateRangeSelection.prototype.getTo = function() {
@@ -679,10 +681,6 @@ sap.ui.define(['jquery.sap.global', './DatePicker', './library'],
 				var oDate1Old = this.getDateValue();
 				var oDate2Old = this.getSecondDateValue();
 
-				this._oPopup.close();
-				this._bFocusNoPopup = true;
-				this.focus();
-
 				var sValue;
 				if (!jQuery.sap.equal(oDate1, oDate1Old) || !jQuery.sap.equal(oDate2, oDate2Old)) {
 					// compare Dates because value can be the same if only 2 digits for year
@@ -695,8 +693,10 @@ sap.ui.define(['jquery.sap.global', './DatePicker', './library'],
 
 					sValue = this.getValue();
 					_fireChange.call(this, true);
-					this._curpos = sValue.length;
-					this._$input.cursorPos(this._curpos);
+					if (!Device.support.touch && !jQuery.sap.simulateMobileOnDesktop) {
+						this._curpos = sValue.length;
+						this._$input.cursorPos(this._curpos);
+					}
 				}else if (!this._bValid){
 					// wrong input before open calendar
 					sValue = this._formatValue( oDate1, oDate2 );
@@ -709,10 +709,8 @@ sap.ui.define(['jquery.sap.global', './DatePicker', './library'],
 					}
 				}
 
-				//To prevent opening keyboard on mobile device after dates are selected
-				if (sap.ui.Device.browser.mobile) {
-					window.document.activeElement.blur();
-				}
+				// close popup and focus input after change event to allow application to reset value state or similar things
+				this._oPopup.close();
 			}
 		}
 	};

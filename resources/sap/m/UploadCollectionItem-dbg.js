@@ -5,8 +5,8 @@
  */
 
 // Provides control sap.m.UploadCollectionItem.
-sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element', 'sap/m/ObjectAttribute', 'sap/m/ObjectStatus', 'sap/ui/core/util/File'],
-	function(jQuery, library, Element, ObjectAttribute, ObjectStatus, FileUtil) {
+sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element', 'sap/m/ObjectAttribute', 'sap/m/ObjectStatus', 'sap/m/ObjectMarker', 'sap/ui/core/util/File'],
+	function(jQuery, library, Element, ObjectAttribute, ObjectStatus, ObjectMarker, FileUtil) {
 	"use strict";
 
 	/**
@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element', 'sap/m/O
 	 * @extends sap.ui.core.Element
 	 *
 	 * @author SAP SE
-	 * @version 1.38.7
+	 * @version 1.42.8
 	 *
 	 * @constructor
 	 * @public
@@ -124,9 +124,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element', 'sap/m/O
 				},
 
 				/**
-				 * Enables/Disables the Edit button.
-				 * If the value is true, the Edit button is enabled and the edit function can be used.
-				 * If the value is false, the edit function is not available.
+				 * Enables/Disables the Delete button.
+				 * If the value is true, the Delete button is enabled and the delete function can be used.
+				 * If the value is false, the delete function is not available.
 				 */
 				enableDelete : {
 					type : "boolean",
@@ -208,6 +208,17 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Element', 'sap/m/O
 				 */
 				statuses : {
 					type : "sap.m.ObjectStatus",
+					multiple : true,
+					bindable : "bindable"
+				},
+				/**
+				 * Markers of an uploaded item
+				 * Markers will be displayed after an item has been uploaded
+				 * But not in Edit mode
+				 * @since 1.40
+				 */
+				markers : {
+					type : "sap.m.ObjectMarker",
 					multiple : true,
 					bindable : "bindable"
 				}

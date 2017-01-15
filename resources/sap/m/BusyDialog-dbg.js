@@ -20,7 +20,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/D
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.38.7
+		 * @version 1.42.8
 		 *
 		 * @constructor
 		 * @public
@@ -128,6 +128,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/D
 				initialFocus: this._busyIndicator
 			}).addStyleClass('sapMBusyDialog');
 
+			// override the close method, so the BusyDialog won't get
+			// closed by the InstanceManager.closeAllDialogs method
+			this._oDialog.close = function () {
+
+			};
+
 			this._oDialog.addEventDelegate({
 				onBeforeRendering: function () {
 					var text = this.getText();
@@ -205,11 +211,14 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/m/D
 		 * @public
 		 */
 		BusyDialog.prototype.close = function (isClosedFromUserInteraction) {
-
 			//fire the close event with 'cancelPressed' = true/false depending on how the busyDialog is closed
 			this.fireClose({cancelPressed: isClosedFromUserInteraction || false});
 
-			this._oDialog.close();
+			// the instance "close" method is overridden,
+			// so call the prototype close method
+			Dialog.prototype.close.call(this._oDialog);
+
+			return this;
 		};
 
 		BusyDialog.prototype.setTitle = function (title) {

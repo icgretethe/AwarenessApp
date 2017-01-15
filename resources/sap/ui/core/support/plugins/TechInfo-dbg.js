@@ -16,7 +16,7 @@ sap.ui.define(['jquery.sap.global', '../Plugin', '../Support', '../ToolsAPI', 'j
 		 *
 		 * @abstract
 		 * @extends sap.ui.core.support.Plugin
-		 * @version 1.38.7
+		 * @version 1.42.8
 		 * @constructor
 		 * @private
 		 * @alias sap.ui.core.support.plugins.TechInfo
@@ -175,16 +175,17 @@ sap.ui.define(['jquery.sap.global', '../Plugin', '../Support', '../ToolsAPI', 'j
 		 */
 		TechInfo.prototype.onsapUiSupportTechInfoStartE2ETrace = function(oEvent) {
 
-			jQuery.sap.require("sap.ui.core.support.trace.E2eTraceLib");
-			var E2eTraceLib = sap.ui.require('sap/ui/core/support/trace/E2eTraceLib');
+			var that = this,
+				sLevel = oEvent.getParameter("level");
 
-			var that = this;
-
-			E2eTraceLib.start(oEvent.getParameter("level"), function(traceXml) {
-				Support.getStub().sendEvent(that.getId() + "FinishedE2ETrace", {
-					trace: traceXml
+			sap.ui.require(['sap/ui/core/support/trace/E2eTraceLib'], function(E2eTraceLib) {
+				E2eTraceLib.start(sLevel, function(traceXml) {
+					Support.getStub().sendEvent(that.getId() + "FinishedE2ETrace", {
+						trace: traceXml
+					});
 				});
 			});
+
 		};
 
 		/**

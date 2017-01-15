@@ -24,15 +24,17 @@ sap.ui.define(['jquery.sap.global',
 				'./matchers/Ancestor',
 				'./matchers/Interactable',
 				'./matchers/Visible',
-				'./pipelines/MatcherPipeline'],
-	function ($, HashChanger, UI5Object, View, Ancestor, Interactable, Visible, MatcherPipeline) {
+				'./pipelines/MatcherPipeline',
+				'./_XHRCounter'],
+	function ($, HashChanger, UI5Object, View, Ancestor, Interactable, Visible, MatcherPipeline, _XHRCounter) {
 		var oMatcherPipeline = new MatcherPipeline(),
 			oInteractableMatcher = new Interactable(),
 			oVisibleMatcher = new Visible(),
 			aControlSelectorsForMatchingControls = [
 				"id",
 				"viewName",
-				"controlType"
+				"controlType",
+				"searchOpenDialogs"
 			];
 
 		/**
@@ -47,7 +49,8 @@ sap.ui.define(['jquery.sap.global',
 
 			constructor : function(sLogPrefix) {
 				var that = this;
-				this._sLogPrefix = sLogPrefix || "";
+				sLogPrefix = sLogPrefix || "sap.ui.test.OpaPlugin";
+				this._oLogger = $.sap.log.getLogger(sLogPrefix);
 
 				sap.ui.getCore().registerPlugin({
 					startPlugin: function(oCore) {
@@ -80,12 +83,8 @@ sap.ui.define(['jquery.sap.global',
 					}
 
 					oControl = oCoreElements[sPropertyName];
-					if (!fnConstructorType) {
-						aResult.push(oControl);
-						continue;
-					}
 
-					if (oControl instanceof fnConstructorType) {
+					if (this._checkControlType(oControl, fnConstructorType)) {
 						aResult.push(oControl);
 					}
 				}
@@ -118,7 +117,9 @@ sap.ui.define(['jquery.sap.global',
 			 * eg : { viewName : "bar", viewNamespace : "baz." } will return all the Controls in the view with the name baz.bar<br/>
 			 *
 			 * @param {object} oOptions that may contain a viewName, id, viewNamespace and controlType properties.
-			 * @returns {sap.ui.core.Element|sap.ui.core.Element[]} the found control, an array of matching controls, undefined or null
+			 * @returns {sap.ui.core.Element|sap.ui.core.Element[]|null}
+			 * If the passed id is a string it returns the found control or null.
+			 * Else an array of matching controls, if the view is not found or no control is found for multiple ids an empty array is returned.
 			 * @public
 			 */
 			getControlInView : function (oOptions) {
@@ -126,11 +127,15 @@ sap.ui.define(['jquery.sap.global',
 					oView = this.getView(sViewName),
 					aResult = [],
 					oControl,
+					bIdIsString = typeof oOptions.id === "string",
 					sViewId;
 
 				if (!oView) {
-					$.sap.log.debug("Found no view with the name: " + sViewName, this._sLogPrefix);
-					return null;
+					this._oLogger.debug("Found no view with the name: '" + sViewName + "'");
+					if (bIdIsString) {
+						return null;
+					}
+					return [];
 				}
 
 				if ($.isArray(oOptions.id)) {
@@ -144,10 +149,11 @@ sap.ui.define(['jquery.sap.global',
 					return aResult;
 				}
 
-				if (typeof oOptions.id === "string") {
+				if (bIdIsString) {
 					var oElement = oView.byId(oOptions.id);
 					if (!oElement) {
-						$.sap.log.debug("Found no control with the id " + oOptions.id + " in the view " + sViewName, this._sLogPrefix);
+						this._oLogger.debug("Found no control with the id: '" + oOptions.id + "' in the view: '" + sViewName + "'");
+						return null;
 					}
 
 					return oElement;
@@ -174,17 +180,14 @@ sap.ui.define(['jquery.sap.global',
 
 			getAllControlsInContainer : function ($Container, fnControlType) {
 				return this._filterUniqueControlsByCondition($Container.find("*").control(),function (oControl) {
-					if (fnControlType) {
-						return oControl instanceof fnControlType;
-					}
-					return true;
-				});
+					return this._checkControlType(oControl, fnControlType);
+				}.bind(this));
 			},
 
 			/**
 			 * Tries to find a control depending on the options provided.
 			 *
-			 * @param {object} oOptions a map of options used to describe the control you are looking for.
+			 * @param {object} [oOptions] a map of options used to describe the control you are looking for.
 			 * @param {string} [oOptions.viewName] Controls will only be searched inside of the view.
 			 * Inside means, if you are giving an ID - the control will be found by using the byId function of the view.
 			 * If you are specifying other options than the id, the view has to be an ancestor of the control - when you call myControl.getParent,
@@ -193,11 +196,50 @@ sap.ui.define(['jquery.sap.global',
 			 * @param {boolean} [oOptions.visible=true] States if a control need to have a visible domref (jQUery's :visible will be used to determine this).
 			 * @param {boolean} [oOptions.interactable=false] @since 1.34 States if a control has to match the interactable matcher {@link sap.ui.test.matchers.Interactable}.
 			 * @param {boolean} [oOptions.searchOpenDialogs] Only controls in the static UI area of UI5 are searched.
-			 * @returns {sap.ui.core.Element|sap.ui.core.Element[]|undefined|null} the found control/element, an array of found Controls, an empty array and null or undefined are possible depending of the parameters you specify
+			 * @param {string|function} [oOptions.controlType] @since 1.40 Selects all control by their type.
+			 * It is usually combined with viewName or searchOpenDialogs. If no control is matching the type, an empty
+			 * array will be returned. Here are some samples:
+			 * <code>
+			 *     <pre>
+			 *         // will return an array of all visible buttons
+			 *         new OpaPlugin().getMatchingControls({
+			 *             controlType: "sap.m.Button"
+			 *         });
+			 *
+			 *         // control type will also return controls that extend the control type
+			 *         // this will return an array of visible sap.m.List and sap.m.Table since both extend List base
+			 *         new OpaPlugin().getMatchingControls({
+			 *             controlType: "sap.m.ListBase"
+			 *         });
+			 *
+			 *         // control type is often combined with viewName - only controls that are inside of the view
+			 *         // and have the correct type will be returned
+			 *         // here all sap.m.Inputs inside of a view called 'my.View' will be returned
+			 *         new OpaPlugin().getMatchingControls({
+			 *             viewName: "my.View"
+			 *             controlType: "sap.m.Input"
+			 *         });
+			 *     </pre>
+			 * </code>
+			 * @returns {sap.ui.core.Element|sap.ui.core.Element[]|null}
+			 * <ul>
+			 *     <li>an array of found Controls depending on the options</li>
+			 *     <li>an empty array if no id was given</li>
+			 *     <li>the found control/element when an id as a string is specified</li>
+			 *     <li>null if an id as string was specified</li>
+			 * </ul>
+			 *
 			 * @public
 			 */
 			getMatchingControls : function (oOptions) {
-				var vResult;
+				var vResult = null;
+				oOptions = oOptions || {};
+				var bHasValidControlType = this._modifyControlType(oOptions);
+
+				if (!bHasValidControlType) {
+					return typeof oOptions.id === "string" ? vResult : [];
+				}
+
 				if (oOptions.searchOpenDialogs) {
 					vResult = this.getAllControlsInContainer($("#sap-ui-static"), oOptions.controlType);
 				} else if (oOptions.viewName) {
@@ -205,9 +247,9 @@ sap.ui.define(['jquery.sap.global',
 				} else if (oOptions.id) {
 					vResult = this.getControlByGlobalId(oOptions);
 				} else if (oOptions.controlType) {
-					vResult = this.getAllControlsInContainer($("body"), oOptions.controlType);
+					vResult = this.getAllControls(oOptions.controlType);
 				} else {
-					vResult = null;
+					vResult = this.getAllControls();
 				}
 
 				if (!vResult || oOptions.visible === false) {
@@ -247,6 +289,87 @@ sap.ui.define(['jquery.sap.global',
 			},
 
 			/**
+			 * @private
+			 */
+			getFilterdControls : function(oOptions) {
+				var oPluginOptions = $.extend({}, oOptions, {
+						// only pass interactable if there are actions for backwards compatibility or if the autoWait is set
+						interactable: !!oOptions.actions || oOptions.autoWait
+					}),
+					bPluginLooksForControls = this._isLookingForAControl(oPluginOptions);
+
+				var vControl = null,
+					vResult = null;
+
+				if (bPluginLooksForControls) {
+					// a range of controls or a single control
+					// this will also synchronize when autoWait is set to true
+					vControl = this.getMatchingControls(oPluginOptions);
+				} else if (oOptions.autoWait && _XHRCounter.hasPendingRequests()) {
+					return OpaPlugin.FILTER_FOUND_NO_CONTROLS;
+				}
+
+
+				//We were searching for a control but we did not find it
+				if (typeof oOptions.id === "string" && !vControl) {
+					return OpaPlugin.FILTER_FOUND_NO_CONTROLS;
+				}
+
+
+				//Search for a controlType in a view or open dialog
+				if (!oOptions.id && (oOptions.viewName || oOptions.searchOpenDialogs) && vControl.length === 0) {
+					this._oLogger.debug("found no controls in view: " + oOptions.viewName + " with controlType " + oOptions.sOriginalControlType, "", "Opa");
+					return OpaPlugin.FILTER_FOUND_NO_CONTROLS;
+				}
+
+				//Regex did not find any control
+				if ($.type(oOptions.id) === "regexp" && !vControl.length) {
+					this._oLogger.debug("found no control with the id regex" + oOptions.id);
+					return OpaPlugin.FILTER_FOUND_NO_CONTROLS;
+				}
+
+				//Did not find all controls with the specified ids
+				if ($.isArray(oOptions.id) && (!vControl || vControl.length !== oOptions.id.length)) {
+					if (vControl && vControl.length) {
+						this._oLogger.debug("found not all controls with the ids " + oOptions.id + " onlyFound the controls: " +
+							vControl.map(function (oCont) {
+								return oCont.sId;
+							}));
+					} else {
+						this._oLogger.debug("found no control with the id  " + oOptions.id);
+					}
+					return OpaPlugin.FILTER_FOUND_NO_CONTROLS;
+				}
+
+				if (oOptions.controlType && $.isArray(vControl) && !vControl.length) {
+					this._oLogger.debug("found no controls with the type  " + oOptions.sOriginalControlType, "", "Opa");
+					return OpaPlugin.FILTER_FOUND_NO_CONTROLS;
+				}
+
+				/*
+				 * If the plugin does not look for controls execute matchers even if vControl is falsy
+				 * used when you smuggle in values to success through matchers:
+				 * matchers: function () {return "foo";},
+				 * success: function (sFoo) {}
+				 */
+				if ((vControl || !bPluginLooksForControls) && oOptions.matchers) {
+					vResult = oMatcherPipeline.process({
+						matchers: oOptions.matchers,
+						control: vControl
+					});
+
+					// no control matched
+					if (!vResult) {
+						return OpaPlugin.FILTER_FOUND_NO_CONTROLS;
+					}
+				} else {
+					vResult = vControl;
+				}
+
+				return vResult;
+			},
+
+			/**
 			 * Returns a control by its id
 			 * accepts an object with an ID property the ID can be
 			 * will check a control type also, if defined
@@ -271,15 +394,16 @@ sap.ui.define(['jquery.sap.global',
 					vControl = oCoreElements[vStringOrArrayOrRegex];
 
 					if (!vControl) {
-						$.sap.log.debug("Found no control with the global id: '" + vStringOrArrayOrRegex + "'", this._sLogPrefix);
+						this._oLogger.debug("Found no control with the global id: '" + vStringOrArrayOrRegex + "'");
 						return null;
 					}
 
 					if (!this._checkControlType(vControl, oOptions.controlType)) {
-						$.sap.log.error("An id: '" + oOptions.id + "' was passed together with the controlType '" + oOptions.sOriginalControlType +
-							"' but the type does not match the control retrieved: '" + vControl + "' - null is returned", this._sLogPrefix);
+						this._oLogger.error("An id: '" + oOptions.id + "' was passed together with the controlType '" + oOptions.sOriginalControlType +
+							"' but the type does not match the control retrieved: '" + vControl + "' - null is returned");
 						return null;
 					}
+
 
 					return vControl;
 				}
@@ -318,7 +442,7 @@ sap.ui.define(['jquery.sap.global',
 			 */
 			getControlConstructor : function (sControlType) {
 				if (sap.ui.lazyRequire._isStub(sControlType)) {
-					$.sap.log.debug("The control type " + sControlType + " is currently a lazy stub. Skipped check and will wait until it is invoked", "Opa5");
+					this._oLogger.debug("The control type " + sControlType + " is currently a lazy stub.");
 					return null;
 				}
 
@@ -326,7 +450,7 @@ sap.ui.define(['jquery.sap.global',
 
 				// no control type
 				if (!fnControlType) {
-					$.sap.log.debug("The control type " + sControlType + " is undefined. Skipped check and will wait until it is required", "Opa5");
+					this._oLogger.debug("The control type " + sControlType + " is undefined.");
 					return null;
 				}
 
@@ -341,7 +465,7 @@ sap.ui.define(['jquery.sap.global',
 			 */
 			_isLookingForAControl : function (oOptions) {
 				return Object.keys(oOptions).some(function (sKey) {
-					return aControlSelectorsForMatchingControls.indexOf(sKey) !== -1;
+					return aControlSelectorsForMatchingControls.indexOf(sKey) !== -1 && !!oOptions[sKey];
 				});
 			},
 
@@ -369,8 +493,40 @@ sap.ui.define(['jquery.sap.global',
 				} else {
 					return true;
 				}
+			},
+
+			_modifyControlType : function (oOptions) {
+				var vControlType = oOptions.controlType;
+				//retrieve the constructor instance
+				if (typeof vControlType !== "string") {
+					if (vControlType && vControlType._sapUiLazyLoader) {
+						// no way of getting the control type's name without actually calling it
+						this._oLogger.debug("The control type is currently a lazy stub");
+						return false;
+					}
+					// undefined - oOptions has no control type filter that's fine
+					// defined - it is a constructor since we checked that it is no lazy stub
+					return true;
+				}
+
+				var fnControlConstructor = this.getControlConstructor(vControlType);
+
+				if (!fnControlConstructor) {
+					return false;
+				}
+
+				oOptions.sOriginalControlType = vControlType;
+				oOptions.controlType = fnControlConstructor;
+				return true;
 			}
 		});
+
+		/**
+		 * marker for a return type
+		 * @private
+		 * @type {{}}
+		 */
+		OpaPlugin.FILTER_FOUND_NO_CONTROLS = "FILTER_FOUND_NO_CONTROL";
 
 		return OpaPlugin;
 	}, /* bExport= */ true);

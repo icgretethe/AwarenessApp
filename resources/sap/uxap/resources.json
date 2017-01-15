@@ -458,16 +458,15 @@
         "sap/ui/core/CustomData.js",
         "sap/ui/Device.js",
         "sap/ui/core/delegate/ScrollEnablement.js",
+        "sap/uxap/ObjectPageSection.js",
         "sap/uxap/ObjectPageSubSection.js",
         "sap/uxap/ObjectPageSubSectionLayout.js",
         "sap/uxap/LazyLoading.js",
         "sap/uxap/ObjectPageLayoutABHelper.js",
+        "sap/uxap/ThrottledTaskHelper.js",
+        "sap/ui/core/ScrollBar.js",
         "sap/uxap/library.js"
       ]
-    },
-    {
-      "name": "ObjectPageLayout.control",
-      "designtime": true
     },
     {
       "name": "ObjectPageLayout.designtime-dbg.js",
@@ -489,10 +488,13 @@
         "sap/ui/core/CustomData.js",
         "sap/ui/Device.js",
         "sap/ui/core/delegate/ScrollEnablement.js",
+        "sap/uxap/ObjectPageSection.js",
         "sap/uxap/ObjectPageSubSection.js",
         "sap/uxap/ObjectPageSubSectionLayout.js",
         "sap/uxap/LazyLoading.js",
         "sap/uxap/ObjectPageLayoutABHelper.js",
+        "sap/uxap/ThrottledTaskHelper.js",
+        "sap/ui/core/ScrollBar.js",
         "sap/uxap/library.js"
       ]
     },
@@ -572,11 +574,22 @@
         "sap/ui/Device.js",
         "sap/m/Button.js",
         "sap/ui/core/StashedControlSupport.js",
+        "sap/uxap/ObjectPageSubSection.js",
         "sap/uxap/library.js"
       ]
     },
     {
       "name": "ObjectPageSection.control",
+      "designtime": true
+    },
+    {
+      "name": "ObjectPageSection.designtime-dbg.js",
+      "module": "sap/uxap/ObjectPageSection.designtime.js",
+      "isDebug": true
+    },
+    {
+      "name": "ObjectPageSection.designtime.js",
+      "module": "sap/uxap/ObjectPageSection.designtime.js",
       "designtime": true
     },
     {
@@ -589,6 +602,7 @@
         "sap/ui/Device.js",
         "sap/m/Button.js",
         "sap/ui/core/StashedControlSupport.js",
+        "sap/uxap/ObjectPageSubSection.js",
         "sap/uxap/library.js"
       ]
     },
@@ -681,6 +695,23 @@
     {
       "name": "ObjectPageSubSectionRenderer.js",
       "module": "sap/uxap/ObjectPageSubSectionRenderer.js"
+    },
+    {
+      "name": "ThrottledTaskHelper-dbg.js",
+      "module": "sap/uxap/ThrottledTaskHelper.js",
+      "isDebug": true,
+      "required": [
+        "jquery.sap.global.js",
+        "sap/ui/base/Object.js"
+      ]
+    },
+    {
+      "name": "ThrottledTaskHelper.js",
+      "module": "sap/uxap/ThrottledTaskHelper.js",
+      "required": [
+        "jquery.sap.global.js",
+        "sap/ui/base/Object.js"
+      ]
     },
     {
       "name": "component/Component-dbg.js",
@@ -914,6 +945,12 @@
       "name": "i18n/i18n_lv.properties",
       "module": "sap/uxap/i18n/i18n_lv.properties",
       "locale": "lv",
+      "raw": "i18n/i18n.properties"
+    },
+    {
+      "name": "i18n/i18n_ms.properties",
+      "module": "sap/uxap/i18n/i18n_ms.properties",
+      "locale": "ms",
       "raw": "i18n/i18n.properties"
     },
     {

@@ -29,7 +29,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/support/Plugin',
 		 *
 		 * @abstract
 		 * @extends sap.ui.core.support.Plugin
-		 * @version 1.38.7
+		 * @version 1.42.8
 		 * @constructor
 		 * @private
 		 * @alias sap.ui.core.support.plugins.Interaction
@@ -48,7 +48,6 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/core/support/Plugin',
 						this.getId() + "Import",
 						this.getId() + "SetQueryString"
 					];
-					jQuery.sap.require("sap.ui.core.format.DateFormat");
 					var pad0 = function(i, w) {
 						return ("000" + String(i)).slice(-w);
 					};

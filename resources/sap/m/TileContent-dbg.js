@@ -18,7 +18,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.38.7
+	 * @version 1.42.8
 	 * @since 1.34
 	 *
 	 * @public
@@ -55,11 +55,12 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control'],
 				 */
 				"frameType" : {type : "sap.m.FrameType", group : "Appearance", defaultValue : sap.m.FrameType.Auto}
 			},
+			defaultAggregation : "content",
 			aggregations : {
 				/**
 				 * The switchable view that depends on the tile type.
 				 */
-				"content" : {type : "sap.ui.core.Control", multiple : false}
+				"content" : {type : "sap.ui.core.Control", multiple : false, bindable : "bindable"}
 			}
 		}
 	});

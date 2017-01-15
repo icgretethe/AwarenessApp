@@ -4,7 +4,7 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-/*global ActiveXObject, alert, confirm, console, ES6Promise, localStorage, jQuery, performance, URI, Promise, XMLHttpRequest */
+/*global ActiveXObject, alert, confirm, console, ES6Promise, localStorage, jQuery, performance, URI, Promise, XMLHttpRequest, Proxy */
 
 /**
  * Provides base functionality of the SAP jQuery plugin as extension of the jQuery framework.<br/>
@@ -26,7 +26,7 @@
 	"use strict";
 
 	if ( !jQuery ) {
-		throw new Error("SAPUI5 requires jQuery as a prerequisite (>= version 1.10)");
+		throw new Error("Loading of jQuery failed");
 	}
 
 	// ensure not to initialize twice
@@ -227,8 +227,10 @@
 	// -----------------------------------------------------------------------
 
 	var oJQVersion = Version(jQuery.fn.jquery);
-	if ( !oJQVersion.inRange("1.10.1", "2.2.4") ) {
-		_earlyLog("error", "SAPUI5 requires a jQuery version of 1.10 or higher, but lower than 2.2.4; current version is " + jQuery.fn.jquery);
+	if ( oJQVersion.compareTo("2.2.3") != 0 ) {
+		// if the loaded jQuery version isn't SAPUI5's default version -> notify
+		// the application
+		_earlyLog("warning", "SAPUI5's default jQuery version is 2.2.3; current version is " + jQuery.fn.jquery + ". Please note that we only support version 2.2.3.");
 	}
 
 	// TODO move to a separate module? Only adds 385 bytes (compressed), but...
@@ -296,6 +298,152 @@
 				return !this.isLocal ? fnCreateStandardXHR() : fnCreateActiveXHR();
 			};
 		}
+
+	}
+
+	// XHR proxy for Firefox
+	if ( Device.browser.firefox && window.Proxy ) {
+
+		// Firefox has an issue with synchronous and asynchronous requests running in parallel,
+		// where callbacks of the asynchronous call are executed while waiting on the synchronous
+		// response, see https://bugzilla.mozilla.org/show_bug.cgi?id=697151
+		// In UI5 in some cases it happens that application code is running, while the class loading
+		// is still in process, so classes cannot be found. To overcome this issue we create a proxy
+		// of the XHR object, which delays execution of the asynchronous event handlers, until
+		// the synchronous request is completed.
+		(function() {
+			var bSyncRequestOngoing = false;
+
+			// Replace the XMLHttpRequest object with a proxy, that overrides the constructor to
+			// return a proxy of the XHR instance
+			window.XMLHttpRequest = new Proxy(window.XMLHttpRequest, {
+				construct: function(oTargetClass, aArguments, oNewTarget) {
+					var oXHR = new oTargetClass(),
+						bSync = false,
+						bDelay = false,
+						iReadyState = 0,
+						oProxy;
+
+					// Return a wrapped handler function for the given function, which checks
+					// whether a synchronous request is currently in progress.
+					function wrapHandler(fnHandler) {
+						var fnWrappedHandler = function(oEvent) {
+							// The ready state at the time the event is occurring needs to
+							// be preserved, to restore it when the handler is called delayed
+							var iCurrentState = oXHR.readyState;
+							function callHandler() {
+								iReadyState = iCurrentState;
+								// Only if the event has not been removed in the meantime
+								// the handler needs to be called after the timeout
+								if (fnWrappedHandler.active) {
+									return fnHandler.call(oProxy, oEvent);
+								}
+							}
+							// If this is a asynchronous request and a sync request is ongoing,
+							// the execution of all following handler calls needs to be delayed
+							if (!bSync && bSyncRequestOngoing) {
+								bDelay = true;
+							}
+							if (bDelay) {
+								setTimeout(callHandler, 0);
+								return true;
+							}
+							return callHandler();
+						};
+						fnHandler.wrappedHandler = fnWrappedHandler;
+						fnWrappedHandler.active = true;
+						return fnWrappedHandler;
+					}
+
+					// To be able to remove an event listener, we need to get access to the
+					// wrapped handler, which has been used to add the listener internally
+					// in the XHR.
+					function unwrapHandler(fnHandler) {
+						return deactivate(fnHandler.wrappedHandler);
+					}
+
+					// When a event handler is removed synchronously, it needs to be deactivated
+					// to avoid the situation, where the handler has been triggered while
+					// the sync request was ongoing, but removed afterwards.
+					function deactivate(fnWrappedHandler) {
+						if (typeof fnWrappedHandler === "function") {
+							fnWrappedHandler.active = false;
+						}
+						return fnWrappedHandler;
+					}
+
+					// Create a proxy of the XHR instance, which overrides the necessary functions
+					// to deal with event handlers and readyState
+					oProxy = new Proxy(oXHR, {
+						get: function(oTarget, sPropName, oReceiver) {
+							var vProp = oTarget[sPropName];
+							switch (sPropName) {
+								// When an event handler is called with setTimeout, the readyState
+								// of the internal XHR is already completed, but we need to have
+								// have the readyState at the time the event was fired.
+								case "readyState":
+									return iReadyState;
+								// When events are added, the handler function needs to be wrapped
+								case "addEventListener":
+									return function(sName, fnHandler, bCapture) {
+										vProp.call(oTarget, sName, wrapHandler(fnHandler), bCapture);
+									};
+								// When events are removed, the wrapped handler function must be used,
+								// to remove it on the internal XHR object
+								case "removeEventListener":
+									return function(sName, fnHandler, bCapture) {
+										vProp.call(oTarget, sName, unwrapHandler(fnHandler), bCapture);
+									};
+								// Whether a request is asynchronous or synchronous is defined when
+								// calling the open method.
+								case "open":
+									return function(sMethod, sUrl, bAsync) {
+										bSync = bAsync === false;
+										vProp.apply(oTarget, arguments);
+										iReadyState = oTarget.readyState;
+									};
+								// The send method is where the actual request is triggered. For sync
+								// requests we set a boolean flag to detect a request is in progress
+								// in the wrapped handlers.
+								case "send":
+									return function() {
+										bSyncRequestOngoing = bSync;
+										vProp.apply(oTarget, arguments);
+										iReadyState = oTarget.readyState;
+										bSyncRequestOngoing = false;
+									};
+							}
+							// All functions need to be wrapped, so they are called on the correct object
+							// instance
+							if (typeof vProp === "function") {
+								return function() {
+									return vProp.apply(oTarget, arguments);
+								};
+							}
+							// All other properties can just be returned
+							return vProp;
+						},
+						set: function(oTarget, sPropName, vValue) {
+							// All properties starting with "on" (event handler functions) need to be wrapped
+							// when they are set
+							if (sPropName.indexOf("on") === 0) {
+								// In case there already is a function set on this property, it needs to be
+								// deactivated
+								deactivate(oTarget[sPropName]);
+								if (typeof vValue === "function") {
+									oTarget[sPropName] = wrapHandler(vValue);
+									return true;
+								}
+							}
+							// All other properties can just be set on the inner XHR object
+							oTarget[sPropName] = vValue;
+							return true;
+						}
+					});
+					return oProxy;
+				}
+			});
+		})();
 
 	}
 
@@ -429,7 +577,7 @@
 				var sDebugUrl = _oBootstrap.url.replace(/\/(?:sap-ui-cachebuster\/)?([^\/]+)\.js/, "/$1-dbg.js");
 				window["sap-ui-optimized"] = false;
 				document.write("<script type=\"text/javascript\" src=\"" + sDebugUrl + "\"></script>");
-				var oRestart = new Error("Aborting UI5 bootstrap and restarting from: " + sDebugUrl);
+				var oRestart = new Error("This is not a real error. Aborting UI5 bootstrap and restarting from: " + sDebugUrl);
 				oRestart.name = "Restart";
 				throw oRestart;
 			}
@@ -549,7 +697,7 @@
 	/**
 	 * Root Namespace for the jQuery plug-in provided by SAP SE.
 	 *
-	 * @version 1.38.7
+	 * @version 1.42.8
 	 * @namespace
 	 * @public
 	 * @static
@@ -582,7 +730,7 @@
 
 	// Reads the value for the given key from the localStorage or writes a new value to it.
 	function makeLocalStorageAccessor(key, type, callback) {
-		return window.localStorage ? function(value) {
+		return function(value) {
 			try {
 				if ( value != null || type === 'string' ) {
 					if (value) {
@@ -595,9 +743,9 @@
 				value = localStorage.getItem(key);
 				return type === 'boolean' ? value === 'X' : value;
 			} catch (e) {
-				jQuery.sap.log.warning("Could not access localStorage while setting '" + key + "' to '" + value + "' (are cookies disabled?): " + e.message);
+				jQuery.sap.log.warning("Could not access localStorage while accessing '" + key + "' (value: '" + value + "', are cookies disabled?): " + e.message);
 			}
-		} : jQuery.noop;
+		};
 	}
 
 	jQuery.sap.debug = makeLocalStorageAccessor('sap-ui-debug', '', function reloadHint(vDebugInfo) {
@@ -2414,21 +2562,6 @@
 				'sap/ui/thirdparty/jquery.js': {
 					amd: true
 				},
-				'sap/ui/thirdparty/jquery/jquery-1.10.1.js': {
-					amd: true
-				},
-				'sap/ui/thirdparty/jquery/jquery-1.10.2.js': {
-					amd: true
-				},
-				'sap/ui/thirdparty/jquery/jquery-1.11.1.js': {
-					amd: true
-				},
-				'sap/ui/thirdparty/jquery/jquery-2.1.4.js': {
-					amd: true
-				},
-				'sap/ui/thirdparty/jquery/jquery-2.2.1.js': {
-					amd: true
-				},
 				'sap/ui/thirdparty/jquery-mobile-custom.js': {
 					amd: true,
 					exports: 'jQuery.mobile'
@@ -2574,6 +2707,15 @@
 				};
 
 				log.debug("Modules that should be excluded from preload: '" + sPattern + "'");
+
+			} else if ( vDebugInfo === true ) {
+
+				fnIgnorePreload = function() {
+					return true;
+				};
+
+				log.debug("All modules should be excluded from preload");
+
 			}
 		})();
 
@@ -2979,6 +3121,7 @@
 						oModule.state = FAILED;
 						oModule.errorMessage = xhr ? xhr.status + " - " + xhr.statusText : textStatus;
 						oModule.errorStack = error && error.stack;
+						oModule.loadError = true;
 					}
 				});
 				/*eslint-enable no-loop-func */
@@ -2994,6 +3137,7 @@
 			if ( oModule.state !== READY ) {
 				var oError = new Error("failed to load '" + sModuleName +  "' from " + oModule.url + ": " + oModule.errorMessage);
 				enhanceStacktrace(oError, oModule.errorStack);
+				oError.loadError = oModule.loadError;
 				throw oError;
 			}
 
@@ -3023,6 +3167,18 @@
 			return fn.apply(window, dep);
 		}
 		applyAMDFactoryFn.count = 0;
+
+		/**
+		 * Evaluates the script for a loaded or preloaded module.
+		 * The only purpose of this function is to isolate the execution time of string parsing in performance measurements.
+		 * @no-rename
+		 * @private
+		 */
+		function evalModuleStr(script) {
+			evalModuleStr.count++;
+			return window.eval(script);
+		}
+		evalModuleStr.count = 0;
 
 		// sModuleName must be a normalized resource name of type .js
 		function execModule(sModuleName) {
@@ -3089,7 +3245,7 @@
 								throw e; // rethrow err in case globalEval succeeded unexpectedly
 							}
 						} else {
-							window.eval(sScript);
+							evalModuleStr(sScript);
 						}
 					}
 					_execStack.pop();
@@ -3297,21 +3453,34 @@
 		 */
 		jQuery.sap.registerResourcePath = function registerResourcePath(sResourceNamePrefix, vUrlPrefix) {
 
-			sResourceNamePrefix = String(sResourceNamePrefix || "");
-
-			if (mUrlPrefixes[sResourceNamePrefix] && mUrlPrefixes[sResourceNamePrefix]["final"] == true) {
-				log.warning( "registerResourcePath with prefix " + sResourceNamePrefix + " already set as final to '" + mUrlPrefixes[sResourceNamePrefix].url + "'. This call is ignored." );
-				return;
+			function same(oPrefix1, oPrefix2) {
+				return oPrefix1.url === oPrefix2.url && !oPrefix1["final"] === !oPrefix2["final"];
 			}
+
+			sResourceNamePrefix = String(sResourceNamePrefix || "");
 
 			if ( typeof vUrlPrefix === 'string' || vUrlPrefix instanceof String ) {
 				vUrlPrefix = { 'url' : vUrlPrefix };
 			}
 
+			var oOldPrefix = mUrlPrefixes[sResourceNamePrefix];
+
+			if (oOldPrefix && oOldPrefix["final"] == true) {
+				if ( !vUrlPrefix || !same(oOldPrefix, vUrlPrefix) ) {
+					log.warning( "registerResourcePath with prefix " + sResourceNamePrefix + " already set as final to '" + oOldPrefix.url + "'. This call is ignored." );
+				}
+				return;
+			}
+
 			if ( !vUrlPrefix || vUrlPrefix.url == null ) {
-				delete mUrlPrefixes[sResourceNamePrefix];
-				log.info("registerResourcePath ('" + sResourceNamePrefix + "') (registration removed)");
+
+				if ( oOldPrefix ) {
+					delete mUrlPrefixes[sResourceNamePrefix];
+					log.info("registerResourcePath ('" + sResourceNamePrefix + "') (registration removed)");
+				}
+
 			} else {
+
 				vUrlPrefix.url = String(vUrlPrefix.url);
 
 				// remove query parameters and/or hash
@@ -3324,8 +3493,12 @@
 				if ( vUrlPrefix.url.slice(-1) != '/' ) {
 					vUrlPrefix.url += '/';
 				}
+
 				mUrlPrefixes[sResourceNamePrefix] = vUrlPrefix;
-				log.info("registerResourcePath ('" + sResourceNamePrefix + "', '" + vUrlPrefix.url + "')" + ((vUrlPrefix['final']) ? " (final)" : ""));
+
+				if ( !oOldPrefix || !same(oOldPrefix, vUrlPrefix) ) {
+					log.info("registerResourcePath ('" + sResourceNamePrefix + "', '" + vUrlPrefix.url + "')" + (vUrlPrefix['final'] ? " (final)" : ""));
+				}
 			}
 		};
 
@@ -3388,6 +3561,17 @@
 		jQuery.sap.isDeclared = function isDeclared(sModuleName, bIncludePreloaded) {
 			sModuleName = ui5ToRJS(sModuleName) + ".js";
 			return mModules[sModuleName] && (bIncludePreloaded || mModules[sModuleName].state !== PRELOADED);
+		};
+
+		/**
+		 * Whether the given resource has been loaded (or preloaded).
+		 * @param {string} sResourceName Name of the resource to check, in unified resource name format
+		 * @returns {boolean} Whether the resource has been loaded already
+		 * @private
+		 * @sap-restricted sap.ui.core
+		 */
+		jQuery.sap.isResourceLoaded = function isResourceLoaded(sResourceName) {
+			return mModules[sResourceName];
 		};
 
 		/**
@@ -3911,6 +4095,21 @@
 		};
 
 		/**
+		 * @private
+		 */
+		sap.ui.require.stat = function(iState) {
+			var i = 0;
+			Object.keys(mModules).sort().forEach(function(sModule) {
+				if ( mModules[sModule].state >= iState ) {
+					log.info( (++i) + " " + sModule + " " + mModules[sModule].state);
+				}
+			});
+			log.info("apply AMD factory function: #" + applyAMDFactoryFn.count);
+			log.info("call preload wrapper function: #" + callPreloadWrapperFn.count);
+			log.info("eval module string : #" + evalModuleStr.count);
+		};
+
+		/**
 		 * Load a single module synchronously and return its module value.
 		 *
 		 * Basically, this method is a combination of {@link jQuery.sap.require} and {@link sap.ui.require}.
@@ -3937,9 +4136,15 @@
 			return requireModule(sModuleName + ".js", true);
 		};
 
+		/**
+		 * @private
+		 * @deprecated
+		 */
 		jQuery.sap.preloadModules = function(sPreloadModule, bAsync, oSyncPoint) {
 
 			var sURL, iTask, sMsg;
+
+			jQuery.sap.log.error("[Deprecated] jQuery.sap.preloadModules was never a public API and will be removed soon. Migrate to Core.loadLibraries()!");
 
 			jQuery.sap.assert(!bAsync || oSyncPoint, "if mode is async, a syncpoint object must be given");
 
@@ -3962,15 +4167,21 @@
 
 			log.debug("preload file " + sPreloadModule);
 			iTask = oSyncPoint && oSyncPoint.startTask("load " + sPreloadModule);
+
 			jQuery.ajax({
 				dataType : "json",
 				async : bAsync,
 				url : sURL,
 				success : function(data) {
 					if ( data ) {
-						data.url = sURL;
+						jQuery.sap.registerPreloadedModules(data, sURL);
+						// also preload dependencies
+						if ( Array.isArray(data.dependencies) ) {
+							data.dependencies.forEach(function(sDependency) {
+								jQuery.sap.preloadModules(sDependency, bAsync, oSyncPoint);
+							});
+						}
 					}
-					jQuery.sap.registerPreloadedModules(data, bAsync, oSyncPoint);
 					oSyncPoint && oSyncPoint.finishTask(iTask);
 				},
 				error : function(xhr, textStatus, error) {
@@ -3981,7 +4192,21 @@
 
 		};
 
-		jQuery.sap.registerPreloadedModules = function(oData, bAsync, oSyncPoint) {
+		/**
+		 * Adds all resources from a preload bundle to the preload cache.
+		 *
+		 * When a resource exists already in the cache, the new content is ignored.
+		 *
+		 * @param {object} oData Preload bundle
+		 * @param {string} [oData.url] URL from which the bundle has been loaded
+		 * @param {string} [oData.name] Unique name of the bundle
+		 * @param {string} [oData.version='1.0'] Format version of the preload bundle
+		 * @param {object} oData.modules Map of resources keyed by their resource name; each resource must be a string or a function
+		 *
+		 * @private
+		 * @sap-restricted sap.ui.core,preloadfiles
+		 */
+		jQuery.sap.registerPreloadedModules = function(oData) {
 
 			var bOldSyntax = Version(oData.version || "1.0").compareTo("2.0") < 0;
 
@@ -3993,7 +4218,7 @@
 				mPreloadModules[oData.name] = true;
 			}
 
-			jQuery.each(oData.modules, function(sName,sContent) {
+			jQuery.each(oData.modules, function(sName, sContent) {
 				sName = bOldSyntax ? ui5ToRJS(sName) + ".js" : sName;
 				Module.get(sName).preload(oData.url + "/" + sName, sContent, oData.name);
 				// when a library file is preloaded, also mark its preload file as loaded
@@ -4004,11 +4229,6 @@
 				}
 			});
 
-			if ( oData.dependencies ) {
-				jQuery.each(oData.dependencies, function(idx,sModuleName) {
-					jQuery.sap.preloadModules(sModuleName, bAsync, oSyncPoint);
-				});
-			}
 		};
 
 		/**
@@ -4060,13 +4280,19 @@
 		/**
 		 * Converts a UI5 module name to a unified resource name.
 		 *
-		 * Used by View and Fragment APIs to convert a given module name into an URN.
+		 * Used by View and Fragment APIs to convert a given module name into a unified resource name.
+		 * When the <code>sSuffix</code> is not given, the suffix '.js' is added. This fits the most
+		 * common use case of converting a module name to the Javascript resource that contains the
+		 * module. Note that an empty <code>sSuffix</code> is not replaced by '.js'. This allows to
+		 * convert UI5 module names to requireJS module names with a call to this method.
 		 *
-		 * @experimental Since 1.16.0, not for public usage yet.
+		 * @param {string} sModuleName Module name as a dot separated name
+		 * @param {string} [sSuffix='.js'] Suffix to add to the final resource name
 		 * @private
+		 * @sap-restricted sap.ui.core
 		 */
 		jQuery.sap.getResourceName = function(sModuleName, sSuffix) {
-			return ui5ToRJS(sModuleName) + (sSuffix || ".js");
+			return ui5ToRJS(sModuleName) + (sSuffix == null ? ".js" : sSuffix);
 		};
 
 		/**
@@ -4901,10 +5127,10 @@
 		if (document.readyState == "complete") {
 			var lockDiv = document.createElement("div");
 			lockDiv.style.position = "absolute";
-			lockDiv.style.top = "0px";
-			lockDiv.style.bottom = "0px";
-			lockDiv.style.left = "0px";
-			lockDiv.style.right = "0px";
+			lockDiv.style.top = "-1000px";
+			lockDiv.style.bottom = "-1000px";
+			lockDiv.style.left = "-1000px";
+			lockDiv.style.right = "-1000px";
 			lockDiv.style.opacity = "0";
 			lockDiv.style.backgroundColor = "white";
 			lockDiv.style.zIndex = 2147483647; // Max value of signed integer (32bit)

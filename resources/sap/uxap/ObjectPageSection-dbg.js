@@ -12,8 +12,9 @@ sap.ui.define([
 	"sap/ui/Device",
 	"sap/m/Button",
 	"sap/ui/core/StashedControlSupport",
+	"./ObjectPageSubSection",
 	"./library"
-], function (jQuery, InvisibleText, ObjectPageSectionBase, Device, Button, StashedControlSupport, library) {
+], function (jQuery, InvisibleText, ObjectPageSectionBase, Device, Button, StashedControlSupport, ObjectPageSubSection, library) {
 	"use strict";
 
 	/**
@@ -71,11 +72,22 @@ sap.ui.define([
 				 * The most recently selected Subsection by the user.
 				 */
 				selectedSubSection: {type: "sap.uxap.ObjectPageSubSection", multiple: false}
-			}
+			},
+			designTime: true
 		}
 	});
 
 	ObjectPageSection.MEDIA_RANGE = Device.media.RANGESETS.SAP_STANDARD;
+
+	/**
+	 * Returns the closest ObjectPageSection
+	 * @param  {sap.uxap.ObjectPageSectionBase} oSectionBase
+	 * @returns {sap.uxap.ObjectPageSection}
+	 * @private
+	 */
+	ObjectPageSection._getClosestSection = function (oSectionBase) {
+		return (oSectionBase instanceof ObjectPageSubSection) ? oSectionBase.getParent() : oSectionBase;
+	};
 
 	ObjectPageSection.prototype._expandSection = function () {
 		ObjectPageSectionBase.prototype._expandSection.call(this)
@@ -112,7 +124,7 @@ sap.ui.define([
 		this._updateShowHideAllButton(false);
 
 		if (oObjectPage && this.getDomRef()) {
-			oObjectPage._adjustLayout();
+			oObjectPage._requestAdjustLayout();
 		}
 	};
 

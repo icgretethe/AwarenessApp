@@ -67,6 +67,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/model/FilterType', 'sap/ui/model/Lis
 			this.aLastContextData = null;
 			this.bInitial = true;
 			this.mRequestHandles = {};
+			this.oCountHandle = null;
 
 			if (mParameters && (mParameters.batchGroupId || mParameters.groupId)) {
 				this.sGroupId = mParameters.groupId || mParameters.batchGroupId;
@@ -239,25 +240,24 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/model/FilterType', 'sap/ui/model/Lis
 	};
 
 	/**
-	 * Returns the context data as required for change detection/diff. This may not contain
-	 * all of the data, but just the key property
+	 * Returns the entry key. As in OData all entities have a unique ID in the URL, the path of the
+	 * context is suitable here
 	 *
 	 * @private
 	 */
-	ODataListBinding.prototype.getContextData = function(oContext) {
-		// if no updates need to be detected and no custom key method was defined,
-		// just return the context path as unique key
-		if (!this.bDetectUpdates && !this.fnGetEntryKey) {
-			return oContext.getPath();
-		}
-
-		if (!this.bDetectUpdates) {
-			return this.fnGetEntryKey(oContext);
-		} else {
-			return JSON.stringify(oContext.getObject());
-		}
+	ODataListBinding.prototype.getEntryKey = function(oContext) {
+		return oContext.getPath();
 	};
 
+	/**
+	 * Returns the entry data as required for change detection/diff. This is a JSON serialization of
+	 * the entity, in case select/expand were used with only the selected/expanded parts.
+	 *
+	 * @private
+	 */
+	ODataListBinding.prototype.getEntryData = function(oContext) {
+		return JSON.stringify(oContext.getObject(this.mParameters));
+	};
 
 	/**
 	 * Return contexts for the list
@@ -390,38 +390,57 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/model/FilterType', 'sap/ui/model/Lis
 	 * @param {Object} oContext the new context object
 	 */
 	ODataListBinding.prototype.setContext = function(oContext) {
+		var sResolvedPath,
+			bCreated = oContext && oContext.bCreated;
+
 		if (this.oContext !== oContext) {
 			this.oContext = oContext;
-			if (this.isRelative()) {
-				// get new entity type with new context and init filters now correctly
-				this._initSortersFilters();
 
-				if (!this.bInitial){
-					// if nested list is already available, use the data and don't send additional requests
-					// $expand loads all associated entities, no paging parameters possible, so we can safely assume all data is available
-					var oRef = this.oModel._getObject(this.sPath, this.oContext);
-					this.aExpandRefs = oRef;
-					// oRef needs to be an array, so that it is the list of expanded entries
-					if (jQuery.isArray(oRef)) {
-						this.aAllKeys = oRef;
-						this.iLength = oRef.length;
-						this.bLengthFinal = true;
-						// since $expand loads all associated entries, we can directly switch to client operations
-						this.bClientOperation = true;
-						this.applyFilter();
-						this.applySort();
-						this._fireChange({ reason: ChangeReason.Context });
-					} else if (!this.oModel.resolve(this.sPath, this.oContext) || oRef === null){
-						// if path does not resolve, or data is known to be null (e.g. expanded list)
-						this.aAllKeys = null;
-						this.aKeys = [];
-						this.iLength = 0;
-						this.bLengthFinal = true;
-						this._fireChange({ reason: ChangeReason.Context });
-					} else {
-						this._refresh();
-					}
+			// If binding is initial or not a relative binding, nothing to do here
+			if (this.bInitial || !this.isRelative()) {
+				return;
+			}
+
+			sResolvedPath = this.oModel.resolve(this.sPath, this.oContext);
+
+			// If path does not resolve or parent context is created, reset current list
+			if (!sResolvedPath || bCreated) {
+				if (this.aAllKeys || this.aKeys.length > 0 || this.iLength > 0) {
+					this.aAllKeys = null;
+					this.aKeys = [];
+					this.iLength = 0;
+					this.bLengthFinal = true;
+					this._fireChange({ reason: ChangeReason.Context });
 				}
+				return;
+			}
+
+			// get new entity type with new context and init filters now correctly
+			this._initSortersFilters();
+
+			// if nested list is already available, use the data and don't send additional requests
+			// $expand loads all associated entities, no paging parameters possible, so we can safely assume all data is available
+			var oRef = this.oModel._getObject(this.sPath, this.oContext);
+			this.aExpandRefs = oRef;
+			// oRef needs to be an array, so that it is the list of expanded entries
+			if (jQuery.isArray(oRef)) {
+				this.aAllKeys = oRef;
+				this.iLength = oRef.length;
+				this.bLengthFinal = true;
+				// since $expand loads all associated entries, we can directly switch to client operations
+				this.bClientOperation = true;
+				this.applyFilter();
+				this.applySort();
+				this._fireChange({ reason: ChangeReason.Context });
+			} else if (oRef === null){
+				// if data is known to be null (e.g. expanded list)
+				this.aAllKeys = null;
+				this.aKeys = [];
+				this.iLength = 0;
+				this.bLengthFinal = true;
+				this._fireChange({ reason: ChangeReason.Context });
+			} else {
+				this._refresh();
 			}
 		}
 	};
@@ -585,6 +604,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/model/FilterType', 'sap/ui/model/Lis
 			} else if (!bAborted) {
 				// reset data and trigger update
 				that.aKeys = [];
+				that.aAllKeys = [];
 				that.iLength = 0;
 				that.bLengthFinal = true;
 				that.bDataAvailable = true;
@@ -682,7 +702,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/model/FilterType', 'sap/ui/model/Lis
 			that.iLength = parseInt(oData, 10);
 			that.bLengthFinal = true;
 			that.bLengthRequested = true;
-			delete that.mRequestHandles[sPath];
+			that.oCountHandle = null;
 
 			// in the OpertionMode.Auto, we check if the count is LE than the given threshold and set the client operation flag accordingly
 			if (that.sOperationMode == OperationMode.Auto) {
@@ -716,7 +736,13 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/model/FilterType', 'sap/ui/model/Lis
 			sPath = sPath + "/$count";
 			//if load is triggered by a refresh we have to check the refreshGroup
 			sGroupId = this.sRefreshGroup ? this.sRefreshGroup : this.sGroupId;
-			this.mRequestHandles[sPath] = this.oModel.read(sPath,{withCredentials: this.oModel.bWithCredentials, groupId: sGroupId, urlParameters:aParams, success: _handleSuccess, error: _handleError});
+			this.oCountHandle = this.oModel.read(sPath, {
+				withCredentials: this.oModel.bWithCredentials,
+				groupId: sGroupId,
+				urlParameters:aParams,
+				success: _handleSuccess,
+				error: _handleError
+			});
 		}
 	};
 
@@ -745,7 +771,12 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/model/FilterType', 'sap/ui/model/Lis
 	 * @private
 	 */
 	ODataListBinding.prototype._refresh = function(bForceUpdate, mChangedEntities, mEntityTypes) {
-		var bChangeDetected = false;
+		var bChangeDetected = false,
+			bCreatedRelative = this.isRelative() && this.oContext && this.oContext.bCreated;
+
+		if (bCreatedRelative) {
+			return;
+		}
 
 		this.bPendingRefresh = false;
 
@@ -776,7 +807,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/model/FilterType', 'sap/ui/model/Lis
 				this.bPendingRefresh = true;
 				return;
 			}
-			this.abortPendingRequest();
+			this.abortPendingRequest(true);
 			this.resetData();
 			this._fireRefresh({reason: ChangeReason.Refresh});
 		}
@@ -804,7 +835,8 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/model/FilterType', 'sap/ui/model/Lis
 	 * @public
 	 */
 	ODataListBinding.prototype.initialize = function() {
-		if (this.oModel.oMetadata && this.oModel.oMetadata.isLoaded() && this.bInitial) {
+		var bCreatedRelative = this.isRelative() && this.oContext && this.oContext.bCreated;
+		if (this.oModel.oMetadata && this.oModel.oMetadata.isLoaded() && this.bInitial && !bCreatedRelative) {
 			this.bInitial = false;
 			this._initSortersFilters();
 			if (!this.bSuspended) {
@@ -929,13 +961,17 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/model/FilterType', 'sap/ui/model/Lis
 	 * This can be called if we are sure that the data from the current request is no longer relevant,
 	 * e.g. when filtering/sorting is triggered or the context is changed.
 	 *
+	 * @param {boolean} [bAbortCountRequest] Also abort the count request
 	 * @private
 	 */
-	ODataListBinding.prototype.abortPendingRequest = function() {
+	ODataListBinding.prototype.abortPendingRequest = function(bAbortCountRequest) {
 		if (!jQuery.isEmptyObject(this.mRequestHandles)) {
 			jQuery.each(this.mRequestHandles, function(sPath, oRequestHandle){
 				oRequestHandle.abort();
 			});
+			if (bAbortCountRequest && this.oCountHandle) {
+				this.oCountHandle.abort();
+			}
 			this.mRequestHandles = {};
 			this.bPendingRequest = false;
 		}
@@ -1133,7 +1169,7 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/model/FilterType', 'sap/ui/model/Lis
 				}
 			} else {
 				this.resetData();
-				this.abortPendingRequest();
+				this.abortPendingRequest(true);
 				this.sChangeReason = ChangeReason.Filter;
 				this._fireRefresh({reason: this.sChangeReason});
 			}

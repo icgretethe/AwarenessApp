@@ -24,7 +24,7 @@ function(jQuery, DesignTimeMetadata) {
 	 * @extends sap.ui.core.DesignTimeMetadata
 	 *
 	 * @author SAP SE
-	 * @version 1.38.7
+	 * @version 1.42.8
 	 *
 	 * @constructor
 	 * @private
@@ -40,6 +40,21 @@ function(jQuery, DesignTimeMetadata) {
 			library : "sap.ui.dt"
 		}
 	});
+
+	AggregationDesignTimeMetadata.prototype.getMoveAction = function(oMovedElement){
+		var mData = this.getData();
+		if (mData.actions && mData.actions.move) {
+			var vMoveChangeType = mData.actions.move;
+			if (typeof (vMoveChangeType) === "function" ){
+				return vMoveChangeType.apply(null, arguments);
+			} else {
+				return vMoveChangeType;
+			}
+		} else {
+			return undefined;
+		}
+
+	};
 
 	return AggregationDesignTimeMetadata;
 }, /* bExport= */ true);

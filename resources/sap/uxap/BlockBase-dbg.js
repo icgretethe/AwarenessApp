@@ -165,7 +165,7 @@ sap.ui.define([
 
 		BlockBase.prototype.onAfterRendering = function () {
 			if (this._getObjectPageLayout()) {
-				this._getObjectPageLayout()._adjustLayout();
+				this._getObjectPageLayout()._requestAdjustLayout();
 			}
 		};
 

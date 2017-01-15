@@ -20,12 +20,13 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			 * The RadioButtonGroup lets you do things like attach a single event handler on a group of buttons, rather than on each individual button.
 			 * The grouped radio buttons can be arranged within different number of columns.
 			 * Based on the number of specified columns and the number of radio buttons used, different layout types can be achieved - as a 'matrix',
-			 * horizontally or vertically aligned radio buttons.
+			 * horizontally or vertically aligned radio buttons.<br/>
+			 * <b>Note:</b> Design guidelines recommend application developers create radio button groups with only one row or only one column.
 
 			 * @extends sap.ui.core.Control
 			 *
 			 * @author SAP SE
-			 * @version 1.38.7
+			 * @version 1.42.8
 			 *
 			 * @constructor
 			 * @public
@@ -478,24 +479,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			};
 
 			RadioButtonGroup.prototype.updateButtons = function() {
-
-				var iSelectedIndex = this.getSelectedIndex();
-
 				this._bUpdateButtons = true;
 				this.updateAggregation("buttons");
 				this._bUpdateButtons = undefined;
-
-				// if selectedIndex is still valid -> restore
-				var aButtons = this.getButtons();
-				if (aButtons.length > 0) {
-					// if not defined -> select first one
-					this.setSelectedIndex(0);
-				}else if (iSelectedIndex >= 0 && aButtons.length == 0) {
-					this.setSelectedIndex(-1);
-				}else if (iSelectedIndex >= aButtons.length) {
-					// if less items than before -> select last one
-					this.setSelectedIndex(aButtons.length - 1);
-				}
 			};
 
 			/**
@@ -512,12 +498,14 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				var i = 0;
 				for (i = 0; i < aButtons.length; i++) {
 					aButtons[i].detachEvent("_change", this._handleItemChanged, this);
+					aButtons[i].detachEvent("select", this._handleRBSelect, this);
 				}
 
 				var oClone = Control.prototype.clone.apply(this, arguments);
 
 				for (i = 0; i < aButtons.length; i++) {
 					aButtons[i].attachEvent("_change", this._handleItemChanged, this);
+					aButtons[i].attachEvent("select", this._handleRBSelect, this);
 				}
 
 				return oClone;

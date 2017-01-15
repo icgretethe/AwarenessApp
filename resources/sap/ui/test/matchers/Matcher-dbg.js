@@ -4,7 +4,7 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-sap.ui.define(['sap/ui/base/ManagedObject'], function (fnManagedObject) {
+sap.ui.define(["jquery.sap.global", "sap/ui/base/ManagedObject", "sap/ui/test/_LogCollector"], function ($, ManagedObject, _LogCollector) {
 	"use strict";
 
 	/**
@@ -16,10 +16,15 @@ sap.ui.define(['sap/ui/base/ManagedObject'], function (fnManagedObject) {
 	 * @author SAP SE
 	 * @since 1.23
 	 */
-	return fnManagedObject.extend("sap.ui.test.matchers.Matcher", {
+	var Matcher = ManagedObject.extend("sap.ui.test.matchers.Matcher", {
 
 		metadata : {
 			publicMethods : [ "isMatching" ]
+		},
+
+		constructor: function () {
+			this._oLogger = $.sap.log.getLogger(this.getMetadata().getName(), _LogCollector.DEFAULT_LEVEL_FOR_OPA_LOGGERS);
+			return ManagedObject.prototype.constructor.apply(this, arguments);
 		},
 
 		/**
@@ -35,9 +40,8 @@ sap.ui.define(['sap/ui/base/ManagedObject'], function (fnManagedObject) {
 		 */
 		isMatching : function (oControl) {
 			return true;
-		},
-
-		_sLogPrefix : "Opa5 matcher"
+		}
 	});
 
+	return Matcher;
 }, /* bExport= */ true);

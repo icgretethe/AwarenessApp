@@ -26,7 +26,7 @@ sap.ui.define(['jquery.sap.global',
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.38.7
+	 * @version 1.42.8
 	 *
 	 * @constructor
 	 * @public
@@ -133,12 +133,6 @@ sap.ui.define(['jquery.sap.global',
 	CheckBox.prototype.init = function() {
 		this.addActiveState(this);
 		IconPool.insertFontFaceStyle();
-	};
-
-	CheckBox.prototype.onAfterRendering = function() {
-		if (!this.getText() && !this.$().attr("aria-labelledby")) {
-			this.$().attr("aria-label", " ");
-		}
 	};
 
 	CheckBox.prototype.exit = function() {

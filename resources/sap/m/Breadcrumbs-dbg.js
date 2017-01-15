@@ -31,7 +31,7 @@ sap.ui.define([
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.38.7
+	 * @version 1.42.8
 	 *
 	 * @constructor
 	 * @public
@@ -205,8 +205,6 @@ sap.ui.define([
 			oSelect.setSelectedIndex(0);
 		} else {
 			oSelect.setSelectedItem(null);
-			/* this is a fix for a bug in the select, this line should be romeved after it has been fixed in the select */
-			oSelect.getPicker().getCustomHeader().getContentLeft()[0].setValue(null);
 		}
 
 		Select.prototype._onBeforeOpenDialog.call(oSelect);
@@ -321,13 +319,18 @@ sap.ui.define([
 	};
 
 	Breadcrumbs.prototype._getControlsForBreadcrumbTrail = function () {
+		var aVisibleControls;
+
 		if (this._bControlDistributionCached && this._oDistributedControls) {
 			return this._oDistributedControls.aControlsForBreadcrumbTrail;
 		}
+
+		aVisibleControls = this.getLinks().filter(function (oLink) { return oLink.getVisible(); });
+
 		if (this.getCurrentLocationText()) {
-			return this.getLinks().concat([this._getCurrentLocation()]);
+			return aVisibleControls.concat([this._getCurrentLocation()]);
 		}
-		return this.getLinks();
+		return aVisibleControls;
 	};
 
 	Breadcrumbs.prototype._getControlInfo = function (oControl) {

@@ -36,6 +36,14 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/model/TreeBinding', 'sap/ui/model/Cl
 
 			this._invalidTree = true;
 
+			// TODO: Decide if the tree state feature should be available for ClientModels
+			//-> remove comments if yes
+
+			// restore old tree state if given
+			//if (this.mParameters.treeState) {
+			//	this.setTreeState(this.mParameters.treeState);
+			//}
+
 			//set the default auto expand mode
 			this.setNumberOfExpandedLevels(this.mParameters.numberOfExpandedLevels || 0);
 		};
@@ -168,6 +176,88 @@ sap.ui.define(['jquery.sap.global', 'sap/ui/model/TreeBinding', 'sap/ui/model/Cl
 				this._aRowIndexMap = []; // clear cache to prevent inconsistent state between cache and real tree
 				TreeBindingAdapter.prototype._buildTree.call(this, iStartIndex, iLength);
 			}
+		};
+
+		/**
+		 * Due to the tree invalidation mechanism the tree has to be rebuilt before a findNode operation.
+		 * Calling buildTree is performance-safe, as the tree is invalid anyway.
+		 * @override
+		 */
+		ClientTreeBindingAdapter.prototype.findNode = function () {
+			this._buildTree();
+			return TreeBindingAdapter.prototype.findNode.apply(this, arguments);
+		};
+
+		/**
+		 * Due to the tree invalidation mechanism the tree has to be rebuilt before a setSelectedIndex operation.
+		 * Calling buildTree is performance-safe, as the tree is invalid anyway.
+		 * @override
+		 */
+		ClientTreeBindingAdapter.prototype.setSelectedIndex = function () {
+			this._buildTree();
+			return TreeBindingAdapter.prototype.setSelectedIndex.apply(this, arguments);
+		};
+
+		/**
+		 * Due to the tree invalidation mechanism the tree has to be rebuilt before a setSelctionInterval operation.
+		 * Calling buildTree is performance-safe, as the tree is invalid anyway.
+		 * @override
+		 */
+		ClientTreeBindingAdapter.prototype.setSelectionInterval = function () {
+			this._buildTree();
+			return TreeBindingAdapter.prototype.setSelectionInterval.apply(this, arguments);
+		};
+
+		/**
+		 * Due to the tree invalidation mechanism the tree has to be rebuilt before a addSelectionInterval operation.
+		 * Calling buildTree is performance-safe, as the tree is invalid anyway.
+		 * @override
+		 */
+		ClientTreeBindingAdapter.prototype.addSelectionInterval = function () {
+			this._buildTree();
+			TreeBindingAdapter.prototype.addSelectionInterval.apply(this, arguments);
+		};
+
+		/**
+		 * Due to the tree invalidation mechanism the tree has to be rebuilt before a addSelectionInterval operation.
+		 * Calling buildTree is performance-safe, as the tree is invalid anyway.
+		 * @override
+		 */
+		ClientTreeBindingAdapter.prototype.removeSelectionInterval = function () {
+			this._buildTree();
+			TreeBindingAdapter.prototype.removeSelectionInterval.apply(this, arguments);
+		};
+
+		/**
+		 * Due to the tree invalidation mechanism the tree has to be rebuilt before a addSelectionInterval operation.
+		 * Calling buildTree is performance-safe, as the tree is invalid anyway.
+		 * @override
+		 */
+		ClientTreeBindingAdapter.prototype.clearSelection = function () {
+			this._buildTree();
+			TreeBindingAdapter.prototype.clearSelection.apply(this, arguments);
+		};
+
+		/**
+		 * Due to the tree invalidation mechanism the tree has to be rebuilt before a addSelectionInterval operation.
+		 * Calling buildTree is performance-safe, as the tree is invalid anyway.
+		 * @override
+		 */
+		ClientTreeBindingAdapter.prototype.selectAll = function () {
+			this._buildTree();
+			TreeBindingAdapter.prototype.selectAll.apply(this, arguments);
+		};
+
+		/**
+		 * Calculate the request length based on the given information
+		 *
+		 * Because client treebinding knows all of the data from the very beginning, it should simply return the the
+		 * maximum group size without looking at the current section.
+		 *
+		 * @override
+		 */
+		ClientTreeBindingAdapter.prototype._calculateRequestLength = function(iMaxGroupSize, oSection) {
+			return iMaxGroupSize;
 		};
 
 		ClientTreeBindingAdapter.prototype.getLength = function() {

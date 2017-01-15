@@ -4,10 +4,17 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 /*global QUnit */
-
 sap.ui.define(['./Opa', './Opa5'], function (Opa, Opa5) {
 	"use strict";
 
+	QUnit.testDone(function( details ) {
+		var bTimedOut = details.assertions.some(function (oAssertion) {
+			return !oAssertion.result && oAssertion.message === "Test timed out";
+		});
+		if (bTimedOut) {
+			Opa._stopQueue(false);
+		}
+	});
 	/**
 	 * QUnit test adapter for opa.js has the same signature as a test of QUnit.
 	 * Suggested usage:
@@ -65,6 +72,8 @@ sap.ui.define(['./Opa', './Opa5'], function (Opa, Opa5) {
 			QUnit.config.testTimeout  = 90000;
 		}
 		QUnit.config.reorder = false;
+		// better chance that screenshots will capture the current failure
+		QUnit.config.scrolltop = false;
 
 		if (arguments.length === 2) {
 			callback = expected;
@@ -92,7 +101,8 @@ sap.ui.define(['./Opa', './Opa5'], function (Opa, Opa5) {
 				QUnit.ok(false, oOptions.errorMessage);
 				Opa.assert = undefined;
 				Opa5.assert = undefined;
-				fnStart();
+				// let OPA finish before QUnit starts executing the next test
+				setTimeout(fnStart, 0);
 			});
 		};
 
@@ -100,6 +110,17 @@ sap.ui.define(['./Opa', './Opa5'], function (Opa, Opa5) {
 	};
 	// Export to global namespace to be backwards compatible
 	window.opaTest = opaTest;
+
+	QUnit.config.urlConfig.push({
+		id: "opaExecutionDelay",
+		value: {
+			400: "fast",
+			700: "medium",
+			1000: "slow"
+		},
+		label: "Opa speed",
+		tooltip: "Each waitFor will be delayed by a number of milliseconds. If it is not set Opa will execute the tests as fast as possible"
+	});
 
 	return opaTest;
 });

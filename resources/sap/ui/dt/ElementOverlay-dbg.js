@@ -32,7 +32,7 @@ function(Overlay, ControlObserver, ManagedObjectObserver, ElementDesignTimeMetad
 	 * @extends sap.ui.core.Control
 	 *
 	 * @author SAP SE
-	 * @version 1.38.7
+	 * @version 1.42.8
 	 *
 	 * @constructor
 	 * @private
@@ -387,9 +387,7 @@ function(Overlay, ControlObserver, ManagedObjectObserver, ElementDesignTimeMetad
 	 * @private
 	 */
 	ElementOverlay.prototype._createAggregationOverlay = function(sAggregationName, bInHiddenTree) {
-		var oData =  this.getDesignTimeMetadata().getAggregation(sAggregationName);
-
-		var oAggregationDesignTimeMetadata = new AggregationDesignTimeMetadata({data : oData});
+		var oAggregationDesignTimeMetadata = this.getDesignTimeMetadata().createAggregationDesignTimeMetadata(sAggregationName);
 
 		var oAggregationOverlay = new AggregationOverlay({
 			aggregationName : sAggregationName,
@@ -553,7 +551,7 @@ function(Overlay, ControlObserver, ManagedObjectObserver, ElementDesignTimeMetad
 	ElementOverlay.prototype._onDomChanged = function(oEvent) {
 		var aIds = oEvent.getParameters().elementIds || [];
 		var oElement = this.getElementInstance();
-		if (aIds.indexOf(oElement.getId()) !== -1) {
+		if (oElement && aIds.indexOf(oElement.getId()) !== -1) {
 			// if element's DOM turns visible (via DOM mutations, classes and so on)
 			if (this._mGeometry && !this._mGeometry.visible) {
 				delete this._mGeometry;
@@ -686,6 +684,34 @@ function(Overlay, ControlObserver, ManagedObjectObserver, ElementDesignTimeMetad
 			return false;
 		}
 
+	};
+
+	/**
+	 * Returns agrregation overlay of public parent, which is an ancestor of this overlay
+	 *
+	 * @return {sap.ui.dt.Overlay} Overlay public parent
+	 * @public
+	 */
+	ElementOverlay.prototype.getPublicParentAggregationOverlay = function() {
+		var oAggregationOverlay = this.getParentAggregationOverlay();
+		var oParentElementOverlay = this.getParentElementOverlay();
+		while (oParentElementOverlay && ElementUtil.isInstanceOf(oParentElementOverlay, "sap.ui.dt.ElementOverlay") && oParentElementOverlay.isInHiddenTree()) {
+			oAggregationOverlay = oParentElementOverlay.getParentAggregationOverlay();
+			oParentElementOverlay = oParentElementOverlay.getParentElementOverlay();
+		}
+		return oAggregationOverlay;
+	};
+
+	/**
+	 * Returns first ancestor overlay not flagged as inHiddenTree
+	 * @return {sap.ui.dt.ElementOverlay} ElementOverlay public parent
+	 * @public
+	 */
+	ElementOverlay.prototype.getPublicParentElementOverlay = function() {
+		var oPublicParentAggregationOverlay = this.getPublicParentAggregationOverlay();
+		if (oPublicParentAggregationOverlay) {
+			return oPublicParentAggregationOverlay.getParent();
+		}
 	};
 
 	return ElementOverlay;

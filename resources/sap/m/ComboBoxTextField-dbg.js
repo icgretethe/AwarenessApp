@@ -4,8 +4,8 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-sap.ui.define(['jquery.sap.global', './InputBase', './library'],
-	function(jQuery, InputBase, library) {
+sap.ui.define(['jquery.sap.global', './InputBase', './library', 'sap/ui/core/InvisibleText'],
+	function(jQuery, InputBase, library, InvisibleText) {
 		"use strict";
 
 		/**
@@ -19,7 +19,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library'],
 		 * @extends sap.m.InputBase
 		 *
 		 * @author SAP SE
-		 * @version 1.38.7
+		 * @version 1.42.8
 		 *
 		 * @constructor
 		 * @public
@@ -50,9 +50,26 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library'],
 						group: "Appearance",
 						defaultValue: true
 					}
+				},
+				aggregations: {
+					_buttonLabelText: {type : "sap.ui.core.InvisibleText", multiple : false, visibility : "hidden"}
 				}
 			}
 		});
+
+		ComboBoxTextField.prototype.init = function() {
+			InputBase.prototype.init.apply(this, arguments);
+			var oRb, oArrowDownInvisibleLabel;
+
+			if (sap.ui.getCore().getConfiguration().getAccessibility()) {
+				oRb = sap.ui.getCore().getLibraryResourceBundle("sap.m");
+				oArrowDownInvisibleLabel = new InvisibleText({
+					text: oRb.getText("COMBOBOX_BUTTON")
+				});
+
+				this.setAggregation("_buttonLabelText", oArrowDownInvisibleLabel, true);
+			}
+		};
 
 		ComboBoxTextField.prototype.updateValueStateClasses = function(sValueState, sOldValueState) {
 			InputBase.prototype.updateValueStateClasses.apply(this, arguments);
@@ -132,7 +149,7 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library'],
 		 *
 		 * Default value is an empty string.
 		 *
-		 * @return {string} The value of property <code>value</code>.
+		 * @returns {string} The value of property <code>value</code>
 		 * @public
 		 */
 		ComboBoxTextField.prototype.getValue = function() {
@@ -173,9 +190,9 @@ sap.ui.define(['jquery.sap.global', './InputBase', './library'],
 		};
 
 		/**
-		 * Gets the DOM reference the message popup should be docked.
+		 * Gets the DOM element reference where the message popup is attached.
 		 *
-		 * @return {object}
+		 * @returns {object} The DOM element reference where the message popup is attached
 		 */
 		ComboBoxTextField.prototype.getDomRefForValueStateMessage = function() {
 			return this.getDomRef();

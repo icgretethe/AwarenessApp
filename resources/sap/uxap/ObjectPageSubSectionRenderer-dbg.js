@@ -29,6 +29,7 @@ sap.ui.define(function () {
 		oRm.writeAttribute("role", "region");
 		oRm.writeControlData(oControl);
 		oRm.addClass("sapUxAPObjectPageSubSection");
+		oRm.addClass("ui-helper-clearfix");
 		oRm.writeClasses(oControl);
 		oRm.writeClasses();
 		oRm.write(">");
@@ -57,9 +58,6 @@ sap.ui.define(function () {
 			oRm.writeAttributeEscaped("id", oControl.getId() + "-headerTitle");
 			oRm.writeClasses();
 			oRm.writeAttribute("data-sap-ui-customfastnavgroup", true);
-			if (bHasTitle) {
-				oRm.writeAttribute("tabindex", 0);
-			}
 			oRm.write(">");
 			if (bHasTitle) {
 				oRm.writeEscaped(oControl.getTitle());

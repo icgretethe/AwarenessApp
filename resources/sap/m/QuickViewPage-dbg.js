@@ -37,7 +37,7 @@ sap.ui.define([
 			* @extends sap.ui.core.Control
 			*
 			* @author SAP SE
-			* @version 1.38.7
+			* @version 1.42.8
 			*
 			* @constructor
 			* @public
@@ -138,7 +138,24 @@ sap.ui.define([
 				if (fGetService) {
 					this.oCrossAppNavigator = fGetService("CrossApplicationNavigation");
 				}
+			};
 
+			/**
+			 * Called before the control is rendered.
+			 * @private
+			 */
+			QuickViewPage.prototype.onBeforeRendering =  function() {
+				this._destroyPageContent();
+				this._createPageContent();
+			};
+
+			/**
+			 * Returns page content containing the header and the form.
+			 * @private
+			 * @returns {Object} Object containing the header and the form
+			 */
+			QuickViewPage.prototype.getPageContent =  function() {
+				return this._mPageContent;
 			};
 
 			/**
@@ -275,10 +292,12 @@ sap.ui.define([
 					oForm.addAriaLabelledBy(oPageTitleControl);
 				}
 
-				return {
-					form : oForm,
-					header : oHeader
+				this._mPageContent = {
+					form: oForm,
+					header: oHeader
 				};
+
+				return this._mPageContent;
 			};
 
 			/**
@@ -497,9 +516,33 @@ sap.ui.define([
 				};
 			};
 
+			QuickViewPage.prototype._destroyPageContent = function() {
+				if (!this._mPageContent) {
+					return;
+				}
+
+				if (this._mPageContent.form) {
+					this._mPageContent.form.destroy();
+				}
+
+				if (this._mPageContent.header) {
+					this._mPageContent.header.destroy();
+				}
+
+				this._mPageContent = null;
+
+			};
+
 			QuickViewPage.prototype.exit = function() {
 				this._oResourceBundle = null;
-				this._oPage = null;
+
+				if (this._oPage) {
+					this._oPage.destroy();
+					this._oPage = null;
+				} else {
+					this._destroyPageContent();
+				}
+
 				this._mNavContext = null;
 			};
 
@@ -548,6 +591,11 @@ sap.ui.define([
 					mNavContext.quickView._clearContainerHeight();
 
 					this._createPage();
+
+					// in some cases the popover has display:none style here,
+					// which delays the simple form re-arranging and an unwanted scrollbar might appear.
+					mNavContext.popover.$().css('display', 'block');
+
 					mNavContext.quickView._restoreFocus();
 				}
 			};

@@ -4,22 +4,75 @@
  * Licensed under the Apache License, Version 2.0 - see LICENSE.txt.
  */
 
-sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/core/EnabledPropagator'],
-	function(jQuery, library, Control, EnabledPropagator) {
+sap.ui.define([
+		'jquery.sap.global',
+		'./library',
+		'sap/ui/core/Control',
+		'sap/ui/core/EnabledPropagator',
+		'./Input',
+		'sap/ui/core/InvisibleText'
+	],
+	function(jQuery, library, Control, EnabledPropagator, Input, InvisibleText) {
 		"use strict";
 
 		/**
-		 * Constructor for a new <code>sap.m.Slider</code>.
+		 * Constructor for a new <code>Slider</code>.
 		 *
-		 * @param {string} [sId] ID for the new control, generated automatically if no ID is given.
-		 * @param {object} [mSettings] Initial settings for the new control.
+		 * @param {string} [sId] ID for the new control, generated automatically if no ID is given
+		 * @param {object} [mSettings] Initial settings for the new control
 		 *
 		 * @class
-		 * A slider is a user interface control that enables the user to adjust values in a specified numerical range.
+		 * A control that shows an interval and a handle to select a single value on it.
+		 * <h3>Overview</h3>
+		 *
+		 * A {@link sap.m.Slider} control represents a numerical range and a handle.
+		 * The purpose of the control is to enable visual selection of а value in a continuous numerical range by moving an adjustable handle.
+		 *
+		 * <b>Notes:</b>
+		 * <ul><li>Only horizontal sliders are possible. </li>
+		 * <li>The handle can be moved in steps of predefined size. This is done with the <code>step</code> property. </li>
+		 * <li>Setting the property <code>showAdvancedTooltips</code> shows an input field above the handle</li>
+		 * <li>Setting the property <code>inputsAsTooltips</code> enables the user to enter a specific value in the handle's tooltip. </li>
+		 * </ul>
+		 *
+		 *
+		 * <h3>Structure</h3>
+		 *
+		 * The most important properties of the Slider are:
+		 * <ul>
+		 * <li> min - The minimum value of the slider range </li>
+		 * <li> max - The maximum value of the slider range </li>
+		 * <li> value - The current value of the slider</li>
+		 * <li> progress - Determines if a progress bar will be shown on the slider range</li>
+		 * <li> step - Determines the increments in which the slider will move</li>
+		 * </ul>
+		 * These properties determine the visualization of the tooltips:
+		 * <ul>
+		 * <li> showAdvancedTooltips - Determines if a tooltip should be displayed above the handle</li>
+		 * <li> inputsAsTooltips - Determines if the tooltip displayed above the slider's handle should include an input field</li>
+		 * </ul>
+		 *
+		 *
+		 * <h3>Usage</h3>
+		 *
+		 * The most common usecase is to select values on a continuous numerical scale (e.g. temperature, volume, etc. ).
+		 *
+		 *
+		 * <h3>Responsive Behavior</h3>
+		 *
+		 * The <code>sap.m.Slider</code> control adjusts to the size of its parent container by recalculating and resizing the width of the control.
+		 * You can move the slider handle in several different ways:
+		 * <ul>
+		 * <li> Drag and drop to the desired value</li>
+		 * <li> Click/tap on the range bar to move the handle to that location </li>
+		 * <li> Enter the desired value in the input field (if available) </li>
+		 * <li> Keyboard (Arrow keys, "+" and "-") </li>
+		 * </ul>
+		 *
 		 * @extends sap.ui.core.Control
 		 *
 		 * @author SAP SE
-		 * @version 1.38.7
+		 * @version 1.42.8
 		 *
 		 * @constructor
 		 * @public
@@ -83,7 +136,22 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				 * @since 1.31
 				 *
 				 */
-				showHandleTooltip: { type: "boolean", group: "Appearance", defaultValue: true}
+				showHandleTooltip: { type: "boolean", group: "Appearance", defaultValue: true},
+
+				/**
+				 * Indicate whether the handle's advanced tooltip is shown. <b>Note:</b> Setting this option to <code>true</code>
+				 * will ignore the value set in <code>showHandleTooltips</code>. This will cause only the advanced tooltip to be shown.
+				 * @since 1.42
+				 *
+				 */
+				showAdvancedTooltip: { type: "boolean", group: "Appearance", defaultValue: false},
+
+				/**
+				 * Indicates whether input fields should be used as tooltips for the handles. <b>Note:</b> Setting this option to <code>true</code>
+				 * will only work if <code>showAdvancedTooltips</code> is set to <code>true</code>.
+				 * @since 1.42
+				 */
+				inputsAsTooltips : {type: "boolean", group: "Appearance", defaultValue: false}
 			},
 			associations: {
 
@@ -123,6 +191,11 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			}
 		}});
 
+		//Defines object which contains constants used by the control.
+		Slider.prototype._CONSTANTS = {
+			CHARACTER_WIDTH_PX : 8
+		};
+
 		EnabledPropagator.apply(Slider.prototype, [true]);
 
 		/* =========================================================== */
@@ -155,6 +228,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			this._fSliderPaddingLeft = parseFloat($Slider.css("padding-left"));
 			this._fSliderOffsetLeft = $Slider.offset().left;
 			this._fHandleWidth = this.$("handle").width();
+
+			this._fTooltipHalfWidthPercent =
+				((this._fSliderWidth - (this._fSliderWidth - (this._iLongestRangeTextWidth / 2 + this._CONSTANTS.CHARACTER_WIDTH_PX))) / this._fSliderWidth) * 100;
 		};
 
 		/**
@@ -317,9 +393,14 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			}
 
 			// update the position of the handle
-			oHandleDomRef.style[sap.ui.getCore().getConfiguration().getRTL() ? "right" : "left"] = sPerValue;
+			oHandleDomRef.style[this._bRTL ? "right" : "left"] = sPerValue;
 
-			if (this.getShowHandleTooltip()) {
+			// update the position of the advanced tooltip
+			if (this.getShowAdvancedTooltip()) {
+				this._updateAdvancedTooltipDom(sNewValue);
+			}
+
+			if (this.getShowHandleTooltip() && !this.getShowAdvancedTooltip()) {
 
 				// update the tooltip
 				oHandleDomRef.title = sNewValue;
@@ -327,6 +408,35 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 			// update the ARIA attribute value
 			oHandleDomRef.setAttribute("aria-valuenow", sNewValue);
+		};
+
+		Slider.prototype._updateAdvancedTooltipDom = function (sNewValue) {
+			var bInputTooltips = this.getInputsAsTooltips(),
+				oTooltipsContainer = this.getDomRef("TooltipsContainer"),
+				oTooltip = bInputTooltips && this._oInputTooltip ?
+					this._oInputTooltip.tooltip : this.getDomRef("Tooltip"),
+				sAdjustProperty = this._bRTL ? "right" : "left";
+
+			if (!bInputTooltips) {
+				oTooltip.innerHTML = sNewValue;
+			} else if (bInputTooltips && oTooltip.getValue() !== sNewValue) {
+				oTooltip.setValue(sNewValue);
+				oTooltip.$("inner").attr("value", sNewValue);
+			}
+
+			oTooltipsContainer.style[sAdjustProperty] = this._getTooltipPosition(sNewValue);
+		};
+
+		Slider.prototype._getTooltipPosition = function (sNewValue) {
+			var fPerValue = this._getPercentOfValue(+sNewValue);
+
+			if (fPerValue < this._fTooltipHalfWidthPercent) {
+				return 0 + "%";
+			} else if (fPerValue > 100 - this._fTooltipHalfWidthPercent) {
+				return (100 - this._fTooltipHalfWidthPercent * 2) + "%";
+			} else {
+				return fPerValue - this._fTooltipHalfWidthPercent + "%";
+			}
 		};
 
 		/**
@@ -401,6 +511,51 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			return document.activeElement === this.getFocusDomRef();
 		};
 
+		/**
+		 * Creates an input field that will be used in slider's tooltip
+		 *
+		 * @param {String} sSuffix Suffix to append to the ID
+		 * @param {Object} oAriaLabel Control that will be used as reference for the screen reader
+		 * @returns {Object} sap.m.Input with all needed events attached and properties filled
+		 * @private
+		 */
+		Slider.prototype._createInputField = function (sSuffix, oAriaLabel) {
+			var oInput = new Input(this.getId() + "-" + sSuffix, {
+				value: this.getMin(),
+				width: this._iLongestRangeTextWidth + (2 * this._CONSTANTS.CHARACTER_WIDTH_PX) /*16 px in paddings for the input*/ + "px",
+				type: "Number",
+				textAlign: sap.ui.core.TextAlign.Center,
+				ariaLabelledBy: oAriaLabel
+			});
+
+			oInput.attachChange(this._handleInputChange.bind(this, oInput));
+
+			oInput.addEventDelegate({
+				onfocusout: function (oEvent) {
+					oEvent.srcControl.fireChange({value: oEvent.target.value});
+				}
+			});
+
+			return oInput;
+		};
+
+		Slider.prototype._handleInputChange = function (oInput, oEvent) {
+			var newValue = parseFloat(oEvent.getParameter("value"), 10);
+
+			if (isNaN(newValue) || newValue < this.getMin() || newValue > this.getMax()) {
+				oInput.setValueState("Error");
+				return;
+			}
+
+			oInput.setValueState("None");
+
+			this.setValue(newValue);
+
+			oInput.focus();
+
+			this._fireChangeAndLiveChange({value: this.getValue()});
+		};
+
 		/* =========================================================== */
 		/* Lifecycle methods                                           */
 		/* =========================================================== */
@@ -411,11 +566,36 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			this._iActiveTouchId = -1;
 
 			this._bSetValueFirstCall = true;
+
+			this._bRTL = sap.ui.getCore().getConfiguration().getRTL();
+
+			// the width of the longest range value, which determines the width of the tooltips shown above the handles
+			this._iLongestRangeTextWidth = 0;
+
+			// half the width of the tooltip in percent of the total RangeSlider width
+			this._fTooltipHalfWidthPercent = 0;
+
+			this._oResourceBundle = sap.ui.getCore().getLibraryResourceBundle('sap.m');
+
+			this._ariaUpdateDelay = [];
+		};
+
+		Slider.prototype.exit = function () {
+			if (this._oInputTooltip) {
+				this._oInputTooltip.label.destroy();
+				this._oInputTooltip.label = null;
+
+				this._oInputTooltip.tooltip.destroy();
+				this._oInputTooltip.tooltip = null;
+
+				this._oInputTooltip = null;
+			}
 		};
 
 		Slider.prototype.onBeforeRendering = function() {
-
-			var bError = this._validateProperties();
+			var bError = this._validateProperties(),
+				aAbsRange = [Math.abs(this.getMin()), Math.abs(this.getMax())],
+				iRangeIndex = aAbsRange[0] > aAbsRange[1] ? 0 : 1;
 
 			// update the value only if there aren't errors
 			if (!bError) {
@@ -428,6 +608,25 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 			if (!this._hasFocus()) {
 				this._fInitialFocusValue = this.getValue();
+			}
+
+			if (this.getShowAdvancedTooltip()) {
+				this._iLongestRangeTextWidth = ((aAbsRange[iRangeIndex].toString()).length + 1) * this._CONSTANTS.CHARACTER_WIDTH_PX;
+			}
+
+			if (this.getInputsAsTooltips() && !this._oInputTooltip) {
+				var oSliderLabel = new InvisibleText({text: this._oResourceBundle.getText("SLIDER_HANDLE")});
+				this._oInputTooltip = {
+					tooltip: this._createInputField("Tooltip", oSliderLabel),
+					label: oSliderLabel
+				};
+			}
+		};
+
+		Slider.prototype.onAfterRendering = function () {
+			if (this.getShowAdvancedTooltip()) {
+				this._recalculateStyles();
+				this._updateAdvancedTooltipDom(this.getValue());
 			}
 		};
 
@@ -449,6 +648,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 			// mark the event for components that needs to know if the event was handled
 			oEvent.setMarked();
+
+			if (["number", "text"].indexOf(oEvent.target.type) > -1) {
+				return;
+			}
 
 			// only process single touches
 			if (sap.m.touch.countContained(oEvent.touches, this.getId()) > 1 ||
@@ -497,7 +700,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 
 				fNewValue = (((oTouch.pageX - this._fSliderPaddingLeft - this._fSliderOffsetLeft) / this._fSliderWidth) * (this.getMax() - fMin)) +  fMin;
 
-				if (sap.ui.getCore().getConfiguration().getRTL()) {
+				if (this._bRTL) {
 					fNewValue = this._convertValueToRtlMode(fNewValue);
 				}
 
@@ -546,7 +749,7 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 				fNewValue = (((iPageX - this._fDiffX - this._fSliderOffsetLeft) / this._fSliderWidth) * (this.getMax() - fMin)) +  fMin;
 
 			// RTL mirror
-			if (sap.ui.getCore().getConfiguration().getRTL()) {
+			if (this._bRTL) {
 				fNewValue = this._convertValueToRtlMode(fNewValue);
 			}
 
@@ -598,6 +801,28 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 			}
 		};
 
+		Slider.prototype.onfocusin = function (oEvent) {
+			var sCSSClass = this.getRenderer().CSS_CLASS;
+
+			this.$("TooltipsContainer").addClass(sCSSClass + "HandleTooltipsShow");
+
+			// remember the initial focus range so when esc key is pressed we can return to it
+			if (!this._hasFocus()) {
+				this._fInitialFocusValue = this.getValue();
+			}
+		};
+
+		Slider.prototype.onfocusout = function (oEvent) {
+			var sCSSClass = this.getRenderer().CSS_CLASS,
+				bInputTooltips = this.getInputsAsTooltips();
+
+			if (bInputTooltips && jQuery.contains(this.getDomRef(),oEvent.relatedTarget)) {
+				return;
+			}
+
+			this.$("TooltipsContainer").removeClass(sCSSClass + "HandleTooltipsShow");
+		};
+
 		/* ----------------------------------------------------------- */
 		/* Keyboard handling                                           */
 		/* ----------------------------------------------------------- */
@@ -610,6 +835,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		Slider.prototype.onsapincrease = function(oEvent) {
 			var fValue,
 				fNewValue;
+
+			if (["number", "text"].indexOf(oEvent.target.type) > -1) {
+				return;
+			}
 
 			// note: prevent document scrolling when arrow keys are pressed
 			oEvent.preventDefault();
@@ -634,6 +863,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 * @param {jQuery.Event} oEvent The event object.
 		 */
 		Slider.prototype.onsapincreasemodifiers = function(oEvent) {
+			if (["number", "text"].indexOf(oEvent.target.type) > -1) {
+				return;
+			}
 
 			// note: prevent document scrolling when arrow keys are pressed
 			oEvent.preventDefault();
@@ -652,6 +884,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		Slider.prototype.onsapdecrease = function(oEvent) {
 			var fValue,
 				fNewValue;
+
+			if (["number", "text"].indexOf(oEvent.target.type) > -1) {
+				return;
+			}
 
 			// note: prevent document scrolling when arrow keys are pressed
 			oEvent.preventDefault();
@@ -676,7 +912,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 * @param {jQuery.Event} oEvent The event object.
 		 */
 		Slider.prototype.onsapdecreasemodifiers = function(oEvent) {
-
+			if (["number", "text"].indexOf(oEvent.target.type) > -1) {
+				return;
+			}
 			// note: prevent document scrolling when arrow keys are pressed
 			oEvent.preventDefault();
 
@@ -694,6 +932,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		Slider.prototype.onsapplus = function(oEvent) {
 			var fValue,
 				fNewValue;
+
+			if (["number", "text"].indexOf(oEvent.target.type) > -1) {
+				return;
+			}
 
 			// mark the event for components that needs to know if the event was handled
 			oEvent.setMarked();
@@ -718,6 +960,10 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		Slider.prototype.onsapminus = function(oEvent) {
 			var fValue,
 				fNewValue;
+
+			if (["number", "text"].indexOf(oEvent.target.type) > -1) {
+				return;
+			}
 
 			// mark the event for components that needs to know if the event was handled
 			oEvent.setMarked();
@@ -754,6 +1000,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 * @param {jQuery.Event} oEvent The event object.
 		 */
 		Slider.prototype.onsaphome = function(oEvent) {
+			if (["number", "text"].indexOf(oEvent.target.type) > -1) {
+				return;
+			}
 
 			// mark the event for components that needs to know if the event was handled
 			oEvent.setMarked();
@@ -775,6 +1024,9 @@ sap.ui.define(['jquery.sap.global', './library', 'sap/ui/core/Control', 'sap/ui/
 		 * @param {jQuery.Event} oEvent The event object.
 		 */
 		Slider.prototype.onsapend = function(oEvent) {
+			if (["number", "text"].indexOf(oEvent.target.type) > -1) {
+				return;
+			}
 
 			// mark the event for components that needs to know if the event was handled
 			oEvent.setMarked();
