@@ -1,6 +1,11 @@
 #Suicide Prevention Squad
 This is the Senior Project code for a suicide awareness web application.
 
+#Contributors
+Erik Johnson (Akwaduk)  
+Geoff Gates (icgretethe, Timmythepirate)  
+Jake Donovan (jdonova)  
+
 ##Things to do (list of future implementations)
 ~~a) when viewed on a tablet all you can see is the top of the girl's head.~~  
 **FIXED:**Had to remove the picture of the girl in order to guarantee this won't happen.
