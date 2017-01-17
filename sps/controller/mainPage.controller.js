@@ -4,6 +4,7 @@ sap.ui.controller("sps.controller.mainPage", {
    * to remain the same if someone leaves the decision tree, goes to the
    * mainPage and then goes back to the decision tree
    */
+
   // Go to the Decision Tree Page
   goToTree: function() {
       //console.log(backData.id);
@@ -22,14 +23,14 @@ sap.ui.controller("sps.controller.mainPage", {
       sap.m.URLHelper.redirect("https://publicdocs.maxient.com/reportingform.php?SIUEdwardsville&layout_id=2", false);
       updateBackData(treePage);
   },
-	//Go To Educate yourself Page
-	toEducateYourselfPage: function() {
-		sap.m.URLHelper.redirect("https://www.siue.edu/counseling/Resources_Suicide.shtml", false);
-    updateBackData(treePage);
-	},
-	// Go to the Stay Informed Age
-	toStayInformedPage: function() {
-		app.to(stayInformedPage);
-    updateBackData(treePage);
+  //Go To Educate yourself Page
+  toEducateYourselfPage: function() {
+      sap.m.URLHelper.redirect("https://www.siue.edu/counseling/Resources_Suicide.shtml", false);
+      updateBackData(treePage);
+  },
+  // Go to the Stay Informed Age
+  toStayInformedPage: function() {
+	  app.to(stayInformedPage);
+      updateBackData(treePage);
 	}
 });

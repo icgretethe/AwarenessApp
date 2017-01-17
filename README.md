@@ -31,6 +31,7 @@ e) Under Get Educated please link to Kognito page on Counseling Services website
 **NOTE:**This is not relavent to the project code
 
 ~~g) Under "Important Contacts" move the crisis numbers up above "Provident Counseling" and push everything else down.~~  
-**FIXED:**
+**FIXED**
 
-h) Please put the National Suicide Prevention Lifeline (800.273.8255) at the bottom of the screen on the home page.
+~~h) Please put the National Suicide Prevention Lifeline (800.273.8255) at the bottom of the screen on the home page.~~  
+**FIXED**

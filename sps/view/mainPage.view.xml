@@ -6,11 +6,12 @@
         <VBox class="buttonBox">
             <!-- the text should probably not be hard-coded, but that can be fixed later -->
             <Text class="menuHeader"/>
-            <Button class="mainPageButton" text="Help Tree" press="goToTree"/>
-            <Button class="mainPageButton" text="Important Contacts" press="toInfoPage"/>
-            <Button class="mainPageButton" text="Cougar Care Report" press="toCareReport"/>
-            <Button class="mainPageButton" text="SIUE Counseling Services" press ="toEducateYourselfPage"/>
-            <Button class="mainPageButton" text="Stay Informed" press ="toStayInformedPage"/>
+            <Button text="Help Tree" press="goToTree"/>
+            <Button text="Important Contacts" press="toInfoPage"/>
+            <Button text="Cougar Care Report" press="toCareReport"/>
+            <Button text="SIUE Counseling Services" press="toEducateYourselfPage"/>
+            <Button text="Stay Informed" press="toStayInformedPage"/>
+            <Text id="foot" text="National Suicide Prevention Lifeline (800.273.8255)" />
         </VBox>
     </content>
     </Page>

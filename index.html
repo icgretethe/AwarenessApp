@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta http-equiv='Content-Type' content='text/html;charset=UTF-8'/>
         <!-- iCare logo icon is required for this application -->
-        <link rel="icon" type="image/png" href="icon.png" />
+        <link rel="icon" href="favicon.ico" type="image/x-icon"/>
         <link rel="stylesheet" href="css/style.css">
         <!-- GOOGLE FONTS -->
         <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed" rel="stylesheet">
@@ -18,7 +18,6 @@
             data-sap-ui-theme="sap_bluecrystal"
             data-sap-ui-xx-bindingSyntax="complex">
         </script>
-
         <script>
             // root folder of application
             sap.ui.localResources("sps");
@@ -36,8 +35,7 @@
             // this checks what the history has in it and calls the page function of the new state
             window.onpopstate = function(event) {
                 app.backToPage(mainPage);
-                treePage.getController().goHome()
-
+                treePage.getController().goHome();
             }
             // initialize app
             var app = new sap.m.App();
@@ -84,6 +82,7 @@
                 html = fontAwesome[i];
                 document.getElementById("__button" + i + "-content").innerHTML = html + "&nbsp;&nbsp;&nbsp;" + document.getElementById("__button" + i + "-content").innerHTML;
             }
+
             function onBackKeyDown(){
                  alert("ok");
             }
