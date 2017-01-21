@@ -3,7 +3,7 @@
     <Page title="iCare SIUe" showSubHeader="false" showHeader="false" >
 	<content>
         <!-- organize all text into a VBox -->
-        <VBox alignItems="Center">				 
+        <VBox alignItems="Center">
             <Text text="Educate Yourself"/>
         </VBox>
     </content>

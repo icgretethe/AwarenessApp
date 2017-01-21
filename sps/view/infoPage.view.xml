@@ -3,7 +3,7 @@
     <Page title="Helpful Resources" showHeader="false">
     <content>
         <!-- organize all text into a VBox -->
-        <VBox class="infoBox">				 
+        <VBox class="infoBox">
             <Text class="infoPageHeader" text="Important Contacts"/>
 			<List id="list" class="importantContacts" />
         </VBox>

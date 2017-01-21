@@ -30,6 +30,7 @@ body {
 #main--foot {
   position: absolute;
   margin-top: 35px;
+  margin-left: 10px;
   padding: 5px;
   border: 1px;
   border-radius: 4px;
@@ -43,76 +44,35 @@ body {
 }
 
 /*
- * Decision Tree Page
+ * Warning Signs Page
  */
 
-#tree .question {
-  color: #333;
-  min-height: 100px !important;
-  margin: auto;
-  margin-bottom: 0;
-  padding: 25px;
-  margin-top: 20%;
+html {
+  height: 100%;
+  overflow: hidden;
   font-family: 'Roboto', sans-serif;
+}
+
+body {
+  margin: auto;
+  height: 100%;
+  overflow: auto !important;
+}
+
+#warn .sapMText {
+  font-family: 'Roboto', arial !important;
+}
+
+#warn .warnPageHeader {
   font-size: 30px;
-  font-family: 'Roboto', sans-serif;
-}
-
-#tree .homeButton {
-  visibility: hidden;
-}
-
-#tree .yButton {
-  display: -webkit-flex !important;
-  display: flex !important;
-  padding-right: 5px;
-}
-
-#tree .nButton {
-  display: -webkit-flex !important;
-  display: flex !important;
-  padding-left: 5px;
-}
-
-#tree .ABox {
+  font-weight: bold;
+  text-align: center;
   padding-top: 25px;
-  margin: 0 auto;
 }
 
-@media only screen and (min-width: 750px) {
-  #tree .ABox {
-    margin-top: 3px;
-    margin-left: 25%;
-  }
-}
-
-#tree .QABox {
+#warn .warnBox {
   margin: auto;
-  margin-top: 10%;
-  padding: 10px;
-  border-radius: 4px;
-}
-
-@media only screen and (min-width: 750px) {
-  #tree .QABox {
-    margin-top: 15%;
-    margin-left: 25% !important;
-    text-align: center;
-    margin: auto;
-    padding: 5%;
-    padding-left: 0;
-    border-radius: 15%;
-  }
-}
-
-#tree .sapMFlexItem {
-  margin: 3px 40px 3px 0;
-  padding-left: 25px;
-}
-
-#tree--homeButton-inner {
-  display: flex;
-  margin-left: 25px;
+  margin-top: 20%;
 }
 
 .sapMPageHeader::before {

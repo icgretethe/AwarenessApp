@@ -6,7 +6,7 @@
         <VBox class="buttonBox">
             <!-- the text should probably not be hard-coded, but that can be fixed later -->
             <Text class="menuHeader"/>
-            <Button text="Help Tree" press="goToTree"/>
+            <Button text="Warning Signs of Suicide" press="goToWarnPage"/>
             <Button text="Important Contacts" press="toInfoPage"/>
             <Button text="Cougar Care Report" press="toCareReport"/>
             <Button text="SIUE Counseling Services" press="toEducateYourselfPage"/>

@@ -20,10 +20,8 @@
         </script>
         <script>
             // root folder of application
+            
             sap.ui.localResources("sps");
-
-            // keep track of the current question
-            var questionCounter = 1;
 
             // the backdata that updates based on page navigation before pushed into history
             var backData = {
@@ -35,19 +33,19 @@
             // this checks what the history has in it and calls the page function of the new state
             window.onpopstate = function(event) {
                 app.backToPage(mainPage);
-                treePage.getController().goHome();
+                warnPage.getController().goHome();
             }
             // initialize app
             var app = new sap.m.App();
             // define app pages
             var mainPage = sap.ui.view({id:"main", viewName:"sps.view.mainPage", type:sap.ui.core.mvc.ViewType.XML});
-            var treePage = sap.ui.view({id:"tree", viewName:"sps.view.treePage", type:sap.ui.core.mvc.ViewType.XML});
+            var warnPage = sap.ui.view({id:"warn", viewName:"sps.view.warnPage", type:sap.ui.core.mvc.ViewType.XML});
             var infoPage = sap.ui.view({id:"info", viewName:"sps.view.infoPage", type:sap.ui.core.mvc.ViewType.XML});
 			var stayInformedPage = sap.ui.view({id:"stayInformed", viewName:"sps.view.stayInformedPage", type:sap.ui.core.mvc.ViewType.XML});
 
             //add pages to app
             app.addPage(mainPage);
-            app.addPage(treePage);
+            app.addPage(warnPage);
             app.addPage(infoPage);
 			app.addPage(stayInformedPage);
             // responsePage was removed

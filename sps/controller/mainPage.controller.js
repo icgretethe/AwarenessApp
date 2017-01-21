@@ -1,36 +1,31 @@
 sap.ui.controller("sps.controller.mainPage", {
-  /**
-   * this prevents an error that causes the question and response counters
-   * to remain the same if someone leaves the decision tree, goes to the
-   * mainPage and then goes back to the decision tree
-   */
 
-  // Go to the Decision Tree Page
-  goToTree: function() {
+  // Go to the Warning Signs Page
+  goToWarnPage: function() {
       //console.log(backData.id);
       //console.log(backData.viewName);
       //console.log(backData.action);
-      app.to(treePage);
-      updateBackData(treePage);
+      app.to(warnPage);
+      updateBackData(warnPage);
   },
   // Go to Info Page
   toInfoPage: function() {
       app.to(infoPage);
-      updateBackData(treePage);
+      updateBackData(warnPage);
   },
   // leave the app and go to the Patient Care Report
   toCareReport: function() {
       sap.m.URLHelper.redirect("https://publicdocs.maxient.com/reportingform.php?SIUEdwardsville&layout_id=2", false);
-      updateBackData(treePage);
+      updateBackData(warnPage);
   },
   //Go To Educate yourself Page
   toEducateYourselfPage: function() {
       sap.m.URLHelper.redirect("https://www.siue.edu/counseling/Resources_Suicide.shtml", false);
-      updateBackData(treePage);
+      updateBackData(warnPage);
   },
   // Go to the Stay Informed Age
   toStayInformedPage: function() {
 	  app.to(stayInformedPage);
-      updateBackData(treePage);
+      updateBackData(warnPage);
 	}
 });

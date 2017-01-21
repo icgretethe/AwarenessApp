@@ -1,23 +1,7 @@
 {
-    "Questions": [
-        "Are you feeling well?",
-        "Is pronghorn a good language?",
-        "Are you familiar with inside jokes?",
-        "Wat kyk jy?"
-    ],
-    "Responses": [
-        "We Can Remember It for You Wholesale",
-        "Do Androids Dream of Electric Sheep?",
-        "A Scanner Darkly",
-        "The Man in the High Castle"
-    ],
-    "Error": [
-        "There are no more questions to ask",
-        "There are no more responses available"
-    ],
     "Contacts": [
         {
-			"text":"911 Emergency Number",
+			"text": "911 Emergency Number",
 			"phone": "911"
 		},
 

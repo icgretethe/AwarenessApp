@@ -28,7 +28,7 @@ sap.ui.controller("sps.controller.infoPage", {
 
         };
 		// create JSON model to manage data
-		// JSON model was created in treePage, edit future
+		// JSON model was created in warnPage, edit future
 		var contactList = this.getView().byId("list");
 		contactList.bindItems({
 			path: "/Contacts",

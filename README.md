@@ -1,3 +1,7 @@
+**NOTE: This project is likely to be reimplemented in jQuery or will**  
+**be modified to remove any unused code or be replaced with better formatted**  
+**code. In the mean time this code will serve as a reference for any future**  
+**modifications**  
 #Suicide Prevention Squad
 This is the Senior Project code for a suicide awareness web application.
 

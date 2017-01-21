@@ -1,0 +1,43 @@
+<core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
+    controllerName="sps.controller.warnPage" xmlns:html="http://www.w3.org/1999/xhtml">
+    <Page title="iCare SIUe" showHeader="false" showSubHeader="false">
+    <content>
+        <VBox class="warnBox">
+            <Text class="warnPageHeader" text="Warning Signs"/>
+            <!-- Talking Signs -->
+            <html:p><html:b>A person is talking about:</html:b></html:p>
+            <html:ul>
+                <html:li>Being a burden to others</html:li>
+                <html:li>Feeling trapped</html:li>
+                <html:li>Experiencing unbearable pain</html:li>
+                <html:li>Having no reason to live</html:li>
+                <html:li>Killing themselves</html:li>
+            </html:ul>
+            <!-- Behavior Signs -->
+            <html:p><html:b>Specific things to look out for:</html:b></html:p>
+            <html:ul>
+                <html:li>Increased use of alcohol or drugs</html:li>
+                <html:li>Looking for a way to kill themselves, such as searching online for materials or means</html:li>
+                <html:li>Acting recklessly</html:li>
+                <html:li>Withdrawing from activities</html:li>
+                <html:li>Isolating from family and friends</html:li>
+                <html:li>Sleeping too much or too little</html:li>
+                <html:li>Visiting or calling people to say goodbye</html:li>
+                <html:li>Giving away prized possessions</html:li>
+                <html:li>Aggression</html:li>
+            </html:ul>
+            <!-- Mood Signs -->
+            <html:p><html:b>People who are considering suicide often display one or more of the following moods:</html:b></html:p>
+            <html:ul>
+                <html:li>Depression</html:li>
+                <html:li>Loss of interest</html:li>
+                <html:li>Rage</html:li>
+                <html:li>Irritability</html:li>
+                <html:li>Humiliation</html:li>
+                <html:li>Anxiety</html:li>
+            </html:ul>
+
+        </VBox>
+    </content>
+    </Page>
+</core:View>
