@@ -19,6 +19,7 @@ body {
 }
 
 #warn .warnPageHeader {
+  margin: auto;
   font-size: 30px;
   font-weight: bold;
   text-align: center;
@@ -26,11 +27,14 @@ body {
 }
 
 #warn .warnBox {
-    margin: auto;
-   	margin-top: 20%;
- //  	margin-left: 25%;
- //  	margin-right: 25%;
- //  	background-color: #ffffff;
- //  	border: 1px solid #000000;
-//   	border-radius: 4px;
+    position: absolute;
+    text-align: center;
+    margin-left: 25%;
+    margin-right: 25%;
+  	color: #000000;
+  	background-color: #ffffff;
+  	border: 1px solid #000000;
+   	border-radius: 4px;
 }
+
+
