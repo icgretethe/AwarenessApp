@@ -16,83 +16,83 @@
 
     "Contacts": [
         {
-			"text": "911 Emergency Number",
-			"phone": "911"
-		},
+            "text": "911 Emergency Number",
+            "phone": "911"
+        },
 
         {
-			"text":"Call for Help Sexual Assault Victims Care Unit",
-			"phone":"618-397-0975"
-		},
+            "text":"Call for Help Sexual Assault Victims Care Unit",
+            "phone":"618-397-0975"
+        },
 
-		{
-			"text":"National Suicide Prevention Lifeline",
-			"phone":"1-800-273-TALK"
-		},
+        {
+            "text":"National Suicide Prevention Lifeline",
+            "phone":"1-800-273-TALK"
+        },
 
-		{
-			"text":"Sexual Assault Hotline",
-			"phone":"1-800-656-HOPE"
-		},
+        {
+            "text":"Sexual Assault Hotline",
+            "phone":"1-800-656-HOPE"
+        },
 
-		{
-			"text":"Domestic Violence Hotline",
-			"phone":"1-800-799-SAFE"
-		},
+        {
+            "text":"Domestic Violence Hotline",
+            "phone":"1-800-799-SAFE"
+        },
 
-		{
-			"text":"Trevor Project Lifeline",
-			"phone":"1-866-488-7386"
-		},
+        {
+            "text":"Trevor Project Lifeline",
+            "phone":"1-866-488-7386"
+        },
 
-		{
-			"text":"Trans Lifeline",
-			"phone":"1-877-565-8860"
-		},
+        {
+            "text":"Trans Lifeline",
+            "phone":"1-877-565-8860"
+        },
 
-		{
-			"text":"LGBTQ Partner Abuse & Sexual Assault Helpline",
-			"phone":"1-866-356-6998"
-		},
+        {
+            "text":"LGBTQ Partner Abuse & Sexual Assault Helpline",
+            "phone":"1-866-356-6998"
+        },
 
         {
             "text": "Crisis Text Line: Text START to 741741",
             "phone":""
         },
 
-		{
-			"text":"Provident Counseling",
-			"phone":"314-647-4357"
-		},
+        {
+            "text":"Provident Counseling",
+            "phone":"314-647-4357"
+        },
 
         {
-			"text":"SIUE Police Department",
-			"phone":"618-650-3324"
-		},
+            "text":"SIUE Police Department",
+            "phone":"618-650-3324"
+        },
 
-		{
-			"text":"SIUE Counseling Services",
-			"phone":"618-650-2842"
-		},
+        {
+            "text":"SIUE Counseling Services",
+            "phone":"618-650-2842"
+        },
 
-		{
-			"text":"SIUE Confidential Advisor for Sexual Assault Survivors – Lindsay Serrano",
-			"phone":"618-650-5664"
-		},
+        {
+            "text":"SIUE Confidential Advisor for Sexual Assault Survivors – Lindsay Serrano",
+            "phone":"618-650-5664"
+        },
 
-		{
-			"text":"Chestnut Health",
-			"phone":"618-877-0316"
-		},
+        {
+            "text":"Chestnut Health",
+            "phone":"618-877-0316"
+        },
 
-		{
-			"text":"Centerstone",
-			"phone":"618-462-4331"
-		},
+        {
+            "text":"Centerstone",
+            "phone":"618-462-4331"
+        },
 
-		{
-			"text":"Gateway Regional Medical Center",
-			"phone":"618-798-3888"
-		}
+        {
+            "text":"Gateway Regional Medical Center",
+            "phone":"618-798-3888"
+        }
     ]
 }
