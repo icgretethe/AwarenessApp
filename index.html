@@ -43,13 +43,15 @@
             var warnPage = sap.ui.view({id:"warn", viewName:"sps.view.warnPage", type:sap.ui.core.mvc.ViewType.XML});
             var infoPage = sap.ui.view({id:"info", viewName:"sps.view.infoPage", type:sap.ui.core.mvc.ViewType.XML});
 			var stayInformedPage = sap.ui.view({id:"stayInformed", viewName:"sps.view.stayInformedPage", type:sap.ui.core.mvc.ViewType.XML});
+			var askQuestionPage =  sap.ui.view({id:"askQuestion", viewName:"sps.view.askQuestionPage", type:sap.ui.core.mvc.ViewType.XML});
 
             //add pages to app
             app.addPage(mainPage);
             app.addPage(warnPage);
             app.addPage(infoPage);
 			app.addPage(stayInformedPage);
-            // responsePage was removed
+			app.addPage(askQuestionPage);
+			
             //add app to page
             app.placeAt("content");
             updateBackData(mainPage);
@@ -62,6 +64,7 @@
               }
 
         </script>
+        <noscript>Please enable Javascript, in order to load this page.</noscript>
     </head>
     <body class="sapUiBody" role="application">
         <div id="content"></div>
@@ -70,6 +73,7 @@
     <!-- SCRIPT THAT RUNS AFTER THE HTML RENDERS -->
     <script>
     window.onload = function() {
+	/*
     var fontAwesome = ['<i class="fa fa-fw fa-pagelines" aria-hidden="true" style="color:green"></i>',
                        '<i class="fa fa-fw fa-phone" aria-hidden="true" style="color:purple"></i>',
                        '<i class="fa fa-fw fa-plus-square" aria-hidden="true" style="color:red"></i>',
@@ -82,7 +86,7 @@
                 html = fontAwesome[i];
                 document.getElementById("__button" + i + "-content").innerHTML = html + "&nbsp;&nbsp;&nbsp;" + document.getElementById("__button" + i + "-content").innerHTML;
             }
-
+*/
             function onBackKeyDown(){
                  alert("ok");
             }
