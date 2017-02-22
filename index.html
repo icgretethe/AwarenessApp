@@ -51,7 +51,7 @@
             app.addPage(infoPage);
 			app.addPage(stayInformedPage);
 			app.addPage(askQuestionPage);
-			
+
             //add app to page
             app.placeAt("content");
             updateBackData(mainPage);
@@ -78,11 +78,12 @@
                        '<i class="fa fa-fw fa-phone" aria-hidden="true" style="color:purple"></i>',
                        '<i class="fa fa-fw fa-plus-square" aria-hidden="true" style="color:red"></i>',
                        '<i class="fa fa-fw fa-graduation-cap" aria-hidden="true" style="color:black"></i>',
-                       '<i class="fa fa-fw fa-info" aria-hidden="true" style="color:blue"></i>'
+                       '<i class="fa fa-fw fa-info" aria-hidden="true" style="color:blue"></i>',
+                       '<i class="fa fa-fw fa-question-circle-o" aria-hidden="true" style="color:blue"></i>'
                        ];
             var html = fontAwesome[0];
 
-            for(i = 0; i <= 4; i++) {
+            for(i = 0; i <= 5; i++) {
                 html = fontAwesome[i];
                 document.getElementById("__button" + i + "-content").innerHTML = html + "&nbsp;&nbsp;&nbsp;" + document.getElementById("__button" + i + "-content").innerHTML;
             }
