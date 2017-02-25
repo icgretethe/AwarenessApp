@@ -18,9 +18,9 @@ Jake Donovan (jdonova)
 <https://afsp.org/about-suicide/risk-factors-and-warning-signs/>~~  
 **FIXED:** Need to fix CSS formatting.
 
-~~At the bottom of this screen, we'd like a button that says "Ask the Question" on the "Ask the Question" screen, please include the following:  
-1. Are you having any thoughts of suicide?  
-2. You seem pretty down/discouraged. Have you ever had thoughts about ending your life?  ~~
+~~At the bottom of this screen, we'd like a button that says "Ask the Question" on the "Ask the Question" screen, please include the following:~~  
+~~1. Are you having any thoughts of suicide?~~  
+~~2. You seem pretty down/discouraged. Have you ever had thoughts about ending your life?~~  
 **FIXED:** Added.
 
 c) Please add a button on the home screen that says "Get Involved" that links to our Facebook and Twitter feeds, as well as the organization pages (on siue collegiatelink) for the following:
