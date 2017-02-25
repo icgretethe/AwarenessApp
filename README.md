@@ -32,7 +32,7 @@ Jake Donovan (jdonova)
 ~~d) Please add the Crisis Text Line under important contacts (Text START to 741741)~~  
 **FIXED:** The phone's SMS app doesn't open, like it does for the phone numbers, but there isn't any easy way to fix this.
 
-e) Under Get Educated please link to Kognito page on Counseling Services website
+~~e) Under Get Educated please link to Kognito page on Counseling Services website~~  
 
 ~~g) Under "Important Contacts" move the crisis numbers up above "Provident Counseling" and push everything else down.~~  
 **FIXED**
