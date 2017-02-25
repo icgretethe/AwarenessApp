@@ -2,6 +2,7 @@
     controllerName="sps.controller.infoPage" xmlns:html="http://www.w3.org/1999/xhtml">
     <Page title="Helpful Resources" showHeader="false">
     <content>
+        <html:header id="heading">This is a header</html:header>
         <!-- organize all text into a VBox -->
         <VBox class="infoBox">
             <Text class="infoPageHeader" text="Important Contacts"/>

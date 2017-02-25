@@ -1,0 +1,11 @@
+<core:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"
+    controllerName="sps.controller.askQuestionPage" xmlns:html="http://www.w3.org/1999/xhtml">
+    <Page title="We're Here to Help" enableScrolling="false" showHeader="false">
+        <content>
+            <VBox class="questBox">
+                <Text text="1. Are you having any thoughts of suicide?"/>
+                <Text text="2. You seem pretty down/discouraged. Have you ever had thoughts about ending your life?"/>
+            </VBox>
+        </content>
+    </Page>
+</core:View>

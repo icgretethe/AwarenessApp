@@ -1,0 +1,45 @@
+/*
+ * Ask Question Page
+ */ 
+@import 'globals';
+
+html {
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Roboto', sans-serif;
+}
+body {
+   margin: auto;
+   height: 100%;
+   overflow: auto !important;
+}
+
+#askQuestion .sapMFlexBox {
+    min-height: 100px !important;
+    margin: auto;
+    margin-bottom: 0;
+    padding: 25px;
+    margin-top: 20%;
+    font-family: 'Roboto', sans-serif;
+    font-size: 30px;
+    @media only screen and (min-width: $small-size) {
+      margin-top: 15%;
+    }
+    font-family: 'Roboto', sans-serif;
+}
+
+#askQuestion .sapMText {
+  font-family: 'Roboto', arial !important;
+}
+
+
+#askQuestion .questBox {
+    position: absolute;
+    text-align: center;
+    margin-left: 25%;
+    margin-right: 25%;
+  	color: #000000;
+  	background-color: #ffffff;
+  	border: 1px solid #000000;
+   	border-radius: 4px;
+}

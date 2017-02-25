@@ -4,13 +4,13 @@
     <content>
         <!-- organize all information inside of a VBox -->
         <VBox class="buttonBox">
-            <!-- the text should probably not be hard-coded, but that can be fixed later -->
             <Text class="menuHeader"/>
-            <Button text="Warning Signs of Suicide" press="goToWarnPage"/>
+            <Button text="Warning Signs of Suicide" press="toWarnPage"/>
             <Button text="Important Contacts" press="toInfoPage"/>
             <Button text="Cougar Care Report" press="toCareReport"/>
-            <Button text="SIUE Counseling Services" press="toEducateYourselfPage"/>
+            <Button text="Get Educated" press="toKognito"/>
             <Button text="Stay Informed" press="toStayInformedPage"/>
+            <Button text="Ask the Question" press="toAskQuestionPage"/>
             <Text id="foot" text="National Suicide Prevention Lifeline (800.273.8255)" />
         </VBox>
     </content>
