@@ -23,11 +23,11 @@ Jake Donovan (jdonova)
 ~~2. You seem pretty down/discouraged. Have you ever had thoughts about ending your life?~~  
 **FIXED:** Added.
 
-c) Please add a button on the home screen that says "Get Involved" that links to our Facebook and Twitter feeds, as well as the organization pages (on siue collegiatelink) for the following:
+~~c) Please add a button on the home screen that says "Get Involved" that links to our Facebook and Twitter feeds, as well as the organization pages (on siue collegiatelink) for the following:~~  
 
-**College of Psychiatric and Neurologic Pharmacists**  
-**Active Minds**  
-**MISSA**  
+~~**College of Psychiatric and Neurologic Pharmacists**~~  
+~~**Active Minds**~~  
+~~**MISSA**~~  
 
 ~~d) Please add the Crisis Text Line under important contacts (Text START to 741741)~~  
 **FIXED:** The phone's SMS app doesn't open, like it does for the phone numbers, but there isn't any easy way to fix this.

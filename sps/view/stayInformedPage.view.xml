@@ -3,25 +3,19 @@
     <Page title="iCare SIUe" showSubHeader="false" showHeader="false">
 	<content>
         <!-- organize all text into a VBox -->
-        <VBox>	
-			
-			<!-- Header of Page -->
-			<Text text="Helpful Links" press = "toFirstWebPage"/>
-			
-			<!-- Not sure there is a better way to organize this than with text and a button -->
-			<!-- Link 1 -->
-			<Text text ="To Visit Suicide Prevention Resource Center, Click Below"/>
-            <Button text="Sucide Prevention" press = "toFirstWebPage"/>
-			
-			<!-- Link 2 -->
-			<Text text ="To Visit National Suicide Prevention Hotline, Click Below"/>
-			<Button text="Prevention Hotline" press = "toSecondWebPage"/>
-			
-			<!-- Social Media-->
-			<Text text = "Stay in Touch Through Social Media" class="test"/>
-			<Text text = "HashTag #ICARESIUE"/>
-			<Text text = "Twitter: @ICARESIUE_"/>
-			<Text text = "Facebook: Facebook.com/ICARESIUE"/>
+        <Text text="Helpful Links"/>
+        <VBox class="linksBox">
+            <Button text="Sucide Prevention Resource Center" press="toSprcPage"/>
+			<Button text="National Suicide Prevention Hotline" press="toNsphPage"/>
+            <Button text="College of Psychiatric and Neurologic Pharmacists" press="toCpnpPage"/>
+            <Button text="MISSA" press="toMissaPage"/>
+            <Button text="Active Minds" press="toAmPage"/>
+
+            <HBox id="socMediaBox">
+                <Button text= "HashTag #ICARESIUE"></Button>
+                <Button text= "Twitter: @ICARESIUE_"/>
+                <Button text= "Facebook: facebook.com/ICARESIUE"/>
+            </HBox>
         </VBox>
     </content>
     </Page>
