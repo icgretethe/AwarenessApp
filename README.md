@@ -1,7 +1,7 @@
-**NOTE: This project is likely to be reimplemented in jQuery or will**  
-**be modified to remove any unused code or be replaced with better formatted**  
-**code. In the mean time this code will serve as a reference for any future**  
-**modifications**  
+**NOTE 1: This repository contains code that needs to be cleaned up/reimplemented.**  
+**In order to help with this, the codebase has been moved to icgretethe/BeAware.**  
+
+**NOTE 2: This repository will be kept for reference, but will not be updated.**  
 #Suicide Prevention Squad
 This is the Senior Project code for a suicide awareness web application.
 
@@ -10,7 +10,7 @@ Erik Johnson (Akwaduk)
 Geoff Gates (icgretethe, Timmythepirate)  
 Jake Donovan (jdonova)  
 
-##Things to do (list of future implementations)
+##Things to do (list of future implementations)###  
 ~~a) when viewed on a tablet all you can see is the top of the girl's head.~~  
 **FIXED:**Had to remove the picture of the girl in order to guarantee this won't happen.
 
